@@ -8,8 +8,8 @@ const ENCOUNTER_RATES: Dictionary = {
 	0: 0.06,  # grass
 	1: 0.02,  # dirt
 	4: 0.10,  # tree
-	_: 0.0,
 }
+const DEFAULT_ENCOUNTER_RATE: float = 0.0
 
 # 最低步数间隔（防止连续遇敌）
 const MIN_STEPS_BETWEEN: int = 8
@@ -57,7 +57,7 @@ func check_encounter() -> bool:
 		return false
 
 	var tile_idx = atlas_coords.x
-	var rate = ENCOUNTER_RATES.get(tile_idx, 0.0)
+	var rate = ENCOUNTER_RATES.get(tile_idx, DEFAULT_ENCOUNTER_RATE)
 	if rate <= 0.0:
 		return false
 

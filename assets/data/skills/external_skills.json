@@ -382,29 +382,6 @@
           "description": "寒冰掌→寒冰掌→冰封三尺：冰冻效果延长1回合"
         }
       ]
-    {
-      "id": "xuanming_zhang",
-      "name": "玄冥掌",
-      "description": "玄冥教的看家武学。掌力阴寒刺骨，中者经脉冻结，内力运行受阻。虽非顶级武学，但配合玄冥真气威力倍增。",
-      "source": "sect:xuanming",
-      "element": "water",
-      "rarity": "rare",
-      "weaponType": "fist",
-      "requiredAttributes": { "str": 8, "int": 6 },
-      "techniques": [
-        {
-          "id": "xuanming_hanbing",
-          "name": "寒冰掌",
-          "type": "basic",
-          "qiCost": 5,
-          "cooldown": 0,
-          "range": { "min": 1, "max": 1, "areaType": "single" },
-          "damageFormula": { "stat": "attack", "multiplier": 1.0 },
-          "effects": [],
-          "proficiencyBonus": {}
-        }
-      ],
-      "comboChains": []
     },
     {
       "id": "basic_stab",

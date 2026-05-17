@@ -1,0 +1,5 @@
+res://scripts/combat/battle_controller.gd
+res://scripts/core/game_manager.gd
+res://scripts/world/world_manager.gd
+res://scripts/world/encounter_manager.gd
+res://scripts/world/map_manager.gd

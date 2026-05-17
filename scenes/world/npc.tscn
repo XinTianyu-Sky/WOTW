@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://npc"]
+[gd_scene format=3 uid="uid://npc"]
 
 [ext_resource type="Script" path="res://scripts/world/npc.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/npc_placeholder.png" id="2"]

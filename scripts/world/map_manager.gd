@@ -43,23 +43,17 @@ func _create_tileset() -> TileSet:
 		if not td:
 			continue
 
-		# 设置行走/加速度倍率
-		match i:
-			TileType.GRASS:
-				td.set_custom_data("walk_speed_mod", 1.0)
-			TileType.DIRT:
-				td.set_custom_data("walk_speed_mod", 1.1)
 
 		# 不可通行瓦片添加碰撞多边形
 		if i in BLOCKED_TILES:
-			var poly_idx = td.add_collision_polygon(0)
+			td.add_collision_polygon(0)
 			var points = PackedVector2Array([
 				Vector2(0, 0),
 				Vector2(TILE_SIZE, 0),
 				Vector2(TILE_SIZE, TILE_SIZE),
 				Vector2(0, TILE_SIZE)
 			])
-			td.set_collision_polygon_points(0, poly_idx, points)
+			td.set_collision_polygon_points(0, 0, points)
 
 	return ts
 

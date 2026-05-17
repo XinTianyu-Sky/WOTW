@@ -70,6 +70,14 @@ offset_right = 510.0
 offset_bottom = 460.0
 autowrap_mode = 3
 
+[node name="AttributePanel" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 480.0
+offset_right = 560.0
+offset_bottom = 800.0
+theme_override_constants/separation = 4
+
 [node name="FreePointsLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 210.0
