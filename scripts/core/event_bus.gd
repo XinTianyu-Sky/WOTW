@@ -4,7 +4,7 @@
 extends Node
 
 func _ready() -> void:
-    process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 # ---- 战斗事件 ----
 signal battle_started(battle_data: Dictionary)
