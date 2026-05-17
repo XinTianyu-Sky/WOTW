@@ -22,51 +22,51 @@ extends CanvasLayer
 var player_stats: PlayerStats = null
 
 func _ready() -> void:
-	hide()
-	close_btn.pressed.connect(hide)
-	EventBus.menu_opened.connect(_on_menu_opened)
-	EventBus.attribute_changed.connect(func(_a, _v): _refresh())
+    hide()
+    close_btn.pressed.connect(hide)
+    EventBus.menu_opened.connect(_on_menu_opened)
+    EventBus.attribute_changed.connect(func(_a, _v): _refresh())
 
 func _on_menu_opened(menu_name: String) -> void:
-	if menu_name == "character":
-		show()
-		_refresh()
+    if menu_name == "character":
+        show()
+        _refresh()
 
 func set_stats(stats: PlayerStats) -> void:
-	player_stats = stats
-	_refresh()
+    player_stats = stats
+    _refresh()
 
 func _refresh() -> void:
-	if player_stats == null:
-		return
+    if player_stats == null:
+        return
 
-	level_label.text = "等级: %d" % player_stats.level
-	str_label.text = str(player_stats.str)
-	agi_label.text = str(player_stats.agi)
-	con_label.text = str(player_stats.con)
-	int_label.text = str(player_stats.int_)
-	wil_label.text = str(player_stats.wil)
-	lck_label.text = str(player_stats.lck)
-	free_points_label.text = "剩余属性点: %d" % player_stats.free_points
+    level_label.text = "等级: %d" % player_stats.level
+    str_label.text = str(player_stats.str)
+    agi_label.text = str(player_stats.agi)
+    con_label.text = str(player_stats.con)
+    int_label.text = str(player_stats.int_)
+    wil_label.text = str(player_stats.wil)
+    lck_label.text = str(player_stats.lck)
+    free_points_label.text = "剩余属性点: %d" % player_stats.free_points
 
-	combat_stats.text = "[table]
-	生命值: %d / %d
-	内力值: %d / %d
-	攻击力: %d
-	防御力: %d
-	内劲: %d
-	内防: %d
-	速度: %d
-	命中率: %.1f%%
-	闪避率: %.1f%%
-	暴击率: %.1f%%
-	暴击伤害: %.0f%%
-	[/table]" % [
-		player_stats.current_hp, player_stats.max_hp,
-		player_stats.current_qi, player_stats.max_qi,
-		player_stats.attack, player_stats.defense,
-		player_stats.inner_power, player_stats.inner_defense,
-		player_stats.speed,
-		player_stats.hit_rate * 100, player_stats.dodge_rate * 100,
-		player_stats.crit_rate * 100, player_stats.crit_damage * 100
-	]
+    combat_stats.text = "[table]
+    生命值: %d / %d
+    内力值: %d / %d
+    攻击力: %d
+    防御力: %d
+    内劲: %d
+    内防: %d
+    速度: %d
+    命中率: %.1f%%
+    闪避率: %.1f%%
+    暴击率: %.1f%%
+    暴击伤害: %.0f%%
+    [/table]" % [
+        player_stats.current_hp, player_stats.max_hp,
+        player_stats.current_qi, player_stats.max_qi,
+        player_stats.attack, player_stats.defense,
+        player_stats.inner_power, player_stats.inner_defense,
+        player_stats.speed,
+        player_stats.hit_rate * 100, player_stats.dodge_rate * 100,
+        player_stats.crit_rate * 100, player_stats.crit_damage * 100
+    ]

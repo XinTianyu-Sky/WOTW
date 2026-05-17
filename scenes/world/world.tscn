@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://world_scene"]
+[gd_scene load_steps=14 format=3 uid="uid://world_scene"]
 
 [ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
 [ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" path="res://scenes/world/npc.tscn" id="6_npc"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="7_dialogue"]
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="8_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="9_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/character_sheet_ui.tscn" id="10_character"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skills_ui.tscn" id="11_skills"]
+[ext_resource type="PackedScene" path="res://scenes/ui/quest_ui.tscn" id="12_quest"]
 
 [sub_resource type="CircleShape2D" id="player_shape"]
 radius = 10.0
@@ -58,3 +62,9 @@ layer = 1
 [node name="DialogueUI" parent="DialogueLayer" instance=ExtResource("7_dialogue")]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="InventoryUI" parent="UILayer" instance=ExtResource("9_inventory")]
+[node name="CharacterSheetUI" parent="UILayer" instance=ExtResource("10_character")]
+[node name="SkillsUI" parent="UILayer" instance=ExtResource("11_skills")]
+[node name="QuestUI" parent="UILayer" instance=ExtResource("12_quest")]

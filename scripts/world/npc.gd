@@ -11,11 +11,11 @@ extends StaticBody2D
 @onready var interaction_area: Area2D = $InteractionArea
 
 func _ready() -> void:
-	add_to_group("interactable")
-	if texture:
-		sprite.texture = texture
+    add_to_group("interactable")
+    if texture:
+        sprite.texture = texture
 
 func interact() -> void:
-	if dialogue_id.is_empty():
-		return
-	EventBus.dialogue_triggered.emit(dialogue_id)
+    if dialogue_id.is_empty():
+        return
+    EventBus.dialogue_triggered.emit(dialogue_id)

@@ -5,13 +5,13 @@ extends Node
 
 # ---- 游戏阶段枚举 ----
 enum GamePhase {
-	MAIN_MENU,
-	WORLD_EXPLORATION,
-	BATTLE,
-	DIALOGUE,
-	MENU,
-	CUTSCENE,
-	LOADING
+    MAIN_MENU,
+    WORLD_EXPLORATION,
+    BATTLE,
+    DIALOGUE,
+    MENU,
+    CUTSCENE,
+    LOADING
 }
 
 # ---- 全局状态 ----
@@ -35,87 +35,87 @@ signal phase_changed(old_phase: GamePhase, new_phase: GamePhase)
 signal scene_changed(scene_path: String)
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
+    process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(delta: float) -> void:
-	if current_phase == GamePhase.WORLD_EXPLORATION:
-		game_time += delta * time_scale
+    if current_phase == GamePhase.WORLD_EXPLORATION:
+        game_time += delta * time_scale
 
 # ---- 阶段切换 ----
 func set_phase(new_phase: GamePhase) -> void:
-	var old = current_phase
-	current_phase = new_phase
-	phase_changed.emit(old, new_phase)
+    var old = current_phase
+    current_phase = new_phase
+    phase_changed.emit(old, new_phase)
 
 # ---- 场景切换 ----
 func change_scene(scene_path: String) -> void:
-	current_scene = scene_path
-	get_tree().change_scene_to_file(scene_path)
-	scene_changed.emit(scene_path)
+    current_scene = scene_path
+    get_tree().change_scene_to_file(scene_path)
+    scene_changed.emit(scene_path)
 
 # ---- 战斗触发 ----
 func start_battle(enemy_team: Array, terrain: Dictionary = {}) -> void:
-	pending_battle = {
-		"enemy_team": enemy_team,
-		"terrain": terrain,
-		"return_scene": current_scene,
-	}
-	set_phase(GamePhase.BATTLE)
-	change_scene("res://scenes/battle/battle.tscn")
+    pending_battle = {
+        "enemy_team": enemy_team,
+        "terrain": terrain,
+        "return_scene": current_scene,
+    }
+    set_phase(GamePhase.BATTLE)
+    change_scene("res://scenes/battle/battle.tscn")
 
 # ---- 游戏时间工具 ----
 func get_game_hour() -> int:
-	return int(game_time / SECONDS_PER_GAME_HOUR) % 24
+    return int(game_time / SECONDS_PER_GAME_HOUR) % 24
 
 func get_game_minute() -> int:
-	return int((game_time / SECONDS_PER_GAME_HOUR) * 60) % 60
+    return int((game_time / SECONDS_PER_GAME_HOUR) * 60) % 60
 
 func get_game_day() -> int:
-	return int(game_time / (SECONDS_PER_GAME_HOUR * 24))
+    return int(game_time / (SECONDS_PER_GAME_HOUR * 24))
 
 func get_time_of_day() -> String:
-	var hour = get_game_hour()
-	if hour >= 5 and hour < 7:   return "dawn"
-	if hour >= 7 and hour < 12:  return "morning"
-	if hour >= 12 and hour < 17: return "afternoon"
-	if hour >= 17 and hour < 19: return "dusk"
-	if hour >= 19 and hour < 23: return "evening"
-	return "night"
+    var hour = get_game_hour()
+    if hour >= 5 and hour < 7:   return "dawn"
+    if hour >= 7 and hour < 12:  return "morning"
+    if hour >= 12 and hour < 17: return "afternoon"
+    if hour >= 17 and hour < 19: return "dusk"
+    if hour >= 19 and hour < 23: return "evening"
+    return "night"
 
 func get_current_season() -> String:
-	var day = get_game_day()
-	var season_day = day % 120  # 每季30天
-	if season_day < 30:   return "spring"
-	if season_day < 60:   return "summer"
-	if season_day < 90:   return "autumn"
-	return "winter"
+    var day = get_game_day()
+    var season_day = day % 120  # 每季30天
+    if season_day < 30:   return "spring"
+    if season_day < 60:   return "summer"
+    if season_day < 90:   return "autumn"
+    return "winter"
 
 # ---- 存档数据构建 ----
 func build_save_data() -> Dictionary:
-	# 同步当前 PlayerStats 到序列化字典
-	_sync_stats_to_dict()
-	# 去掉不可序列化的引用
-	var save_player = player_data.duplicate(true)
-	save_player.erase("_stats_ref")
-	return {
-		"version": "0.1.0",
-		"game_time": game_time,
-		"player_data": save_player,
-		"party_data": party_data,
-		"world_state": world_state,
-		"current_scene": current_scene,
-		"timestamp": Time.get_unix_time_from_system()
-	}
+    # 同步当前 PlayerStats 到序列化字典
+    _sync_stats_to_dict()
+    # 去掉不可序列化的引用
+    var save_player = player_data.duplicate(true)
+    save_player.erase("_stats_ref")
+    return {
+        "version": "0.1.0",
+        "game_time": game_time,
+        "player_data": save_player,
+        "party_data": party_data,
+        "world_state": world_state,
+        "current_scene": current_scene,
+        "timestamp": Time.get_unix_time_from_system()
+    }
 
 func _sync_stats_to_dict() -> void:
-	var stats = player_data.get("_stats_ref", null) as PlayerStats
-	if not stats:
-		return
-	player_data["stats"] = stats.to_dict()
+    var stats = player_data.get("_stats_ref", null) as PlayerStats
+    if not stats:
+        return
+    player_data["stats"] = stats.to_dict()
 
 func load_save_data(data: Dictionary) -> void:
-	game_time = data.get("game_time", 0.0)
-	player_data = data.get("player_data", {})
-	party_data = data.get("party_data", [])
-	world_state = data.get("world_state", {})
-	current_scene = data.get("current_scene", "")
+    game_time = data.get("game_time", 0.0)
+    player_data = data.get("player_data", {})
+    party_data = data.get("party_data", [])
+    world_state = data.get("world_state", {})
+    current_scene = data.get("current_scene", "")

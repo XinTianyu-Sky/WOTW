@@ -6,3 +6,5 @@ res://scripts/world/map_manager.gd
 res://scripts/ui/main_menu.gd
 res://scripts/ui/hud.gd
 res://scripts/world/camera_controller.gd
+res://scripts/ui/inventory_ui.gd
+res://scripts/ui/skills_ui.gd

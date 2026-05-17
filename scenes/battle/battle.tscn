@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://battle_scene"]
+[gd_scene load_steps=3 format=3 uid="uid://battle_scene"]
 
 [ext_resource type="Script" path="res://scripts/combat/battle_controller.gd" id="1_battle_ctrl"]
+[ext_resource type="Script" path="res://scripts/combat/battle_ui.gd" id="2_battle_ui"]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_battle_ctrl")
@@ -10,6 +11,7 @@ script = ExtResource("1_battle_ctrl")
 [node name="BattleUnits" type="Node2D" parent="."]
 
 [node name="BattleUI" type="CanvasLayer" parent="."]
+script = ExtResource("2_battle_ui")
 
 [node name="Background" type="ColorRect" parent="BattleUI"]
 layout_mode = 3
@@ -24,32 +26,123 @@ mouse_filter = 2
 [node name="BattleBanner" type="Label" parent="BattleUI"]
 layout_mode = 0
 offset_left = 160.0
-offset_top = 100.0
+offset_top = 50.0
 offset_right = 560.0
-offset_bottom = 160.0
+offset_bottom = 100.0
 text = "战斗中..."
 horizontal_alignment = 1
 theme_overrides/font_sizes/font_size = 24
+
+[node name="InfoLabel" type="Label" parent="BattleUI"]
+visible = false
+layout_mode = 0
+offset_left = 160.0
+offset_top = 110.0
+offset_right = 560.0
+offset_bottom = 150.0
+text = "你的回合"
+horizontal_alignment = 1
+theme_overrides/font_sizes/font_size = 20
+
+[node name="UnitBars" type="Control" parent="BattleUI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 180.0
+offset_right = 700.0
+offset_bottom = 280.0
+
+[node name="PlayerBar" type="ProgressBar" parent="BattleUI/UnitBars"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 30.0
+show_percentage = false
+value = 100
+
+[node name="Label" type="Label" parent="BattleUI/UnitBars/PlayerBar"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_overrides/font_sizes/font_size = 12
+
+[node name="EnemyBar" type="ProgressBar" parent="BattleUI/UnitBars"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 0.0
+offset_right = 680.0
+offset_bottom = 30.0
+show_percentage = false
+value = 100
+
+[node name="Label" type="Label" parent="BattleUI/UnitBars/EnemyBar"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_overrides/font_sizes/font_size = 12
+
+[node name="BattleLog" type="RichTextLabel" parent="BattleUI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 300.0
+offset_right = 700.0
+offset_bottom = 700.0
+scroll_following = true
+
+[node name="TargetPanel" type="Panel" parent="BattleUI"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 720.0
+offset_right = 700.0
+offset_bottom = 880.0
+
+[node name="Label" type="Label" parent="BattleUI/TargetPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 200.0
+offset_bottom = 30.0
+text = "选择目标:"
+theme_overrides/font_sizes/font_size = 14
+
+[node name="TargetList" type="HBoxContainer" parent="BattleUI/TargetPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 670.0
+offset_bottom = 155.0
+theme_override_constants/separation = 8
 
 [node name="SkillPanel" type="Panel" parent="BattleUI"]
 visible = false
 layout_mode = 0
 offset_left = 20.0
-offset_top = 1080.0
+offset_top = 900.0
 offset_right = 700.0
-offset_bottom = 1260.0
+offset_bottom = 1060.0
+
+[node name="Label" type="Label" parent="BattleUI/SkillPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 200.0
+offset_bottom = 30.0
+text = "选择招式:"
+theme_overrides/font_sizes/font_size = 14
 
 [node name="SkillList" type="HBoxContainer" parent="BattleUI/SkillPanel"]
 layout_mode = 0
 offset_left = 10.0
-offset_top = 10.0
-offset_right = 690.0
-offset_bottom = 170.0
-
-[node name="BattleLog" type="RichTextLabel" parent="BattleUI"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 200.0
-offset_right = 400.0
-offset_bottom = 600.0
-scroll_following = true
+offset_top = 35.0
+offset_right = 670.0
+offset_bottom = 155.0
+theme_override_constants/separation = 8

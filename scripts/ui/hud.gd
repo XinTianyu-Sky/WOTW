@@ -32,72 +32,72 @@ extends CanvasLayer
 var player_stats: PlayerStats = null
 
 func _ready() -> void:
-	# 连接按钮
-	menu_btn.pressed.connect(func(): EventBus.menu_opened.emit("pause"))
-	inventory_btn.pressed.connect(func(): EventBus.menu_opened.emit("inventory"))
-	character_btn.pressed.connect(func(): EventBus.menu_opened.emit("character"))
-	skills_btn.pressed.connect(func(): EventBus.menu_opened.emit("skills"))
-	quest_btn.pressed.connect(func(): EventBus.menu_opened.emit("quest"))
-	save_btn.pressed.connect(func(): SaveManager.save_game(0))
-	map_btn.pressed.connect(func(): EventBus.menu_opened.emit("map"))
+    # 连接按钮
+    menu_btn.pressed.connect(func(): EventBus.menu_opened.emit("pause"))
+    inventory_btn.pressed.connect(func(): EventBus.menu_opened.emit("inventory"))
+    character_btn.pressed.connect(func(): EventBus.menu_opened.emit("character"))
+    skills_btn.pressed.connect(func(): EventBus.menu_opened.emit("skills"))
+    quest_btn.pressed.connect(func(): EventBus.menu_opened.emit("quest"))
+    save_btn.pressed.connect(func(): SaveManager.save_game(0))
+    map_btn.pressed.connect(func(): EventBus.menu_opened.emit("map"))
 
-	# 监听事件
-	EventBus.player_leveled_up.connect(_on_player_leveled)
-	EventBus.attribute_changed.connect(func(_a, _v): _update_display())
-	EventBus.notification_shown.connect(_show_notification)
+    # 监听事件
+    EventBus.player_leveled_up.connect(_on_player_leveled)
+    EventBus.attribute_changed.connect(func(_a, _v): _update_display())
+    EventBus.notification_shown.connect(_show_notification)
 
-	# 初始化显示
-	_update_time_display()
+    # 初始化显示
+    _update_time_display()
 
 func _process(_delta: float) -> void:
-	_update_time_display()
-	if player_stats:
-		_update_display()
+    _update_time_display()
+    if player_stats:
+        _update_display()
 
 func set_player_stats(stats: PlayerStats) -> void:
-	player_stats = stats
-	_update_display()
+    player_stats = stats
+    _update_display()
 
 func _update_display() -> void:
-	if player_stats == null:
-		return
-	hp_bar.max_value = player_stats.max_hp
-	hp_bar.value = player_stats.current_hp
-	hp_label.text = "%d / %d" % [player_stats.current_hp, player_stats.max_hp]
+    if player_stats == null:
+        return
+    hp_bar.max_value = player_stats.max_hp
+    hp_bar.value = player_stats.current_hp
+    hp_label.text = "%d / %d" % [player_stats.current_hp, player_stats.max_hp]
 
-	qi_bar.max_value = player_stats.max_qi
-	qi_bar.value = player_stats.current_qi
-	qi_label.text = "%d / %d" % [player_stats.current_qi, player_stats.max_qi]
+    qi_bar.max_value = player_stats.max_qi
+    qi_bar.value = player_stats.current_qi
+    qi_label.text = "%d / %d" % [player_stats.current_qi, player_stats.max_qi]
 
-	level_label.text = "Lv.%d" % player_stats.level
+    level_label.text = "Lv.%d" % player_stats.level
 
 func _update_time_display() -> void:
-	var hour = GameManager.get_game_hour()
-	var minute = GameManager.get_game_minute()
-	var tod = GameManager.get_time_of_day()
+    var hour = GameManager.get_game_hour()
+    var minute = GameManager.get_game_minute()
+    var tod = GameManager.get_time_of_day()
 
-	var tod_text = ""
-	match tod:
-		"dawn":    tod_text = "清晨"
-		"morning": tod_text = "上午"
-		"afternoon": tod_text = "下午"
-		"dusk":    tod_text = "傍晚"
-		"evening": tod_text = "夜晚"
-		"night":   tod_text = "深夜"
+    var tod_text = ""
+    match tod:
+        "dawn":    tod_text = "清晨"
+        "morning": tod_text = "上午"
+        "afternoon": tod_text = "下午"
+        "dusk":    tod_text = "傍晚"
+        "evening": tod_text = "夜晚"
+        "night":   tod_text = "深夜"
 
-	time_label.text = "%s %02d:%02d" % [tod_text, hour, minute]
+    time_label.text = "%s %02d:%02d" % [tod_text, hour, minute]
 
 func _on_player_leveled(new_level: int) -> void:
-	_show_notification("升级！达到 Lv.%d" % new_level, "success")
+    _show_notification("升级！达到 Lv.%d" % new_level, "success")
 
 func _show_notification(message: String, level: String) -> void:
-	notification_label.text = message
-	match level:
-		"error": notification_label.modulate = Color.RED
-		"success": notification_label.modulate = Color.GREEN
-		_: notification_label.modulate = Color.WHITE
+    notification_label.text = message
+    match level:
+        "error": notification_label.modulate = Color.RED
+        "success": notification_label.modulate = Color.GREEN
+        _: notification_label.modulate = Color.WHITE
 
-	var tween = create_tween()
-	tween.tween_property(notification_label, "modulate:a", 1.0, 0.1)
-	tween.tween_interval(2.0)
-	tween.tween_property(notification_label, "modulate:a", 0.0, 0.5)
+    var tween = create_tween()
+    tween.tween_property(notification_label, "modulate:a", 1.0, 0.1)
+    tween.tween_interval(2.0)
+    tween.tween_property(notification_label, "modulate:a", 0.0, 0.5)
