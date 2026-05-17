@@ -1,0 +1,174 @@
+{
+  "statusEffects": [
+    {
+      "id": "poison",
+      "name": "中毒",
+      "type": "debuff",
+      "defaultDuration": 3,
+      "stackable": true,
+      "maxStacks": 5,
+      "effectPerStack": { "hpLossPercentPerTurn": 0.03 },
+      "displayColor": "#00AA00",
+      "icon": "status_poison",
+      "cleanseBy": ["antidote", "jiuyang_lvl3"]
+    },
+    {
+      "id": "burn",
+      "name": "灼烧",
+      "type": "debuff",
+      "defaultDuration": 2,
+      "stackable": false,
+      "effectPerStack": { "hpLossPercentPerTurn": 0.05 },
+      "displayColor": "#FF4400",
+      "icon": "status_burn",
+      "cleanseBy": ["water_skill", "jiuyang_lvl5"]
+    },
+    {
+      "id": "frozen",
+      "name": "冰冻",
+      "type": "control",
+      "defaultDuration": 1,
+      "stackable": false,
+      "effectPerStack": { "skipTurn": 1 },
+      "displayColor": "#88CCFF",
+      "icon": "status_frozen",
+      "cleanseBy": ["fire_skill", "jiuyang_lvl5"]
+    },
+    {
+      "id": "inner_wound",
+      "name": "内伤",
+      "type": "debuff",
+      "defaultDuration": 3,
+      "stackable": true,
+      "maxStacks": 5,
+      "effectPerStack": { "qiLossPerTurn": 5 },
+      "displayColor": "#8844AA",
+      "icon": "status_inner_wound",
+      "cleanseBy": ["meditation", "healing_skill"]
+    },
+    {
+      "id": "armor_break",
+      "name": "破甲",
+      "type": "debuff",
+      "defaultDuration": 2,
+      "stackable": true,
+      "maxStacks": 5,
+      "effectPerStack": { "defenseReduction": 0.1 },
+      "displayColor": "#AA6600",
+      "icon": "status_armor_break",
+      "cleanseBy": ["defense_skill"]
+    },
+    {
+      "id": "stun",
+      "name": "眩晕",
+      "type": "control",
+      "defaultDuration": 1,
+      "stackable": false,
+      "effectPerStack": { "skipTurn": 1, "dodgeRateReduction": 1.0 },
+      "displayColor": "#FFAA00",
+      "icon": "status_stun",
+      "cleanseBy": ["tenacity_check"]
+    },
+    {
+      "id": "root",
+      "name": "定身",
+      "type": "control",
+      "defaultDuration": 2,
+      "stackable": false,
+      "effectPerStack": { "cannotMove": 1 },
+      "displayColor": "#886644",
+      "icon": "status_root",
+      "cleanseBy": ["lightness_skill"]
+    },
+    {
+      "id": "force_deflection",
+      "name": "卸力",
+      "type": "buff",
+      "defaultDuration": 1,
+      "stackable": false,
+      "effectPerStack": { "incomingDamageReduction": 0.4 },
+      "displayColor": "#4488FF",
+      "icon": "status_deflect",
+      "cleanseBy": []
+    },
+    {
+      "id": "shield",
+      "name": "护体",
+      "type": "buff",
+      "defaultDuration": -1,
+      "stackable": true,
+      "maxStacks": 999,
+      "effectPerStack": { "shieldAmount": "variable" },
+      "displayColor": "#FFDD44",
+      "icon": "status_shield",
+      "cleanseBy": []
+    },
+    {
+      "id": "bloodthirst",
+      "name": "嗜血",
+      "type": "buff",
+      "defaultDuration": 3,
+      "stackable": false,
+      "effectPerStack": { "lifeStealPercent": 0.2 },
+      "displayColor": "#CC0000",
+      "icon": "status_bloodthirst",
+      "cleanseBy": []
+    },
+    {
+      "id": "berserk",
+      "name": "狂暴",
+      "type": "buff",
+      "defaultDuration": 3,
+      "stackable": false,
+      "effectPerStack": { "attackBonus": 0.5, "defenseReduction": 0.3 },
+      "displayColor": "#FF0000",
+      "icon": "status_berserk",
+      "cleanseBy": ["calm_skill"]
+    },
+    {
+      "id": "frost_chill",
+      "name": "寒气",
+      "type": "debuff",
+      "defaultDuration": 3,
+      "stackable": true,
+      "maxStacks": 5,
+      "effectPerStack": { "speedReduction": 0.05 },
+      "displayColor": "#AAE8FF",
+      "icon": "status_chill",
+      "cleanseBy": ["fire_skill"]
+    },
+    {
+      "id": "true_qi_protection",
+      "name": "真气护体",
+      "type": "buff",
+      "defaultDuration": -1,
+      "stackable": false,
+      "effectPerStack": { "immuneNextStatus": 1 },
+      "displayColor": "#FFFFFF",
+      "icon": "status_true_qi",
+      "cleanseBy": []
+    },
+    {
+      "id": "counter_stance",
+      "name": "反击架势",
+      "type": "buff",
+      "defaultDuration": 1,
+      "stackable": false,
+      "effectPerStack": { "counterDamageBonus": 0.5 },
+      "displayColor": "#FF8800",
+      "icon": "status_counter",
+      "cleanseBy": []
+    },
+    {
+      "id": "jiuyang_protection",
+      "name": "九阳护体",
+      "type": "buff",
+      "defaultDuration": 3,
+      "stackable": false,
+      "effectPerStack": { "invincible": 1 },
+      "displayColor": "#FFD700",
+      "icon": "status_jiuyang",
+      "cleanseBy": []
+    }
+  ]
+}

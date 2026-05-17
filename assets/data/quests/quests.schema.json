@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wotw.game/schemas/quests.schema.json",
+  "title": "WOTW Quest & Dialogue Schema",
+  "description": "任务与对话数据模型",
+
+  "definitions": {
+    "questObjective": {
+      "type": "object",
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["kill", "collect", "talk", "explore", "escort", "deliver", "craft", "survive", "choice"]
+        },
+        "description": { "type": "string" },
+        "targetId": { "type": "string", "description": "目标ID（NPC/怪物/物品/场景）" },
+        "count": { "type": "integer", "description": "需要数量" },
+        "location": { "type": "string", "description": "目标所在场景" }
+      }
+    },
+    "questReward": {
+      "type": "object",
+      "properties": {
+        "experience": { "type": "integer" },
+        "copper": { "type": "integer" },
+        "silver": { "type": "integer" },
+        "items": { "type": "array", "items": { "type": "string" } },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "reputation": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "affinity": { "type": "object", "description": "NPC好感度变化", "additionalProperties": { "type": "integer" } },
+        "unlockFeature": { "type": "string", "description": "解锁的功能/系统" }
+      }
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "mainQuests": { "type": "array", "items": { "$ref": "#/questNode" } },
+    "sideQuests": { "type": "array", "items": { "$ref": "#/questNode" } },
+    "dailyQuests": { "type": "array", "items": { "$ref": "#/questNode" } },
+    "dialogues": { "type": "array", "items": { "$ref": "#/dialogueTree" } }
+  },
+
+  "questNode": {
+    "type": "object",
+    "required": ["id", "name", "type", "chapter"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "type": { "type": "string", "enum": ["main", "side_character", "side_sect", "side_region", "rumor", "encounter", "daily"] },
+      "chapter": { "type": "integer", "description": "所属章节（主线）/ 所属区域（支线）" },
+      "levelRequired": { "type": "integer", "default": 1 },
+      "prerequisites": {
+        "type": "object",
+        "properties": {
+          "quests": { "type": "array", "items": { "type": "string" } },
+          "reputation": { "type": "object", "additionalProperties": { "type": "integer" } },
+          "attributes": { "type": "object", "additionalProperties": { "type": "integer" } }
+        }
+      },
+      "description": { "type": "string" },
+      "giverNpc": { "type": "string", "description": "任务发布NPC ID" },
+      "giverLocation": { "type": "string" },
+      "objectives": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/questObjective" }
+      },
+      "rewards": { "$ref": "#/definitions/questReward" },
+      "failureConsequence": { "type": "string", "description": "失败后果描述" },
+      "choices": {
+        "type": "array",
+        "description": "关键抉择点",
+        "items": {
+          "type": "object",
+          "properties": {
+            "nodeId": { "type": "string" },
+            "description": { "type": "string" },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": { "type": "string" },
+                  "consequences": { "type": "object" },
+                  "nextObjectives": { "type": "array", "items": { "$ref": "#/definitions/questObjective" } }
+                }
+              }
+            }
+          }
+        }
+      },
+      "estimatedDuration": { "type": "integer", "description": "预计时长（分钟）" },
+      "repeatable": { "type": "boolean", "default": false }
+    }
+  },
+
+  "dialogueTree": {
+    "type": "object",
+    "required": ["id", "name", "startNode"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string", "description": "对话树名称（用于编辑识别）" },
+      "relatedQuest": { "type": "string" },
+      "relatedNpc": { "type": "string" },
+      "startNode": { "type": "string" },
+      "nodes": {
+        "type": "object",
+        "description": "节点ID到节点内容的映射",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "speaker": { "type": "string", "description": "说话人ID，player=玩家" },
+            "expression": { "type": "string", "description": "表情/动作" },
+            "text": { "type": "string" },
+            "conditions": {
+              "type": "object",
+              "description": "节点显示条件",
+              "properties": {
+                "minAffinity": { "type": "integer" },
+                "maxAffinity": { "type": "integer" },
+                "questCompleted": { "type": "string" },
+                "questActive": { "type": "string" },
+                "hasItem": { "type": "string" },
+                "reputationMin": { "type": "object" },
+                "timeOfDay": { "type": "array", "items": { "type": "integer" } }
+              }
+            },
+            "choices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "text": { "type": "string" },
+                  "conditions": { "type": "object" },
+                  "effects": {
+                    "type": "object",
+                    "properties": {
+                      "affinityChange": { "type": "integer" },
+                      "reputationChange": { "type": "object" },
+                      "giveItem": { "type": "string" },
+                      "takeItem": { "type": "string" },
+                      "startQuest": { "type": "string" },
+                      "completeQuest": { "type": "string" },
+                      "setFlag": { "type": "string" }
+                    }
+                  },
+                  "nextNode": { "type": "string" }
+                }
+              }
+            },
+            "nextNode": { "type": "string" },
+            "effects": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

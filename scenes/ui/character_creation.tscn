@@ -1,0 +1,85 @@
+[gd_scene load_steps=1 format=3 uid="uid://character_creation"]
+
+[node name="CharacterCreation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.02, 0.02, 0.06, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 80.0
+offset_right = 560.0
+offset_bottom = 140.0
+text = "创建角色"
+horizontal_alignment = 1
+
+[node name="NameInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 200.0
+offset_right = 510.0
+offset_bottom = 240.0
+placeholder_text = "请输入姓名（2-6个汉字）"
+max_length = 6
+
+[node name="GenderSelect" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 270.0
+offset_right = 510.0
+offset_bottom = 310.0
+item_count = 2
+selected = 0
+popup/item_0/text = "男"
+popup/item_1/text = "女"
+
+[node name="OriginSelect" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 340.0
+offset_right = 510.0
+offset_bottom = 380.0
+item_count = 6
+selected = 0
+popup/item_0/text = "将门之后"
+popup/item_1/text = "书香门第"
+popup/item_2/text = "江湖遗孤"
+popup/item_3/text = "商贾之家"
+popup/item_4/text = "药农之后"
+popup/item_5/text = "乞丐出身"
+
+[node name="OriginDescription" type="Label" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 390.0
+offset_right = 510.0
+offset_bottom = 460.0
+autowrap_mode = 3
+
+[node name="FreePointsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 820.0
+offset_right = 510.0
+offset_bottom = 850.0
+text = "剩余属性点: 10"
+horizontal_alignment = 1
+
+[node name="ConfirmBtn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 900.0
+offset_right = 460.0
+offset_bottom = 950.0
+text = "踏入江湖"

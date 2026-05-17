@@ -1,0 +1,479 @@
+{
+  "regions": [
+    {
+      "id": "zhongyuan",
+      "name": "中原腹地",
+      "description": "大虞王朝的心脏地带，帝都洛阳坐落于此。平原广阔，河流纵横，是江湖势力交汇的中心。",
+      "mapPosition": { "x": 600, "y": 450 },
+      "climate": "temperate",
+      "weatherPool": [
+        { "weather": "clear", "weight": 0.45 },
+        { "weather": "cloudy", "weight": 0.25 },
+        { "weather": "light_rain", "weight": 0.15 },
+        { "weather": "heavy_rain", "weight": 0.08 },
+        { "weather": "storm", "weight": 0.04 },
+        { "weather": "light_snow", "weight": 0.03 }
+      ],
+      "levelRange": { "min": 1, "max": 20 },
+      "scenes": [
+        {
+          "id": "luoyang_center",
+          "name": "洛阳城",
+          "type": "city",
+          "description": "大虞帝都，天下第一繁华之地。朱雀大街贯穿南北，两旁商铺林立，人来人往，车水马龙。",
+          "size": { "width": 120, "height": 100 },
+          "tileset": "zhongyuan_city",
+          "bgm": "luoyang_prosperity",
+          "npcs": ["innkeeper_wang", "old_beggar", "captain_zhang", "merchant_li", "teahouse_owner"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["luoyang_outskirts", "luoyang_barracks", "luoyang_academy", "longmen_inn_interior"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge", "alchemy", "tailor", "cooking"]
+        },
+        {
+          "id": "luoyang_outskirts",
+          "name": "洛阳郊外",
+          "type": "wilderness",
+          "description": "洛阳城外的平原，农田与荒地交错。官道两旁偶有商队经过，但也时有山贼出没。",
+          "size": { "width": 150, "height": 120 },
+          "tileset": "zhongyuan_plains",
+          "bgm": "central_plains_wild",
+          "npcs": ["traveling_merchant", "farmer_zhang"],
+          "monsters": [
+            { "monsterId": "bandit_thug", "minLevel": 1, "maxLevel": 5, "spawnWeight": 0.6 },
+            { "monsterId": "wild_wolf", "minLevel": 2, "maxLevel": 6, "spawnWeight": 0.3, "timeRestriction": [19, 20, 21, 22, 23, 0, 1, 2, 3, 4] },
+            { "monsterId": "rebel_deserter", "minLevel": 5, "maxLevel": 10, "spawnWeight": 0.1 }
+          ],
+          "resources": ["iron_ore", "copper_ore", "zhixue_cao", "juqi_cao"],
+          "connectedScenes": ["luoyang_center", "bandit_camp", "ancient_battlefield"],
+          "isSafeZone": false
+        },
+        {
+          "id": "bandit_camp",
+          "name": "山贼营地",
+          "type": "dungeon",
+          "description": "盘踞在洛阳郊外山丘上的山贼营地，木栅栏围成的简陋山寨。",
+          "size": { "width": 40, "height": 40 },
+          "tileset": "bandit_camp",
+          "bgm": "danger_ambush",
+          "npcs": [],
+          "monsters": [
+            { "monsterId": "bandit_thug", "minLevel": 3, "maxLevel": 6, "spawnWeight": 0.7 },
+            { "monsterId": "bandit_chief", "minLevel": 6, "maxLevel": 8, "spawnWeight": 0.3 }
+          ],
+          "resources": ["iron_ore", "copper_ore"],
+          "connectedScenes": ["luoyang_outskirts"],
+          "isSafeZone": false
+        },
+        {
+          "id": "shaolin_temple",
+          "name": "少林寺",
+          "type": "sect_hq",
+          "description": "天下武功出少林。千年古刹坐落于嵩山之中，钟声悠远，香火鼎盛。",
+          "size": { "width": 80, "height": 80 },
+          "tileset": "shaolin_temple",
+          "bgm": "shaolin_zen",
+          "npcs": ["abbot_kongwen", "librarian_monk", "fighting_monk", "novice_monk"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["songshan_wilderness", "shaolin_library", "damo_cave"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["alchemy"]
+        }
+      ],
+      "specialMechanics": ["官道驿站快速旅行", "龙门客栈情报交易"]
+    },
+    {
+      "id": "shuzhong",
+      "name": "蜀中竹海",
+      "description": "天府之国，竹海绵延。地势险峻，栈道悬空，唐门暗器和峨眉剑法并称双绝。",
+      "mapPosition": { "x": 450, "y": 650 },
+      "climate": "tropical",
+      "weatherPool": [
+        { "weather": "cloudy", "weight": 0.3 },
+        { "weather": "light_rain", "weight": 0.3 },
+        { "weather": "heavy_rain", "weight": 0.2 },
+        { "weather": "storm", "weight": 0.1 },
+        { "weather": "clear", "weight": 0.08 },
+        { "weather": "miasma", "weight": 0.02 }
+      ],
+      "levelRange": { "min": 10, "max": 30 },
+      "scenes": [
+        {
+          "id": "jinguan_city",
+          "name": "锦官城",
+          "type": "city",
+          "description": "蜀中首府，美食与暗器并称双绝。茶馆遍地，麻将声不绝于耳，看似悠闲，实则卧虎藏龙。",
+          "size": { "width": 100, "height": 90 },
+          "tileset": "shuzhong_city",
+          "bgm": "chengdu_leisure",
+          "npcs": ["teahouse_boss", "silk_merchant", "sichuan_opera_actor"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["bamboo_forest", "emei_mountain", "tangjiabao"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge", "alchemy", "cooking"]
+        },
+        {
+          "id": "tangjiabao",
+          "name": "唐家堡",
+          "type": "sect_hq",
+          "description": "唐门总部，隐藏在竹海深处的堡垒。机关重重，外人若无引导，寸步难行。",
+          "size": { "width": 70, "height": 70 },
+          "tileset": "tangmen_fortress",
+          "bgm": "tangmen_mystery",
+          "npcs": ["tang_tianji", "tang_ruoxuan", "tang_elder", "tang_disciple"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["jinguan_city", "bamboo_forest", "tangmen_forbidden_area"],
+          "isSafeZone": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge"]
+        },
+        {
+          "id": "bamboo_forest",
+          "name": "竹海迷宫",
+          "type": "wilderness",
+          "description": "绵延数百里的竹林，路径错综复杂，如同天然迷宫。据说竹海深处隐居着绝世高手。",
+          "size": { "width": 180, "height": 150 },
+          "tileset": "bamboo_forest",
+          "bgm": "bamboo_mystery",
+          "npcs": ["hermit_swordsman"],
+          "monsters": [
+            { "monsterId": "bamboo_viper", "minLevel": 10, "maxLevel": 15, "spawnWeight": 0.5 },
+            { "monsterId": "mountain_demon", "minLevel": 12, "maxLevel": 18, "spawnWeight": 0.3 },
+            { "monsterId": "rogue_tang_disciple", "minLevel": 15, "maxLevel": 22, "spawnWeight": 0.2 }
+          ],
+          "resources": ["jinsi_nanmu", "purple_bamboo", "lingzhi", "silk", "zhixue_cao"],
+          "connectedScenes": ["jinguan_city", "tangjiabao", "emei_mountain"],
+          "isSafeZone": false
+        }
+      ],
+      "specialMechanics": ["竹海迷路机制（方向感判定）", "悬空栈道（轻功跨越）", "地下溶洞（隐藏区域）"]
+    },
+    {
+      "id": "beining",
+      "name": "北冥雪域",
+      "description": "极北苦寒之地，万年冰川覆盖。雪山派在此开宗立派，天机阁则藏于冰峰之巅。",
+      "mapPosition": { "x": 600, "y": 150 },
+      "climate": "polar",
+      "weatherPool": [
+        { "weather": "light_snow", "weight": 0.4 },
+        { "weather": "blizzard", "weight": 0.25 },
+        { "weather": "cloudy", "weight": 0.2 },
+        { "weather": "clear", "weight": 0.1 },
+        { "weather": "meteor_shower", "weight": 0.05 }
+      ],
+      "levelRange": { "min": 20, "max": 40 },
+      "scenes": [
+        {
+          "id": "xueluo_city",
+          "name": "雪落城",
+          "type": "city",
+          "description": "建在冰湖之上的边塞雄城，城墙由万年寒冰筑成。城中终年飘雪，却因温泉地热而温暖如春。",
+          "size": { "width": 90, "height": 80 },
+          "tileset": "beining_city",
+          "bgm": "snow_city_serene",
+          "npcs": ["han_jiangxue", "xue_linger", "fur_trader", "hotspring_keeper"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["great_snow_mountain", "frozen_lake", "tianji_tower"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge", "alchemy"]
+        },
+        {
+          "id": "great_snow_mountain",
+          "name": "大雪山",
+          "type": "wilderness",
+          "description": "巍峨的雪山山脉，暴风雪肆虐。雪山派的总坛就建在山巅的冰洞之中。",
+          "size": { "width": 160, "height": 140 },
+          "tileset": "snow_mountain",
+          "bgm": "blizzard_wild",
+          "npcs": ["xueshan_disciple"],
+          "monsters": [
+            { "monsterId": "snow_wolf", "minLevel": 20, "maxLevel": 28, "spawnWeight": 0.4 },
+            { "monsterId": "ice_bear", "minLevel": 25, "maxLevel": 35, "spawnWeight": 0.3 },
+            { "monsterId": "snow_yeti", "minLevel": 30, "maxLevel": 40, "spawnWeight": 0.2 },
+            { "monsterId": "ice_golem", "minLevel": 35, "maxLevel": 45, "spawnWeight": 0.1 }
+          ],
+          "resources": ["cold_iron", "ice_crystal", "xuelian", "ice_silk"],
+          "connectedScenes": ["xueluo_city", "frozen_lake", "beining_ice_cave"],
+          "isSafeZone": false
+        }
+      ],
+      "specialMechanics": ["冻伤机制（持续伤害）", "冰面滑行", "暴风雪迷失方向", "极光之夜（稀有事件触发率翻倍）"]
+    },
+    {
+      "id": "donghai",
+      "name": "东海之滨",
+      "description": "万商云集的国际港口，蓬莱仙岛的传说吸引着无数求仙问道之人。",
+      "mapPosition": { "x": 850, "y": 450 },
+      "climate": "oceanic",
+      "weatherPool": [
+        { "weather": "clear", "weight": 0.35 },
+        { "weather": "cloudy", "weight": 0.25 },
+        { "weather": "light_rain", "weight": 0.2 },
+        { "weather": "storm", "weight": 0.15 },
+        { "weather": "heavy_rain", "weight": 0.05 }
+      ],
+      "levelRange": { "min": 25, "max": 45 },
+      "scenes": [
+        {
+          "id": "quanzhou_port",
+          "name": "泉州港",
+          "type": "city",
+          "description": "大虞最大的港口城市，各国商船云集。码头边可以看到来自西域、东瀛甚至更远国度的商人。",
+          "size": { "width": 110, "height": 90 },
+          "tileset": "donghai_port",
+          "bgm": "port_bustle",
+          "npcs": ["foreign_merchant", "ship_captain", "fish_monger", "pearl_diver"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["coastline", "penglai_island", "fishing_village"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge", "alchemy", "tailor"]
+        },
+        {
+          "id": "penglai_island",
+          "name": "蓬莱仙岛",
+          "type": "special",
+          "description": "东海之中的仙岛，云雾缭绕，时隐时现。蓬莱阁的剑仙们在此修行。",
+          "size": { "width": 60, "height": 60 },
+          "tileset": "penglai_island",
+          "bgm": "celestial_island",
+          "npcs": ["yun_zhongjun", "yun_feiyang", "penglai_elder"],
+          "monsters": [],
+          "resources": ["pearl", "coral"],
+          "connectedScenes": ["quanzhou_port"],
+          "isSafeZone": true,
+          "hasShop": true,
+          "hasCraftStation": ["alchemy"]
+        }
+      ],
+      "specialMechanics": ["潮汐系统（退潮时海底洞穴可探索）", "台风天气（港口封锁）", "蓬莱仙岛限时开放", "海雾（视野遮蔽）"]
+    },
+    {
+      "id": "nanjiang",
+      "name": "南疆密林",
+      "description": "神秘而危险的南疆，热带雨林遮天蔽日。五毒教和百花谷在此各据一方。",
+      "mapPosition": { "x": 500, "y": 750 },
+      "climate": "tropical",
+      "weatherPool": [
+        { "weather": "miasma", "weight": 0.3 },
+        { "weather": "heavy_rain", "weight": 0.25 },
+        { "weather": "cloudy", "weight": 0.2 },
+        { "weather": "light_rain", "weight": 0.15 },
+        { "weather": "clear", "weight": 0.05 },
+        { "weather": "storm", "weight": 0.05 }
+      ],
+      "levelRange": { "min": 30, "max": 50 },
+      "scenes": [
+        {
+          "id": "baiyue_city",
+          "name": "百越城",
+          "type": "city",
+          "description": "南疆首府，建在千年榕树之上。城中遍布吊脚楼和藤桥，异域风情浓厚。",
+          "size": { "width": 80, "height": 80 },
+          "tileset": "nanjiang_city",
+          "bgm": "tropical_mystery",
+          "npcs": ["lan_fenghuang", "lan_linger", "herb_merchant", "shaman"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["rainforest", "wudu_sect", "baihua_valley"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["alchemy", "cooking"]
+        },
+        {
+          "id": "rainforest",
+          "name": "热带雨林",
+          "type": "wilderness",
+          "description": "遮天蔽日的原始丛林，藤蔓交错，沼泽遍布。每一步都可能踩到毒蛇或食人花。",
+          "size": { "width": 180, "height": 160 },
+          "tileset": "rainforest",
+          "bgm": "jungle_danger",
+          "npcs": ["hermit_doctor"],
+          "monsters": [
+            { "monsterId": "poison_snake", "minLevel": 30, "maxLevel": 38, "spawnWeight": 0.4 },
+            { "monsterId": "man_eater_flower", "minLevel": 32, "maxLevel": 40, "spawnWeight": 0.3 },
+            { "monsterId": "gu_insect_swarm", "minLevel": 35, "maxLevel": 45, "spawnWeight": 0.2 },
+            { "monsterId": "miasma_beast", "minLevel": 40, "maxLevel": 50, "spawnWeight": 0.1 }
+          ],
+          "resources": ["lingzhi", "qiannian_lingzhi", "rare_venom", "gu_insect", "exotic_beast_part"],
+          "connectedScenes": ["baiyue_city", "wudu_sect", "gu_temple", "mist_swamp"],
+          "isSafeZone": false
+        }
+      ],
+      "specialMechanics": ["毒瘴期（视野受限+持续中毒）", "蛊虫收集系统", "食人花陷阱", "千年榕树攀爬"]
+    },
+    {
+      "id": "xiyu",
+      "name": "西域大漠",
+      "description": "丝绸之路上的传奇之地，大漠黄沙掩埋了无数古城。明教的圣火在沙漠深处燃烧。",
+      "mapPosition": { "x": 300, "y": 500 },
+      "climate": "arid",
+      "weatherPool": [
+        { "weather": "clear", "weight": 0.5 },
+        { "weather": "sandstorm", "weight": 0.3 },
+        { "weather": "cloudy", "weight": 0.15 },
+        { "weather": "light_rain", "weight": 0.04 },
+        { "weather": "meteor_shower", "weight": 0.01 }
+      ],
+      "levelRange": { "min": 35, "max": 55 },
+      "scenes": [
+        {
+          "id": "loulan_ruins",
+          "name": "楼兰古城",
+          "type": "city",
+          "description": "丝绸之路上的传奇之城，一半埋在黄沙之中。残垣断壁间，依稀可见当年的繁华。",
+          "size": { "width": 90, "height": 80 },
+          "tileset": "xiyu_desert_city",
+          "bgm": "desert_mystery",
+          "npcs": ["ayi_guli", "camel_merchant", "spice_trader", "fire_worshipper"],
+          "monsters": [],
+          "resources": [],
+          "connectedScenes": ["gobi_desert", "flame_mountain", "mingjiao_hq", "loulan_underground"],
+          "isSafeZone": true,
+          "hasInn": true,
+          "hasShop": true,
+          "hasCraftStation": ["forge", "alchemy"]
+        },
+        {
+          "id": "gobi_desert",
+          "name": "大漠戈壁",
+          "type": "wilderness",
+          "description": "无尽的黄沙和戈壁，烈日如火，水源珍贵。沙盗和沙虫是旅行者最大的威胁。",
+          "size": { "width": 200, "height": 160 },
+          "tileset": "desert",
+          "bgm": "desert_wild",
+          "npcs": ["sand_bandit_leader", "oasis_hermit"],
+          "monsters": [
+            { "monsterId": "sand_bandit", "minLevel": 35, "maxLevel": 42, "spawnWeight": 0.35 },
+            { "monsterId": "sand_worm", "minLevel": 38, "maxLevel": 48, "spawnWeight": 0.3 },
+            { "monsterId": "scorpion_king", "minLevel": 42, "maxLevel": 52, "spawnWeight": 0.2 },
+            { "monsterId": "fire_lizard", "minLevel": 45, "maxLevel": 55, "spawnWeight": 0.1 },
+            { "monsterId": "sandstorm_spirit", "minLevel": 50, "maxLevel": 60, "spawnWeight": 0.05 }
+          ],
+          "resources": ["meteorite", "fire_crystal", "desert_rose", "exotic_spice"],
+          "connectedScenes": ["loulan_ruins", "flame_mountain", "moon_spring", "mingjiao_hq"],
+          "isSafeZone": false
+        }
+      ],
+      "specialMechanics": ["沙暴迷失方向", "酷热体力消耗", "极寒夜晚", "绿洲水源管理", "丝绸之路跑商路线"]
+    }
+  ],
+
+  "weatherRules": {
+    "globalWeatherCycle": {
+      "durationPerWeather": { "min": 2, "max": 8 },
+      "transitionTime": 15
+    },
+    "weatherEffects": {
+      "clear": {
+        "combatModifiers": {},
+        "explorationModifiers": { "visionBonus": 2 },
+        "visualEffects": []
+      },
+      "cloudy": {
+        "combatModifiers": {},
+        "explorationModifiers": {},
+        "visualEffects": ["gray_filter"]
+      },
+      "light_rain": {
+        "combatModifiers": { "thunderDamageBonus": 0.1 },
+        "explorationModifiers": { "footprintDuration": 0.5 },
+        "visualEffects": ["rain_particles"]
+      },
+      "heavy_rain": {
+        "combatModifiers": { "thunderDamageBonus": 0.25, "fireDamageReduction": 0.2 },
+        "explorationModifiers": { "visionPenalty": -2, "speedPenalty": -0.1 },
+        "visualEffects": ["heavy_rain_particles", "lightning_flash"]
+      },
+      "storm": {
+        "combatModifiers": { "thunderDamageBonus": 0.4, "fireDamageReduction": 0.4 },
+        "explorationModifiers": { "visionPenalty": -4, "speedPenalty": -0.2 },
+        "visualEffects": ["storm_particles", "frequent_lightning", "dark_sky"]
+      },
+      "light_snow": {
+        "combatModifiers": { "iceDamageBonus": 0.1 },
+        "explorationModifiers": { "footprintDuration": 2.0 },
+        "visualEffects": ["snow_particles"]
+      },
+      "blizzard": {
+        "combatModifiers": { "iceDamageBonus": 0.25, "speedPenalty": -0.15 },
+        "explorationModifiers": { "visionPenalty": -5, "speedPenalty": -0.3, "frostbiteDamage": 0.02 },
+        "visualEffects": ["blizzard_particles", "white_screen_effect"]
+      },
+      "sandstorm": {
+        "combatModifiers": { "hitRatePenalty": -0.2 },
+        "explorationModifiers": { "visionPenalty": -6, "continuousDamage": 0.01, "randomDisplacement": true },
+        "visualEffects": ["sand_particles", "yellow_screen_effect"]
+      },
+      "miasma": {
+        "combatModifiers": { "poisonCheckPerTurn": 0.3 },
+        "explorationModifiers": { "visionPenalty": -3, "continuousPoison": 0.02 },
+        "visualEffects": ["purple_green_fog"]
+      },
+      "meteor_shower": {
+        "combatModifiers": { "allDamageBonus": 0.15 },
+        "explorationModifiers": { "visionBonus": 5, "rareDropRateDouble": true },
+        "visualEffects": ["shooting_stars", "night_sky_glow"]
+      }
+    }
+  },
+
+  "globalEvents": [
+    {
+      "id": "spring_wulin_tournament",
+      "name": "武林大会（春季）",
+      "description": "每年春季在洛阳举办的武林盛会，各派高手齐聚一堂，争夺天下第一的名号。",
+      "triggerType": "seasonal",
+      "triggerCondition": { "season": "spring", "dayOfSeason": 15 },
+      "effects": {
+        "worldStateChanges": { "luoyang_crowded": true },
+        "spawnNpcs": ["tournament_master", "contestant_npc_1", "contestant_npc_2"],
+        "unlockScenes": ["tournament_arena"]
+      },
+      "duration": 7
+    },
+    {
+      "id": "autumn_forge_festival",
+      "name": "铸剑大会（秋季）",
+      "description": "铸剑山庄每年秋季举办的锻造盛会，天下铸剑师汇聚一堂，比拼铸剑技艺。",
+      "triggerType": "seasonal",
+      "triggerCondition": { "season": "autumn", "dayOfSeason": 10 },
+      "effects": {
+        "spawnNpcs": ["master_smith", "rare_mineral_merchant"],
+        "unlockScenes": ["forge_competition_hall"],
+        "shopUpdates": { "zhujian_village_forge": { "discount": 0.3, "specialItems": ["meteorite_forging_service"] } }
+      },
+      "duration": 5
+    },
+    {
+      "id": "winter_dark_moon_invasion",
+      "name": "暗月入侵（冬季）",
+      "description": "暗月楼在冬季发动大规模进攻，多座城市同时遭到袭击。",
+      "triggerType": "quest_progress",
+      "triggerCondition": { "mainQuestCompleted": "main_ch3_end" },
+      "effects": {
+        "worldStateChanges": { "war_state": true },
+        "spawnMonsters": ["anyuelou_assassin", "anyuelou_elite"],
+        "spawnNpcs": ["refugee_group", "militia_captain"],
+        "shopUpdates": { "all_herb_shops": { "priceMultiplier": 2.0 } }
+      },
+      "duration": 14
+    }
+  ]
+}

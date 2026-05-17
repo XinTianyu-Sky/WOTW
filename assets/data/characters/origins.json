@@ -1,0 +1,70 @@
+{
+  "origins": [
+    {
+      "id": "general_descendant",
+      "name": "将门之后",
+      "description": "出身将门世家，自幼习武，练就一身好枪法。家族因卷入朝廷党争而没落，你带着祖传枪谱独自踏入江湖。",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 5, "con": 3, "agi": 0, "int": 0, "wil": 0, "lck": 0 },
+      "startingSkill": "basic_spear",
+      "startingLocation": "luoyang_barracks",
+      "startingItems": ["iron_spear", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "specialEffect": "NPC军官初始好感+20"
+    },
+    {
+      "id": "scholar_family",
+      "name": "书香门第",
+      "description": "出身书香世家，博闻强识，悟性过人。厌倦了科举八股，弃文从武，以扇为兵，走出一条文武兼修之路。",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 0, "con": 0, "agi": 0, "int": 5, "wil": 3, "lck": 0 },
+      "startingSkill": "basic_fan",
+      "startingLocation": "luoyang_academy",
+      "startingItems": ["paper_fan", "cloth_armor", "cloth_shoes", "huiqi_dan"],
+      "specialEffect": "读书识字速度+30%，武学秘籍领悟概率+10%"
+    },
+    {
+      "id": "jianghu_orphan",
+      "name": "江湖遗孤",
+      "description": "父母在你幼年时离奇失踪，被一位隐居老人抚养长大。如今老人已逝，你带着唯一的遗物——一块刻着奇异符文的玉佩，踏上了寻找身世真相的路。",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 0, "con": 0, "agi": 5, "int": 0, "wil": 0, "lck": 3 },
+      "startingSkill": "basic_palm",
+      "startingLocation": "wuming_valley",
+      "startingItems": ["mysterious_jade", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "specialEffect": "随机获得一条与身世相关的NPC寻亲线索（指向隐藏剧情）"
+    },
+    {
+      "id": "merchant_family",
+      "name": "商贾之家",
+      "description": "出身商贾世家，自幼耳濡目染，精通生意经。家里遭遇山贼洗劫后，你决定不再寄望他人保护，亲手掌握自己的命运。",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 0, "con": 0, "agi": 0, "int": 0, "wil": 3, "lck": 5 },
+      "startingSkill": "basic_hidden_weapon",
+      "startingLocation": "quanzhou_port",
+      "startingItems": ["throwing_darts", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "specialEffect": "初始资金×3（3000铜钱），所有商店交易折扣10%"
+    },
+    {
+      "id": "herbalist_family",
+      "name": "药农之后",
+      "description": "出身药农之家，从小在山野间长大，识百草、辨药性。一次采药途中偶遇濒死的江湖客，临终前将一套棍法传授于你，从此改变了你的命运。",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 0, "con": 5, "agi": 0, "int": 3, "wil": 0, "lck": 0 },
+      "startingSkill": "basic_staff",
+      "startingLocation": "nanjiang_village",
+      "startingItems": ["wooden_staff", "cloth_armor", "cloth_shoes", "zhixue_cao"],
+      "specialEffect": "采药效率+30%，自动识别毒草（免疫采集中毒）"
+    },
+    {
+      "id": "beggar_origin",
+      "name": "乞丐出身",
+      "description": "在洛阳街头长大的孤儿乞丐，靠乞讨和替人跑腿为生。虽出身卑微，但街头智慧让你比任何人都懂得生存之道。丐帮的长老早就注意到了你……",
+      "genderAllowed": ["male", "female"],
+      "bonusAttributes": { "str": 3, "con": 0, "agi": 5, "int": 0, "wil": 0, "lck": 0 },
+      "startingSkill": "basic_fist",
+      "startingLocation": "luoyang_street",
+      "startingItems": ["ragged_clothes", "cloth_shoes"],
+      "specialEffect": "丐帮入门免试，情报获取成功率+20%，乞讨可获得额外铜钱"
+    }
+  ]
+}

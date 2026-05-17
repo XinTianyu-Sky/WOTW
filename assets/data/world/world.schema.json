@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wotw.game/schemas/world.schema.json",
+  "title": "WOTW World Data Schema",
+  "description": "世界地图、区域、场景、天气数据模型",
+
+  "definitions": {
+    "weatherType": {
+      "type": "string",
+      "enum": ["clear", "cloudy", "light_rain", "heavy_rain", "storm", "light_snow", "blizzard", "sandstorm", "miasma", "meteor_shower"]
+    },
+    "terrainType": {
+      "type": "string",
+      "enum": ["plain", "highland", "water", "grass", "fire", "ice", "miasma", "trap"]
+    },
+    "monsterSpawn": {
+      "type": "object",
+      "properties": {
+        "monsterId": { "type": "string" },
+        "minLevel": { "type": "integer" },
+        "maxLevel": { "type": "integer" },
+        "spawnWeight": { "type": "number", "description": "刷新权重" },
+        "timeRestriction": { "type": "array", "items": { "type": "integer" }, "description": "仅在这些时辰出现" }
+      }
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "regions": { "type": "array", "items": { "$ref": "#/region" } },
+    "weatherRules": { "$ref": "#/weatherRules" },
+    "globalEvents": { "type": "array", "items": { "$ref": "#/globalEvent" } }
+  },
+
+  "region": {
+    "type": "object",
+    "required": ["id", "name", "description", "climate", "scenes"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "mapPosition": {
+        "type": "object",
+        "properties": { "x": { "type": "integer" }, "y": { "type": "integer" } }
+      },
+      "climate": {
+        "type": "string",
+        "enum": ["temperate", "tropical", "arid", "polar", "oceanic"],
+        "description": "气候类型"
+      },
+      "weatherPool": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "weather": { "$ref": "#/definitions/weatherType" },
+            "weight": { "type": "number", "description": "出现权重" }
+          }
+        }
+      },
+      "levelRange": {
+        "type": "object",
+        "properties": { "min": { "type": "integer" }, "max": { "type": "integer" } }
+      },
+      "scenes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "name", "type"],
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "type": {
+              "type": "string",
+              "enum": ["city", "town", "village", "wilderness", "dungeon", "sect_hq", "special"]
+            },
+            "description": { "type": "string" },
+            "size": {
+              "type": "object",
+              "properties": { "width": { "type": "integer" }, "height": { "type": "integer" } }
+            },
+            "tileset": { "type": "string" },
+            "bgm": { "type": "string" },
+            "npcs": { "type": "array", "items": { "type": "string" } },
+            "monsters": { "type": "array", "items": { "$ref": "#/definitions/monsterSpawn" } },
+            "resources": { "type": "array", "items": { "type": "string" } },
+            "connectedScenes": { "type": "array", "items": { "type": "string" } },
+            "isSafeZone": { "type": "boolean", "description": "安全区（不可战斗、可存档）" },
+            "hasInn": { "type": "boolean" },
+            "hasShop": { "type": "boolean" },
+            "hasCraftStation": { "type": "array", "items": { "type": "string", "enum": ["forge", "alchemy", "tailor", "cooking"] } }
+          }
+        }
+      },
+      "specialMechanics": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "该区域的特殊机制描述"
+      }
+    }
+  },
+
+  "weatherRules": {
+    "type": "object",
+    "properties": {
+      "globalWeatherCycle": {
+        "type": "object",
+        "properties": {
+          "durationPerWeather": { "type": "integer", "description": "每种天气持续的游戏内小时数（范围）" },
+          "transitionTime": { "type": "integer", "description": "天气过渡时间（游戏内分钟）" }
+        }
+      },
+      "weatherEffects": {
+        "type": "object",
+        "description": "每种天气的具体效果",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "combatModifiers": { "type": "object", "additionalProperties": { "type": "number" } },
+            "explorationModifiers": { "type": "object", "additionalProperties": { "type": "number" } },
+            "visualEffects": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  },
+
+  "globalEvent": {
+    "type": "object",
+    "required": ["id", "name", "triggerType"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "triggerType": {
+        "type": "string",
+        "enum": ["seasonal", "reputation", "quest_progress", "random", "player_action"]
+      },
+      "triggerCondition": { "type": "object" },
+      "effects": {
+        "type": "object",
+        "properties": {
+          "worldStateChanges": { "type": "object" },
+          "spawnNpcs": { "type": "array", "items": { "type": "string" } },
+          "spawnMonsters": { "type": "array", "items": { "type": "string" } },
+          "unlockScenes": { "type": "array", "items": { "type": "string" } },
+          "shopUpdates": { "type": "object" }
+        }
+      },
+      "duration": { "type": "integer", "description": "持续游戏内天数" }
+    }
+  }
+}

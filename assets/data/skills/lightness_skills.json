@@ -1,0 +1,109 @@
+{
+  "lightnessSkills": [
+    {
+      "id": "caoshangfei",
+      "name": "草上飞",
+      "description": "江湖中最基础的轻功，踏草而行，身轻如燕。虽不惊艳，却是行走江湖的必备功夫。",
+      "rarity": "common",
+      "source": "default",
+      "combatMovementBonus": 1,
+      "explorationEffects": {
+        "canCrossWater": false,
+        "canCrossCliffs": false,
+        "terrainBonuses": {}
+      },
+      "combatEffects": [],
+      "cost": { "type": "none", "amount": 0 }
+    },
+    {
+      "id": "babu_ganchan",
+      "name": "八步赶蝉",
+      "description": "丐帮独门轻功，八步之内，快若奔雷。据传练至大成，连飞蝉都追得上。",
+      "rarity": "rare",
+      "source": "sect:gaibang",
+      "combatMovementBonus": 2,
+      "explorationEffects": {
+        "canCrossWater": false,
+        "canCrossCliffs": false,
+        "terrainBonuses": { "urban": 0.2 }
+      },
+      "combatEffects": ["移动后首次攻击伤害+15%"],
+      "cost": { "type": "qi", "amount": 5 }
+    },
+    {
+      "id": "tiyunzong",
+      "name": "梯云纵",
+      "description": "武当派轻功绝技，可借力腾空，如登云梯。悬崖峭壁，如履平地。",
+      "rarity": "epic",
+      "source": "sect:wudang",
+      "combatMovementBonus": 2,
+      "explorationEffects": {
+        "canCrossWater": false,
+        "canCrossCliffs": true,
+        "terrainBonuses": { "mountain": 0.3 }
+      },
+      "combatEffects": ["可跨越低矮障碍物", "无视高度差带来的命中惩罚"],
+      "cost": { "type": "qi", "amount": 8 }
+    },
+    {
+      "id": "lingbo_weibu",
+      "name": "凌波微步",
+      "description": "传说中的绝世轻功，失传已久。步法精妙绝伦，如凌波踏浪，身形飘忽不定，敌人难以捉摸。",
+      "rarity": "legendary",
+      "source": "encounter",
+      "combatMovementBonus": 3,
+      "explorationEffects": {
+        "canCrossWater": true,
+        "canCrossCliffs": false,
+        "terrainBonuses": { "water": 0.5 }
+      },
+      "combatEffects": ["每回合首次被攻击时闪避率+30%", "移动时不触发敌人的借机攻击"],
+      "cost": { "type": "qi", "amount": 10 }
+    },
+    {
+      "id": "taxue_wuhen",
+      "name": "踏雪无痕",
+      "description": "雪山派轻功，在雪地冰面上行走不留痕迹，如幽灵般无声无息。",
+      "rarity": "uncommon",
+      "source": "sect:xueshan",
+      "combatMovementBonus": 2,
+      "explorationEffects": {
+        "canCrossWater": false,
+        "canCrossCliffs": false,
+        "terrainBonuses": { "snow": 0.5, "ice": 0.5 }
+      },
+      "combatEffects": ["雪地/冰面不减移速", "不留下足迹（潜行时不会被追踪）"],
+      "cost": { "type": "qi", "amount": 4 }
+    },
+    {
+      "id": "yiwei_dujiang",
+      "name": "一苇渡江",
+      "description": "少林绝技，传说达摩祖师以一苇渡江而来。练成后可踏水而行，水上战斗如履平地。",
+      "rarity": "epic",
+      "source": "sect:shaolin",
+      "combatMovementBonus": 1,
+      "explorationEffects": {
+        "canCrossWater": true,
+        "canCrossCliffs": false,
+        "terrainBonuses": { "water": 0.4 }
+      },
+      "combatEffects": ["可跨越水面", "水上战斗全属性+10%"],
+      "cost": { "type": "qi", "amount": 6 }
+    },
+    {
+      "id": "feitian_shenxing",
+      "name": "飞天神行",
+      "description": "暗月楼邪功，以自身精血催动，速度之快冠绝天下。但代价是燃烧生命，是真正的搏命功夫。",
+      "rarity": "legendary",
+      "source": "sect:anyuelou",
+      "combatMovementBonus": 4,
+      "explorationEffects": {
+        "canCrossWater": true,
+        "canCrossCliffs": true,
+        "terrainBonuses": {}
+      },
+      "combatEffects": ["移动后可再次行动（每场战斗限1次）"],
+      "cost": { "type": "hp", "amount": 0.1 }
+    }
+  ]
+}

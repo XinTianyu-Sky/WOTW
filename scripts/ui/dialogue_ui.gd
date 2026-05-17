@@ -1,0 +1,186 @@
+# DialogueUI.gd
+# 对话界面控制器
+# 处理对话树展示、选项交互
+class_name DialogueUI
+extends CanvasLayer
+
+# ---- UI 元素 ----
+@onready var panel: Panel = $DialoguePanel
+@onready var speaker_name: Label = $DialoguePanel/SpeakerName
+@onready var dialogue_text: Label = $DialoguePanel/DialogueText
+@onready var choices_container: VBoxContainer = $DialoguePanel/ChoicesContainer
+@onready var next_indicator: Control = $DialoguePanel/NextIndicator
+
+# ---- 对话状态 ----
+var current_dialogue_id: String = ""
+var current_node_id: String = ""
+var dialogue_data: Dictionary = {}
+var is_typing: bool = false
+var full_text: String = ""
+var type_timer: float = 0.0
+const TYPE_SPEED: float = 0.05  # 每个字输出间隔
+
+signal dialogue_ended()
+
+func _ready() -> void:
+	hide()
+	EventBus.dialogue_triggered.connect(start_dialogue)
+
+func _process(delta: float) -> void:
+	if is_typing:
+		type_timer -= delta
+		if type_timer <= 0:
+			_reveal_next_char()
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("interact"):
+		if is_typing:
+			_skip_typing()
+		elif choices_container.get_child_count() == 0:
+			_advance_dialogue()
+
+# ---- 启动对话 ----
+func start_dialogue(dialogue_id: String) -> void:
+	GameManager.set_phase(GameManager.GamePhase.DIALOGUE)
+	current_dialogue_id = dialogue_id
+
+	# 加载对话数据
+	var quest_data = DataManager.get_data("quests")
+	for dlg in quest_data.get("dialogues", []):
+		if dlg["id"] == dialogue_id:
+			dialogue_data = dlg
+			break
+
+	if dialogue_data.is_empty():
+		push_error("DialogueUI: 对话数据不存在 '%s'" % dialogue_id)
+		end_dialogue()
+		return
+
+	show()
+	_show_node(dialogue_data["startNode"])
+
+# ---- 节点显示 ----
+func _show_node(node_id: String) -> void:
+	choices_container.hide()
+	_clear_choices()
+
+	var node = dialogue_data.get("nodes", {}).get(node_id, {})
+	if node.is_empty():
+		end_dialogue()
+		return
+
+	current_node_id = node_id
+
+	# 播放者名称
+	speaker_name.text = _get_speaker_display_name(node.get("speaker", ""))
+
+	# 打字机效果显示文本
+	full_text = node.get("text", "")
+	_start_typing()
+
+	# 选项
+	var choices = node.get("choices", [])
+	if choices.size() > 0:
+		_populate_choices(choices)
+	else:
+		next_indicator.show()
+
+# ---- 打字机效果 ----
+func _start_typing() -> void:
+	is_typing = true
+	dialogue_text.text = ""
+	type_timer = TYPE_SPEED
+
+func _reveal_next_char() -> void:
+	var current_len = dialogue_text.text.length()
+	if current_len >= full_text.length():
+		is_typing = false
+		return
+
+	dialogue_text.text = full_text.substr(0, current_len + 1)
+	type_timer = TYPE_SPEED
+
+func _skip_typing() -> void:
+	is_typing = false
+	dialogue_text.text = full_text
+
+# ---- 选项 ----
+func _populate_choices(choices: Array) -> void:
+	_clear_choices()
+	next_indicator.hide()
+	choices_container.show()
+
+	for i in range(choices.size()):
+		var choice = choices[i]
+		# 检查显示条件
+		if not _check_conditions(choice.get("conditions", {})):
+			continue
+
+		var btn = Button.new()
+		btn.text = "%d. %s" % [i + 1, choice.get("text", "")]
+		btn.pressed.connect(_on_choice_selected.bind(choice))
+		choices_container.add_child(btn)
+
+func _on_choice_selected(choice: Dictionary) -> void:
+	# 应用选择效果
+	var effects = choice.get("effects", {})
+	_apply_effects(effects)
+
+	EventBus.choice_made.emit(current_dialogue_id, choice.get("id", ""))
+
+	var next_node = choice.get("nextNode", "")
+	if next_node.is_empty() or next_node == "node_end":
+		end_dialogue()
+	else:
+		_show_node(next_node)
+
+func _advance_dialogue() -> void:
+	var node = dialogue_data.get("nodes", {}).get(current_node_id, {})
+	var next_node = node.get("nextNode", "")
+
+	# 应用节点效果
+	_apply_effects(node.get("effects", {}))
+
+	if next_node.is_empty() or next_node == "node_end":
+		end_dialogue()
+	else:
+		_show_node(next_node)
+
+func _clear_choices() -> void:
+	for child in choices_container.get_children():
+		child.queue_free()
+
+# ---- 效果应用 ----
+func _apply_effects(effects: Dictionary) -> void:
+	if effects.has("affinityChange"):
+		# TODO: 更新NPC好感度
+		pass
+	if effects.has("startQuest"):
+		EventBus.quest_accepted.emit(effects["startQuest"])
+	if effects.has("completeQuest"):
+		EventBus.quest_completed.emit(effects["completeQuest"])
+	if effects.has("setFlag"):
+		GameManager.world_state[effects["setFlag"]] = true
+
+func _check_conditions(conditions: Dictionary) -> bool:
+	if conditions.is_empty():
+		return true
+	# TODO: 检查好感度、任务状态、物品持有等条件
+	if conditions.has("minAffinity"):
+		# 未实现
+		return true
+	return true
+
+func _get_speaker_display_name(speaker_id: String) -> String:
+	match speaker_id:
+		"player": return "主角"
+		"system": return ""
+		_: return speaker_id  # TODO: 从NPC数据中查找显示名
+
+func end_dialogue() -> void:
+	hide()
+	dialogue_data.clear()
+	GameManager.set_phase(GameManager.GamePhase.WORLD_EXPLORATION)
+	dialogue_ended.emit()

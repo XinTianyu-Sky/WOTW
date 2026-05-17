@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://battle_scene"]
+
+[ext_resource type="Script" path="res://scripts/combat/battle_controller.gd" id="1_battle_ctrl"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_battle_ctrl")
+
+[node name="BattleGrid" type="Node2D" parent="."]
+
+[node name="BattleUnits" type="Node2D" parent="."]
+
+[node name="BattleUI" type="CanvasLayer" parent="."]
+
+[node name="SkillPanel" type="Panel" parent="BattleUI"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 1080.0
+offset_right = 700.0
+offset_bottom = 1260.0
+
+[node name="SkillList" type="HBoxContainer" parent="BattleUI/SkillPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 690.0
+offset_bottom = 170.0
+
+[node name="BattleLog" type="RichTextLabel" parent="BattleUI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 200.0
+scroll_following = true

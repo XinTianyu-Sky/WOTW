@@ -1,0 +1,168 @@
+{
+  "meridians": [
+    {
+      "id": "renmai",
+      "name": "任脉",
+      "focus": "防御",
+      "acupoints": [
+        { "id": "renmai_1", "name": "承浆", "order": 1, "zhenqiCost": 30, "effect": { "hp": 50 } },
+        { "id": "renmai_2", "name": "廉泉", "order": 2, "zhenqiCost": 40, "effect": { "defense": 2 } },
+        { "id": "renmai_3", "name": "天突", "order": 3, "zhenqiCost": 50, "effect": { "hp": 60 } },
+        { "id": "renmai_4", "name": "璇玑", "order": 4, "zhenqiCost": 60, "effect": { "innerDefense": 3 } },
+        { "id": "renmai_5", "name": "华盖", "order": 5, "zhenqiCost": 80, "effect": { "hp": 80, "defense": 1 } },
+        { "id": "renmai_6", "name": "紫宫", "order": 6, "zhenqiCost": 100, "effect": { "hp": 100 } },
+        { "id": "renmai_7", "name": "玉堂", "order": 7, "zhenqiCost": 120, "effect": { "defense": 4 } },
+        { "id": "renmai_8", "name": "膻中", "order": 8, "zhenqiCost": 150, "effect": { "hp": 120 } },
+        { "id": "renmai_9", "name": "中庭", "order": 9, "zhenqiCost": 200, "effect": { "hp": 150, "defense": 5 } }
+      ],
+      "completionBonus": {
+        "name": "任脉贯通",
+        "description": "战斗中首次受到致命伤害时，保留1点生命值（每场战斗一次）",
+        "effects": { "surviveFatalOnce": 1 }
+      }
+    },
+    {
+      "id": "dumai",
+      "name": "督脉",
+      "focus": "攻击",
+      "acupoints": [
+        { "id": "dumai_1", "name": "长强", "order": 1, "zhenqiCost": 40, "effect": { "attack": 2 } },
+        { "id": "dumai_2", "name": "腰俞", "order": 2, "zhenqiCost": 50, "effect": { "attack": 2 } },
+        { "id": "dumai_3", "name": "命门", "order": 3, "zhenqiCost": 80, "effect": { "attack": 5 } },
+        { "id": "dumai_4", "name": "悬枢", "order": 4, "zhenqiCost": 80, "effect": { "critRate": 0.01 } },
+        { "id": "dumai_5", "name": "脊中", "order": 5, "zhenqiCost": 100, "effect": { "attack": 4 } },
+        { "id": "dumai_6", "name": "中枢", "order": 6, "zhenqiCost": 120, "effect": { "critDamage": 0.05 } },
+        { "id": "dumai_7", "name": "筋缩", "order": 7, "zhenqiCost": 140, "effect": { "attack": 5 } },
+        { "id": "dumai_8", "name": "至阳", "order": 8, "zhenqiCost": 160, "effect": { "attack": 6 } },
+        { "id": "dumai_9", "name": "神道", "order": 9, "zhenqiCost": 180, "effect": { "critRate": 0.02 } },
+        { "id": "dumai_10", "name": "灵台", "order": 10, "zhenqiCost": 220, "effect": { "attack": 8, "critDamage": 0.1 } }
+      ],
+      "completionBonus": {
+        "name": "督脉贯通",
+        "description": "暴击伤害倍率+30%（从150%变为180%）",
+        "effects": { "critDamageBonus": 0.3 }
+      }
+    },
+    {
+      "id": "chongmai",
+      "name": "冲脉",
+      "focus": "内力",
+      "acupoints": [
+        { "id": "chongmai_1", "name": "气冲", "order": 1, "zhenqiCost": 100, "effect": { "qi": 20 } },
+        { "id": "chongmai_2", "name": "阴交", "order": 2, "zhenqiCost": 120, "effect": { "qiRegen": 1 } },
+        { "id": "chongmai_3", "name": "盲俞", "order": 3, "zhenqiCost": 140, "effect": { "qi": 30 } },
+        { "id": "chongmai_4", "name": "商曲", "order": 4, "zhenqiCost": 160, "effect": { "qiRegen": 1 } },
+        { "id": "chongmai_5", "name": "石关", "order": 5, "zhenqiCost": 180, "effect": { "qi": 40 } },
+        { "id": "chongmai_6", "name": "阴都", "order": 6, "zhenqiCost": 200, "effect": { "qiRegen": 2 } },
+        { "id": "chongmai_7", "name": "通谷", "order": 7, "zhenqiCost": 220, "effect": { "qi": 50 } },
+        { "id": "chongmai_8", "name": "幽门", "order": 8, "zhenqiCost": 260, "effect": { "qi": 60, "qiRegen": 2 } }
+      ],
+      "completionBonus": {
+        "name": "冲脉贯通",
+        "description": "释放奥义技后，恢复消耗内力值的30%",
+        "effects": { "ultimateQiRefund": 0.3 }
+      }
+    },
+    {
+      "id": "daimai",
+      "name": "带脉",
+      "focus": "速度",
+      "acupoints": [
+        { "id": "daimai_1", "name": "带脉", "order": 1, "zhenqiCost": 50, "effect": { "speed": 2 } },
+        { "id": "daimai_2", "name": "五枢", "order": 2, "zhenqiCost": 60, "effect": { "speed": 3 } },
+        { "id": "daimai_3", "name": "维道", "order": 3, "zhenqiCost": 80, "effect": { "speed": 3 } },
+        { "id": "daimai_4", "name": "天冲", "order": 4, "zhenqiCost": 100, "effect": { "speed": 4 } },
+        { "id": "daimai_5", "name": "浮白", "order": 5, "zhenqiCost": 120, "effect": { "dodgeRate": 0.01 } },
+        { "id": "daimai_6", "name": "头窍阴", "order": 6, "zhenqiCost": 140, "effect": { "speed": 5 } },
+        { "id": "daimai_7", "name": "完骨", "order": 7, "zhenqiCost": 160, "effect": { "speed": 5 } },
+        { "id": "daimai_8", "name": "本神", "order": 8, "zhenqiCost": 200, "effect": { "speed": 8, "dodgeRate": 0.02 } }
+      ],
+      "completionBonus": {
+        "name": "带脉贯通",
+        "description": "每回合有20%概率获得额外一次行动机会",
+        "effects": { "extraActionChance": 0.2 }
+      }
+    },
+    {
+      "id": "yinqiaomai",
+      "name": "阴跷脉",
+      "focus": "闪避",
+      "acupoints": [
+        { "id": "yinqiao_1", "name": "然谷", "order": 1, "zhenqiCost": 70, "effect": { "dodgeRate": 0.01 } },
+        { "id": "yinqiao_2", "name": "照海", "order": 2, "zhenqiCost": 90, "effect": { "dodgeRate": 0.01 } },
+        { "id": "yinqiao_3", "name": "交信", "order": 3, "zhenqiCost": 110, "effect": { "dodgeRate": 0.015 } },
+        { "id": "yinqiao_4", "name": "阴谷", "order": 4, "zhenqiCost": 130, "effect": { "dodgeRate": 0.015 } },
+        { "id": "yinqiao_5", "name": "横骨", "order": 5, "zhenqiCost": 150, "effect": { "dodgeRate": 0.02 } },
+        { "id": "yinqiao_6", "name": "气穴", "order": 6, "zhenqiCost": 170, "effect": { "dodgeRate": 0.02 } },
+        { "id": "yinqiao_7", "name": "四满", "order": 7, "zhenqiCost": 190, "effect": { "dodgeRate": 0.025 } },
+        { "id": "yinqiao_8", "name": "中注", "order": 8, "zhenqiCost": 230, "effect": { "dodgeRate": 0.03 } }
+      ],
+      "completionBonus": {
+        "name": "阴跷脉贯通",
+        "description": "闪避成功后，下一次攻击必定暴击",
+        "effects": { "guaranteedCritAfterDodge": 1 }
+      }
+    },
+    {
+      "id": "yangqiaomai",
+      "name": "阳跷脉",
+      "focus": "暴击",
+      "acupoints": [
+        { "id": "yangqiao_1", "name": "申脉", "order": 1, "zhenqiCost": 90, "effect": { "critRate": 0.008 } },
+        { "id": "yangqiao_2", "name": "仆参", "order": 2, "zhenqiCost": 110, "effect": { "critRate": 0.008 } },
+        { "id": "yangqiao_3", "name": "跗阳", "order": 3, "zhenqiCost": 130, "effect": { "critRate": 0.01 } },
+        { "id": "yangqiao_4", "name": "居髎", "order": 4, "zhenqiCost": 150, "effect": { "critDamage": 0.05 } },
+        { "id": "yangqiao_5", "name": "臑俞", "order": 5, "zhenqiCost": 170, "effect": { "critRate": 0.012 } },
+        { "id": "yangqiao_6", "name": "巨骨", "order": 6, "zhenqiCost": 190, "effect": { "critDamage": 0.05 } },
+        { "id": "yangqiao_7", "name": "天髎", "order": 7, "zhenqiCost": 210, "effect": { "critRate": 0.015 } },
+        { "id": "yangqiao_8", "name": "地仓", "order": 8, "zhenqiCost": 240, "effect": { "critDamage": 0.08 } },
+        { "id": "yangqiao_9", "name": "巨髎", "order": 9, "zhenqiCost": 280, "effect": { "critRate": 0.02, "critDamage": 0.1 } }
+      ],
+      "completionBonus": {
+        "name": "阳跷脉贯通",
+        "description": "暴击时附加目标最大生命值5%的真实伤害",
+        "effects": { "critTrueDamage": 0.05 }
+      }
+    },
+    {
+      "id": "yinweimai",
+      "name": "阴维脉",
+      "focus": "韧性",
+      "acupoints": [
+        { "id": "yinwei_1", "name": "筑宾", "order": 1, "zhenqiCost": 60, "effect": { "tenacity": 0.02 } },
+        { "id": "yinwei_2", "name": "腹哀", "order": 2, "zhenqiCost": 80, "effect": { "tenacity": 0.02 } },
+        { "id": "yinwei_3", "name": "大横", "order": 3, "zhenqiCost": 100, "effect": { "tenacity": 0.03 } },
+        { "id": "yinwei_4", "name": "府舍", "order": 4, "zhenqiCost": 120, "effect": { "tenacity": 0.03 } },
+        { "id": "yinwei_5", "name": "期门", "order": 5, "zhenqiCost": 140, "effect": { "tenacity": 0.04 } },
+        { "id": "yinwei_6", "name": "天突", "order": 6, "zhenqiCost": 160, "effect": { "tenacity": 0.04 } },
+        { "id": "yinwei_7", "name": "廉泉", "order": 7, "zhenqiCost": 200, "effect": { "tenacity": 0.05 } }
+      ],
+      "completionBonus": {
+        "name": "阴维脉贯通",
+        "description": "异常状态持续时间-1回合（最少1回合）",
+        "effects": { "statusDurationReduction": 1 }
+      }
+    },
+    {
+      "id": "yangweimai",
+      "name": "阳维脉",
+      "focus": "命中",
+      "acupoints": [
+        { "id": "yangwei_1", "name": "金门", "order": 1, "zhenqiCost": 80, "effect": { "hitRate": 0.01 } },
+        { "id": "yangwei_2", "name": "阳交", "order": 2, "zhenqiCost": 100, "effect": { "hitRate": 0.01 } },
+        { "id": "yangwei_3", "name": "臑俞", "order": 3, "zhenqiCost": 120, "effect": { "hitRate": 0.015 } },
+        { "id": "yangwei_4", "name": "天髎", "order": 4, "zhenqiCost": 140, "effect": { "hitRate": 0.015 } },
+        { "id": "yangwei_5", "name": "肩井", "order": 5, "zhenqiCost": 160, "effect": { "hitRate": 0.02 } },
+        { "id": "yangwei_6", "name": "头维", "order": 6, "zhenqiCost": 180, "effect": { "hitRate": 0.02 } },
+        { "id": "yangwei_7", "name": "本神", "order": 7, "zhenqiCost": 200, "effect": { "hitRate": 0.025 } },
+        { "id": "yangwei_8", "name": "阳白", "order": 8, "zhenqiCost": 220, "effect": { "hitRate": 0.025 } },
+        { "id": "yangwei_9", "name": "头临泣", "order": 9, "zhenqiCost": 260, "effect": { "hitRate": 0.03 } }
+      ],
+      "completionBonus": {
+        "name": "阳维脉贯通",
+        "description": "攻击无视目标10%防御和10%闪避",
+        "effects": { "ignoreDefense": 0.1, "ignoreDodge": 0.1 }
+      }
+    }
+  ]
+}

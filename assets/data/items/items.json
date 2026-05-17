@@ -1,0 +1,273 @@
+{
+  "equipment": [
+    {
+      "id": "iron_sword",
+      "name": "铁剑",
+      "slot": "weapon",
+      "rarity": "common",
+      "weaponType": "sword",
+      "levelRequired": 1,
+      "description": "普通的铁制长剑，江湖中最常见的兵器。",
+      "baseStats": { "attack": 10 },
+      "price": 50,
+      "craftable": true,
+      "craftRecipe": { "forgeLevel": 1, "materials": { "iron_ore": 5 }, "successRate": 0.9 }
+    },
+    {
+      "id": "steel_sword",
+      "name": "精钢剑",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "weaponType": "sword",
+      "levelRequired": 5,
+      "description": "以精钢锻造的长剑，锋锐无匹。",
+      "baseStats": { "attack": 22 },
+      "bonusStats": { "critRate": 0.02 },
+      "affixes": [
+        { "id": "sharp_edge", "name": "锋利", "effect": { "attack": 5 } },
+        { "id": "balanced", "name": "均衡", "effect": { "hitRate": 0.03 } }
+      ],
+      "price": 500,
+      "craftable": true,
+      "craftRecipe": { "forgeLevel": 5, "materials": { "iron_ore": 10, "steel_ingot": 2 }, "successRate": 0.75 }
+    },
+    {
+      "id": "ice_sword",
+      "name": "寒冰剑",
+      "slot": "weapon",
+      "rarity": "rare",
+      "weaponType": "sword",
+      "levelRequired": 15,
+      "description": "以北冥寒铁铸造的宝剑，剑身常覆薄霜，水属性武学威力大增。",
+      "baseStats": { "attack": 40, "innerPower": 15 },
+      "bonusStats": { "critRate": 0.05, "critDamage": 0.1 },
+      "affixes": [
+        { "id": "frost_touch", "name": "霜寒", "effect": { "waterDamageBonus": 0.15 } },
+        { "id": "chill_strike", "name": "冻骨", "effect": { "frostChillOnHit": 0.1 } }
+      ],
+      "price": 5000,
+      "craftable": true,
+      "craftRecipe": { "forgeLevel": 10, "materials": { "cold_iron": 8, "ice_crystal": 3 }, "successRate": 0.6 }
+    },
+    {
+      "id": "xuan_iron_sword",
+      "name": "玄铁重剑",
+      "slot": "weapon",
+      "rarity": "epic",
+      "weaponType": "sword",
+      "levelRequired": 30,
+      "description": "以天外陨铁铸造的重剑，重剑无锋，大巧不工。唯有膂力过人者方能驾驭。",
+      "baseStats": { "attack": 75, "defense": 20 },
+      "bonusStats": { "critDamage": 0.25 },
+      "affixes": [
+        { "id": "unstoppable", "name": "破军", "effect": { "ignoreDefense": 0.2 } },
+        { "id": "heavy_strike", "name": "重击", "effect": { "stunChance": 0.1 } },
+        { "id": "iron_body", "name": "铁骨", "effect": { "hp": 200 } }
+      ],
+      "price": 50000,
+      "craftable": true,
+      "craftRecipe": { "forgeLevel": 15, "materials": { "xuan_iron": 5, "meteorite": 1 }, "successRate": 0.45 }
+    },
+    {
+      "id": "cloth_armor",
+      "name": "布衣",
+      "slot": "body",
+      "rarity": "common",
+      "levelRequired": 1,
+      "description": "粗布缝制的衣物，江湖路人最常见的穿着。",
+      "baseStats": { "defense": 3, "hp": 20 },
+      "price": 30
+    },
+    {
+      "id": "taoist_robe",
+      "name": "道袍",
+      "slot": "body",
+      "rarity": "uncommon",
+      "levelRequired": 5,
+      "description": "武当弟子常穿的青色道袍，透气舒适，适合修炼内功。",
+      "baseStats": { "defense": 8, "qi": 30 },
+      "bonusStats": { "dodgeRate": 0.02 },
+      "price": 300
+    },
+    {
+      "id": "iron_armor",
+      "name": "铁甲",
+      "slot": "body",
+      "rarity": "rare",
+      "levelRequired": 15,
+      "description": "精铁打造的铠甲，防御力出众但略显笨重。",
+      "baseStats": { "defense": 25, "hp": 100 },
+      "bonusStats": { "blockRate": 0.05 },
+      "price": 3000
+    },
+    {
+      "id": "cloth_shoes",
+      "name": "布鞋",
+      "slot": "feet",
+      "rarity": "common",
+      "levelRequired": 1,
+      "description": "普通的布鞋，轻便舒适。",
+      "baseStats": { "speed": 3 },
+      "price": 20
+    },
+    {
+      "id": "wind_boots",
+      "name": "疾风靴",
+      "slot": "feet",
+      "rarity": "rare",
+      "levelRequired": 12,
+      "description": "以上等皮革制成，轻便而坚韧，穿上后健步如飞。",
+      "baseStats": { "speed": 12 },
+      "bonusStats": { "dodgeRate": 0.04 },
+      "price": 2000
+    },
+    {
+      "id": "jade_pendant",
+      "name": "护身玉佩",
+      "slot": "accessory1",
+      "rarity": "uncommon",
+      "levelRequired": 5,
+      "description": "刻有护身符文的玉佩，可保平安。",
+      "baseStats": { "qi": 20, "innerDefense": 5 },
+      "price": 800
+    }
+  ],
+
+  "consumables": [
+    {
+      "id": "jinchuang_yao",
+      "name": "金疮药",
+      "type": "healing",
+      "rarity": "common",
+      "description": "江湖中最常见的外伤药，撒在伤口上能迅速止血。",
+      "effects": { "healAmount": 200 },
+      "duration": 0,
+      "cooldown": 30,
+      "price": 20,
+      "craftRecipe": { "alchemyLevel": 1, "materials": { "zhixue_cao": 3 } }
+    },
+    {
+      "id": "xiaohuan_dan",
+      "name": "小还丹",
+      "type": "healing",
+      "rarity": "uncommon",
+      "description": "少林寺秘制的疗伤丹药，对内伤有奇效。",
+      "effects": { "healAmount": 500 },
+      "duration": 0,
+      "cooldown": 60,
+      "price": 100,
+      "craftRecipe": { "alchemyLevel": 3, "materials": { "zhixue_cao": 5, "lingzhi": 1 } }
+    },
+    {
+      "id": "dahuan_dan",
+      "name": "大还丹",
+      "type": "healing",
+      "rarity": "rare",
+      "description": "少林寺不传之秘，据说有起死回生之效。",
+      "effects": { "healAmount": 1000 },
+      "duration": 0,
+      "cooldown": 120,
+      "price": 500,
+      "craftRecipe": { "alchemyLevel": 7, "materials": { "lingzhi": 3, "renshen": 1 } }
+    },
+    {
+      "id": "huiqi_dan",
+      "name": "回气丹",
+      "type": "qiRestore",
+      "rarity": "common",
+      "description": "恢复内力的基础丹药。",
+      "effects": { "qiRestore": 50 },
+      "duration": 0,
+      "cooldown": 45,
+      "price": 30,
+      "craftRecipe": { "alchemyLevel": 2, "materials": { "juqi_cao": 3 } }
+    },
+    {
+      "id": "juqi_dan",
+      "name": "聚气丹",
+      "type": "qiRestore",
+      "rarity": "uncommon",
+      "description": "浓缩天地灵气而成的丹药，可大幅恢复内力。",
+      "effects": { "qiRestore": 150 },
+      "duration": 0,
+      "cooldown": 90,
+      "price": 150,
+      "craftRecipe": { "alchemyLevel": 6, "materials": { "juqi_cao": 5, "xuelian": 1 } }
+    },
+    {
+      "id": "peiyuan_dan",
+      "name": "培元丹",
+      "type": "permanent",
+      "rarity": "epic",
+      "description": "以珍稀药材炼制，服用后永久增强体质。一生只能服用三颗。",
+      "effects": { "permanentHp": 20 },
+      "duration": 0,
+      "cooldown": 0,
+      "price": 10000,
+      "craftRecipe": { "alchemyLevel": 10, "materials": { "lingzhi": 10, "xuelian": 5 } }
+    },
+    {
+      "id": "xisui_dan",
+      "name": "洗髓丹",
+      "type": "special",
+      "rarity": "legendary",
+      "description": "传说中的神丹，可洗筋伐髓，重置全身属性。",
+      "effects": { "resetAttributes": 1 },
+      "duration": 0,
+      "cooldown": 0,
+      "price": 100000,
+      "craftRecipe": { "alchemyLevel": 15, "materials": { "qiannian_lingzhi": 1, "tianshan_xuelian": 1 } }
+    },
+    {
+      "id": "zhenqi_dan",
+      "name": "真气丹",
+      "type": "cultivation",
+      "rarity": "rare",
+      "description": "蕴含大量真气的丹药，服用后可获得真气用于打通经脉。",
+      "effects": { "zhenqi": 50 },
+      "duration": 0,
+      "cooldown": 300,
+      "price": 2000,
+      "craftRecipe": { "alchemyLevel": 8, "materials": { "juqi_cao": 10, "ice_crystal": 3 } }
+    },
+    {
+      "id": "attack_incense",
+      "name": "金刚香",
+      "type": "buff",
+      "rarity": "uncommon",
+      "description": "点燃后散发特殊香气，闻之精神振奋，攻击力临时提升。",
+      "effects": { "attackBuff": 0.1 },
+      "duration": 30,
+      "cooldown": 600,
+      "price": 200
+    }
+  ],
+
+  "materials": [
+    { "id": "iron_ore", "name": "铁矿石", "type": "ore", "rarity": "common", "sourceRegions": ["zhongyuan", "shuzhong"], "gatherSkillRequired": 0, "price": 5 },
+    { "id": "copper_ore", "name": "铜矿石", "type": "ore", "rarity": "common", "sourceRegions": ["zhongyuan"], "gatherSkillRequired": 0, "price": 3 },
+    { "id": "steel_ingot", "name": "钢锭", "type": "ore", "rarity": "uncommon", "sourceRegions": ["zhongyuan"], "gatherSkillRequired": 3, "price": 50 },
+    { "id": "cold_iron", "name": "寒铁", "type": "ore", "rarity": "rare", "sourceRegions": ["beining"], "gatherSkillRequired": 8, "price": 500 },
+    { "id": "xuan_iron", "name": "玄铁", "type": "ore", "rarity": "epic", "sourceRegions": ["xiyu"], "gatherSkillRequired": 12, "price": 3000 },
+    { "id": "meteorite", "name": "陨铁", "type": "ore", "rarity": "legendary", "sourceRegions": ["xiyu"], "gatherSkillRequired": 18, "price": 20000 },
+    { "id": "ice_crystal", "name": "冰晶石", "type": "gem", "rarity": "rare", "sourceRegions": ["beining"], "gatherSkillRequired": 6, "price": 400 },
+    { "id": "fire_crystal", "name": "火晶石", "type": "gem", "rarity": "rare", "sourceRegions": ["xiyu"], "gatherSkillRequired": 6, "price": 400 },
+    { "id": "pearl", "name": "珍珠", "type": "gem", "rarity": "uncommon", "sourceRegions": ["donghai"], "gatherSkillRequired": 2, "price": 150 },
+    { "id": "zhixue_cao", "name": "止血草", "type": "herb", "rarity": "common", "sourceRegions": ["zhongyuan", "shuzhong", "donghai"], "gatherSkillRequired": 0, "price": 3 },
+    { "id": "juqi_cao", "name": "聚气草", "type": "herb", "rarity": "common", "sourceRegions": ["zhongyuan", "beining"], "gatherSkillRequired": 0, "price": 5 },
+    { "id": "lingzhi", "name": "灵芝", "type": "herb", "rarity": "uncommon", "sourceRegions": ["shuzhong", "nanjiang"], "gatherSkillRequired": 3, "price": 80 },
+    { "id": "renshen", "name": "人参", "type": "herb", "rarity": "rare", "sourceRegions": ["beining"], "gatherSkillRequired": 5, "price": 300 },
+    { "id": "xuelian", "name": "雪莲", "type": "herb", "rarity": "rare", "sourceRegions": ["beining"], "gatherSkillRequired": 7, "price": 500 },
+    { "id": "qiannian_lingzhi", "name": "千年灵芝", "type": "herb", "rarity": "legendary", "sourceRegions": ["nanjiang"], "gatherSkillRequired": 15, "price": 30000 },
+    { "id": "tianshan_xuelian", "name": "天山雪莲", "type": "herb", "rarity": "legendary", "sourceRegions": ["beining"], "gatherSkillRequired": 15, "price": 30000 },
+    { "id": "jinsi_nanmu", "name": "金丝楠木", "type": "wood", "rarity": "rare", "sourceRegions": ["shuzhong"], "gatherSkillRequired": 5, "price": 400 },
+    { "id": "silk", "name": "蚕丝", "type": "cloth", "rarity": "uncommon", "sourceRegions": ["shuzhong", "donghai"], "gatherSkillRequired": 0, "price": 30 }
+  ],
+
+  "skillBooks": [
+    { "id": "book_taichi", "name": "太极拳谱", "skillId": "taichi_quan", "skillType": "external", "rarity": "legendary", "description": "武当派张三丰真人所著的太极拳谱，字字珠玑。", "isFragment": false, "price": 0 },
+    { "id": "book_xuanming", "name": "玄冥神掌秘籍", "skillId": "xuanming_zhang", "skillType": "external", "rarity": "epic", "description": "雪山派玄冥神掌的完整修炼法门。", "isFragment": false, "price": 0 },
+    { "id": "fragment_jiuyang_1", "name": "九阳神功残卷（上）", "skillId": "jiuyang_shengong", "skillType": "internal", "rarity": "legendary", "description": "九阳神功的上半部残卷。", "isFragment": true, "fragmentsRequired": 3, "price": 50000 },
+    { "id": "book_lingbo", "name": "凌波微步秘籍", "skillId": "lingbo_weibu", "skillType": "lightness", "rarity": "legendary", "description": "失传已久的绝世轻功秘籍，不知为何流落江湖。", "isFragment": false, "price": 0 }
+  ]
+}

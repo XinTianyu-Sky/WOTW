@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wotw.game/schemas/characters.schema.json",
+  "title": "WOTW Characters & NPC Schema",
+  "description": "角色创建、NPC、同伴数据模型",
+
+  "definitions": {
+    "attributeSet": {
+      "type": "object",
+      "properties": {
+        "str": { "type": "integer", "description": "膂力" },
+        "agi": { "type": "integer", "description": "身法" },
+        "con": { "type": "integer", "description": "根骨" },
+        "int": { "type": "integer", "description": "悟性" },
+        "wil": { "type": "integer", "description": "定力" },
+        "lck": { "type": "integer", "description": "机缘" }
+      }
+    },
+    "npcSchedule": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timeStart": { "type": "integer", "description": "开始时辰（0-23）" },
+          "timeEnd": { "type": "integer" },
+          "location": { "type": "string", "description": "所在场景ID" },
+          "activity": { "type": "string", "enum": ["sleep", "work", "eat", "social", "wander", "train", "pray"] },
+          "interactable": { "type": "boolean", "description": "此时是否可交互" },
+          "conditions": { "type": "object", "description": "特殊条件（天气/日期等）" }
+        }
+      }
+    },
+    "dialogueNode": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "speaker": { "type": "string" },
+        "text": { "type": "string" },
+        "conditions": { "type": "object", "description": "显示条件（好感度/声望/任务状态）" },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": { "type": "string" },
+              "nextNode": { "type": "string" },
+              "effects": { "type": "object", "description": "选择后果" },
+              "conditions": { "type": "object" }
+            }
+          }
+        },
+        "nextNode": { "type": "string", "description": "无选项时的下一个节点" }
+      }
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "origins": { "type": "array", "items": { "$ref": "#/characterOrigin" } },
+    "npcTemplates": { "type": "array", "items": { "$ref": "#/npcTemplate" } },
+    "companions": { "type": "array", "items": { "$ref": "#/companion" } },
+    "meridians": { "$ref": "#/meridianData" }
+  },
+
+  "characterOrigin": {
+    "type": "object",
+    "required": ["id", "name", "description", "bonusAttributes", "startingSkill", "startingLocation", "specialEffect"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string", "description": "出身名称" },
+      "description": { "type": "string" },
+      "genderAllowed": { "type": "array", "items": { "type": "string", "enum": ["male", "female"] } },
+      "bonusAttributes": { "$ref": "#/definitions/attributeSet" },
+      "startingSkill": { "type": "string", "description": "初始武学ID" },
+      "startingLocation": { "type": "string", "description": "初始场景ID" },
+      "startingItems": { "type": "array", "items": { "type": "string" } },
+      "specialEffect": { "type": "string", "description": "特殊效果描述" }
+    }
+  },
+
+  "npcTemplate": {
+    "type": "object",
+    "required": ["id", "name", "type", "location"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "title": { "type": "string", "description": "称号/身份" },
+      "type": { "type": "string", "enum": ["core_story", "functional", "sect", "town", "wild"] },
+      "location": { "type": "string", "description": "默认所在场景ID" },
+      "sectId": { "type": "string", "description": "所属门派ID" },
+      "baseAttributes": { "$ref": "#/definitions/attributeSet" },
+      "schedule": { "$ref": "#/definitions/npcSchedule" },
+      "affinityThresholds": {
+        "type": "object",
+        "description": "好感度等级阈值与对应行为",
+        "properties": {
+          "stranger": { "type": "object", "properties": { "min": { "type": "integer" }, "max": { "type": "integer" }, "discount": { "type": "number" } } },
+          "acquaintance": { "type": "object" },
+          "friendly": { "type": "object" },
+          "trusted": { "type": "object" },
+          "confidant": { "type": "object" },
+          "sworn": { "type": "object" }
+        }
+      },
+      "giftPreferences": {
+        "type": "object",
+        "properties": {
+          "loves": { "type": "array", "items": { "type": "string" } },
+          "likes": { "type": "array", "items": { "type": "string" } },
+          "dislikes": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "shopTable": { "type": "array", "items": { "type": "string" }, "description": "出售物品ID列表" },
+      "questsGiven": { "type": "array", "items": { "type": "string" } }
+    }
+  },
+
+  "companion": {
+    "type": "object",
+    "required": ["id", "name", "location", "recruitCondition", "combatRole"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "title": { "type": "string" },
+      "location": { "type": "string" },
+      "recruitCondition": { "type": "string", "description": "招募条件描述" },
+      "combatRole": { "type": "string", "enum": ["tank", "dps_melee", "dps_ranged", "control", "assassin", "healer", "support", "all_rounder"] },
+      "element": { "type": "string" },
+      "exclusiveSkill": { "type": "string", "description": "专属武学ID" },
+      "personalQuestline": { "type": "string", "description": "个人故事线ID" },
+      "baseAttributes": { "$ref": "#/definitions/attributeSet" },
+      "tacticsAvailable": {
+        "type": "array",
+        "items": { "type": "string", "enum": ["free", "aggressive", "defensive", "support", "conserve"] }
+      },
+      "backstory": { "type": "string" }
+    }
+  },
+
+  "meridianData": {
+    "type": "object",
+    "properties": {
+      "meridians": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "name", "focus", "acupoints"],
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "focus": { "type": "string", "description": "主攻方向" },
+            "acupoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "order": { "type": "integer" },
+                  "zhenqiCost": { "type": "integer" },
+                  "effect": { "type": "object", "additionalProperties": { "type": "number" } }
+                }
+              }
+            },
+            "completionBonus": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "effects": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

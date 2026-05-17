@@ -1,0 +1,387 @@
+{
+  "externalSkills": [
+    {
+      "id": "taichi_quan",
+      "name": "太极拳",
+      "description": "武当派镇派绝学，以柔克刚、以静制动。借力打力，后发先至，是道家武学哲学的集大成者。",
+      "source": "sect:wudang",
+      "element": "earth",
+      "rarity": "legendary",
+      "weaponType": "fist",
+      "requiredAttributes": { "con": 20, "int": 25 },
+      "techniques": [
+        {
+          "id": "taichi_qishou",
+          "name": "起手式",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.0 },
+          "effects": [],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 0 },
+            "transcendent": { "hiddenEffect": "起手式命中后，下一招太极拳武技内力消耗-5" }
+          }
+        },
+        {
+          "id": "taichi_lanquewei",
+          "name": "揽雀尾",
+          "type": "martial",
+          "qiCost": 15,
+          "cooldown": 2,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 0.8 },
+          "effects": [
+            {
+              "id": "counter_stance",
+              "name": "反击架势",
+              "type": "buff",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "counterDamageBonus": 0.5 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "反击伤害+100%（原+50%变为+100%）" }
+          }
+        },
+        {
+          "id": "taichi_danbian",
+          "name": "单鞭",
+          "type": "martial",
+          "qiCost": 20,
+          "cooldown": 3,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.2 },
+          "effects": [
+            {
+              "id": "armor_break",
+              "name": "破甲",
+              "type": "debuff",
+              "duration": 2,
+              "stackable": true,
+              "maxStacks": 3,
+              "effects": { "defense": -0.1 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "破甲效果翻倍（每层-20%防御）" }
+          }
+        },
+        {
+          "id": "taichi_yunshou",
+          "name": "云手",
+          "type": "martial",
+          "qiCost": 25,
+          "cooldown": 3,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 0.6 },
+          "effects": [
+            {
+              "id": "force_deflection",
+              "name": "卸力",
+              "type": "buff",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "incomingDamageReduction": 0.4 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "卸力效果从-40%变为-60%" }
+          }
+        },
+        {
+          "id": "taichi_rufengsibi",
+          "name": "如封似闭",
+          "type": "martial",
+          "qiCost": 30,
+          "cooldown": 4,
+          "range": { "min": 0, "max": 0, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 0.0 },
+          "effects": [
+            {
+              "id": "perfect_defense",
+              "name": "完美防御",
+              "type": "buff",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "defense": 2.0 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "qiCostReduction": 0.1 },
+            "grandmaster": { "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "防御时额外获得「真气护体」（免疫下一次异常状态）" }
+          },
+          "triggerCondition": { "type": "on_hit", "threshold": 0 }
+        },
+        {
+          "id": "taichi_banlanchui",
+          "name": "搬拦捶",
+          "type": "counter",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 2, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.8 },
+          "effects": [
+            {
+              "id": "knockback",
+              "name": "击退",
+              "type": "control",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "pushDistance": 1 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": {},
+            "skilled": {},
+            "master": { "damageBonus": 0.1 },
+            "grandmaster": { "damageBonus": 0.2 },
+            "transcendent": { "hiddenEffect": "击退距离+1格，若目标撞墙则附加「眩晕」1回合" }
+          }
+        },
+        {
+          "id": "taichi_guiyuan",
+          "name": "太极归元",
+          "type": "ultimate",
+          "qiCost": 50,
+          "cooldown": 6,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 2.5 },
+          "effects": [
+            {
+              "id": "life_restore",
+              "name": "归元回春",
+              "type": "buff",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "healPercent": 0.2 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "恢复量从20%提升至35%，同时清除所有负面状态" }
+          }
+        }
+      ],
+      "comboChains": [
+        {
+          "sequence": ["taichi_yunshou", "taichi_danbian", "taichi_lanquewei"],
+          "bonusEffect": {
+            "id": "combo_crit",
+            "name": "太极连击",
+            "type": "buff",
+            "duration": 1,
+            "stackable": false,
+            "effects": { "guaranteedCrit": 1, "innerWound": 1 }
+          },
+          "description": "云手→单鞭→揽雀尾：第三招必定暴击，附加「内伤」状态（每回合损失内力5点，持续3回合）"
+        },
+        {
+          "sequence": ["taichi_lanquewei", "taichi_rufengsibi"],
+          "bonusEffect": {
+            "id": "combo_ultimate",
+            "name": "太极奥义",
+            "type": "buff",
+            "duration": 1,
+            "stackable": false,
+            "effects": { "qiCostReduction": 1.0 }
+          },
+          "description": "揽雀尾→如封似闭：若触发搬拦捶反击，则太极归元冷却立即重置"
+        }
+      ]
+    },
+    {
+      "id": "xuanming_zhang",
+      "name": "玄冥神掌",
+      "description": "雪山派独门绝学，至阴至寒的掌法。掌风过处，冰封三尺，中者寒气入体，如坠冰窟。",
+      "source": "sect:xueshan",
+      "element": "water",
+      "rarity": "epic",
+      "weaponType": "fist",
+      "requiredAttributes": { "con": 18, "wil": 20 },
+      "techniques": [
+        {
+          "id": "xuanming_hanbing",
+          "name": "寒冰掌",
+          "type": "basic",
+          "qiCost": 10,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "innerPower", "multiplier": 0.8 },
+          "effects": [
+            {
+              "id": "frost_chill",
+              "name": "寒气",
+              "type": "debuff",
+              "duration": 3,
+              "stackable": true,
+              "maxStacks": 5,
+              "effects": { "speed": -0.05 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2 },
+            "transcendent": { "hiddenEffect": "附加寒气从1层变为2层" }
+          }
+        },
+        {
+          "id": "xuanming_shuanghua",
+          "name": "霜华满天",
+          "type": "martial",
+          "qiCost": 25,
+          "cooldown": 3,
+          "range": { "min": 1, "max": 3, "areaType": "square", "areaSize": 3 },
+          "damageFormula": { "stat": "innerPower", "multiplier": 0.6 },
+          "effects": [
+            {
+              "id": "frost_chill_aoe",
+              "name": "寒气",
+              "type": "debuff",
+              "duration": 3,
+              "stackable": true,
+              "maxStacks": 5,
+              "effects": { "speed": -0.05 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "范围从3×3扩大为5×5" }
+          }
+        },
+        {
+          "id": "xuanming_bingfeng",
+          "name": "冰封三尺",
+          "type": "martial",
+          "qiCost": 30,
+          "cooldown": 4,
+          "range": { "min": 1, "max": 2, "areaType": "single" },
+          "damageFormula": { "stat": "innerPower", "multiplier": 1.5 },
+          "effects": [],
+          "conditionalEffects": [
+            {
+              "condition": "targetHasStacks:frost_chill>=3",
+              "effects": [
+                {
+                  "id": "frozen",
+                  "name": "冰冻",
+                  "type": "control",
+                  "duration": 1,
+                  "stackable": false,
+                  "effects": { "skipTurn": 1 }
+                }
+              ]
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "寒气≥2层即可触发冰冻" }
+          }
+        },
+        {
+          "id": "xuanming_tuxi",
+          "name": "玄冥吐息",
+          "type": "martial",
+          "qiCost": 20,
+          "cooldown": 2,
+          "range": { "min": 1, "max": 4, "areaType": "line", "areaSize": 4 },
+          "damageFormula": { "stat": "innerPower", "multiplier": 1.0 },
+          "effects": [
+            {
+              "id": "self_cleanse",
+              "name": "寒冰净身",
+              "type": "buff",
+              "duration": 1,
+              "stackable": false,
+              "effects": { "cleanseAllDebuffs": 1 }
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2 },
+            "transcendent": { "hiddenEffect": "清除自身debuff的同时，将清除的debuff随机转移给被命中的一名敌人" }
+          }
+        },
+        {
+          "id": "xuanming_zero",
+          "name": "绝对零度",
+          "type": "ultimate",
+          "qiCost": 60,
+          "cooldown": 8,
+          "range": { "min": 0, "max": 0, "areaType": "global", "areaSize": 0 },
+          "damageFormula": { "stat": "innerPower", "multiplier": 3.0 },
+          "effects": [],
+          "conditionalEffects": [
+            {
+              "condition": "targetHasStacks:frost_chill>=1",
+              "effects": [
+                {
+                  "id": "frozen_all",
+                  "name": "冰冻",
+                  "type": "control",
+                  "duration": 1,
+                  "stackable": false,
+                  "effects": { "skipTurn": 1 }
+                }
+              ]
+            }
+          ],
+          "proficiencyBonus": {
+            "beginner": { "qiCostMultiplier": 1.2 },
+            "skilled": {},
+            "master": { "damageBonus": 0.1, "qiCostReduction": 0.1 },
+            "grandmaster": { "damageBonus": 0.2, "cooldownReduction": 1 },
+            "transcendent": { "hiddenEffect": "对所有敌人附加2层「寒气」，无视是否已有寒气" }
+          }
+        }
+      ],
+      "comboChains": [
+        {
+          "sequence": ["xuanming_hanbing", "xuanming_hanbing", "xuanming_bingfeng"],
+          "bonusEffect": {
+            "id": "combo_deepfreeze",
+            "name": "深寒",
+            "type": "buff",
+            "duration": 1,
+            "stackable": false,
+            "effects": { "freezeDurationPlus": 1 }
+          },
+          "description": "寒冰掌→寒冰掌→冰封三尺：冰冻效果延长1回合"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://world_scene"]
+
+[ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
+[ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_world_mgr")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(400, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_camera")
+enabled = true
+zoom = Vector2(1, 1)
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+
+[node name="DialogueLayer" type="CanvasLayer" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="."]

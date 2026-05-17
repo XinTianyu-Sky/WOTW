@@ -1,0 +1,174 @@
+{
+  "internalSkills": [
+    {
+      "id": "jiuyang_shengong",
+      "name": "九阳神功",
+      "description": "少林寺镇寺之宝，纯阳内功的至高境界。练至大成，百毒不侵，寒暑不惧，内力生生不息。",
+      "element": "fire",
+      "rarity": "mythic",
+      "source": "sect:shaolin",
+      "realms": [
+        {
+          "level": 1,
+          "name": "初窥门径",
+          "cultivationRequired": 100,
+          "breakthroughRequirements": {},
+          "statMultipliers": { "hp": 0.05, "qi": 0.05, "attack": 0.03, "defense": 0.03 },
+          "specialEffects": []
+        },
+        {
+          "level": 2,
+          "name": "略有小成",
+          "cultivationRequired": 500,
+          "breakthroughRequirements": { "con": 10 },
+          "statMultipliers": { "hp": 0.10, "qi": 0.10, "attack": 0.06, "defense": 0.06 },
+          "specialEffects": ["每回合恢复2%生命值"]
+        },
+        {
+          "level": 3,
+          "name": "登堂入室",
+          "cultivationRequired": 2000,
+          "breakthroughRequirements": { "con": 20 },
+          "statMultipliers": { "hp": 0.15, "qi": 0.15, "attack": 0.10, "defense": 0.10 },
+          "specialEffects": ["每回合恢复2%生命值", "免疫「中毒」状态"]
+        },
+        {
+          "level": 4,
+          "name": "炉火纯青",
+          "cultivationRequired": 5000,
+          "breakthroughRequirements": { "con": 35 },
+          "statMultipliers": { "hp": 0.22, "qi": 0.22, "attack": 0.15, "defense": 0.15 },
+          "specialEffects": ["每回合恢复2%生命值", "免疫「中毒」状态", "每回合恢复5%内力"]
+        },
+        {
+          "level": 5,
+          "name": "出神入化",
+          "cultivationRequired": 12000,
+          "breakthroughRequirements": { "con": 50, "item": "taiyang_jinshi" },
+          "statMultipliers": { "hp": 0.30, "qi": 0.30, "attack": 0.20, "defense": 0.20 },
+          "specialEffects": ["每回合恢复2%生命值", "免疫「中毒」状态", "每回合恢复5%内力", "免疫「冰冻」「灼烧」"]
+        },
+        {
+          "level": 6,
+          "name": "返璞归真",
+          "cultivationRequired": 30000,
+          "breakthroughRequirements": { "con": 70, "trial": "xinmo_shilian" },
+          "statMultipliers": { "hp": 0.40, "qi": 0.40, "attack": 0.28, "defense": 0.28 },
+          "specialEffects": ["每回合恢复2%生命值", "免疫「中毒」状态", "每回合恢复5%内力", "免疫「冰冻」「灼烧」", "生命低于30%时，伤害+50%"]
+        },
+        {
+          "level": 7,
+          "name": "天人合一",
+          "cultivationRequired": 60000,
+          "breakthroughRequirements": { "int": 80, "trial": "wudao_dunwu" },
+          "statMultipliers": { "hp": 0.50, "qi": 0.50, "attack": 0.35, "defense": 0.35 },
+          "specialEffects": ["每回合恢复2%生命值", "免疫「中毒」状态", "每回合恢复5%内力", "免疫「冰冻」「灼烧」", "生命低于30%时，伤害+50%", "濒死时触发「九阳护体」：3回合内无敌，冷却24小时"]
+        }
+      ]
+    },
+    {
+      "id": "hanbing_zhenqi",
+      "name": "寒冰真气",
+      "description": "雪山派内功心法，以至阴致寒之气锤炼内力。真气过处，滴水成冰，是水属性内功的极致。",
+      "element": "water",
+      "rarity": "epic",
+      "source": "sect:xueshan",
+      "realms": [
+        {
+          "level": 1, "name": "初窥门径", "cultivationRequired": 80,
+          "breakthroughRequirements": {},
+          "statMultipliers": { "qi": 0.08, "innerPower": 0.05, "defense": 0.02 },
+          "specialEffects": []
+        },
+        {
+          "level": 2, "name": "略有小成", "cultivationRequired": 400,
+          "breakthroughRequirements": { "con": 10 },
+          "statMultipliers": { "qi": 0.15, "innerPower": 0.10, "defense": 0.04 },
+          "specialEffects": ["冰系招式伤害+10%"]
+        },
+        {
+          "level": 3, "name": "登堂入室", "cultivationRequired": 1600,
+          "breakthroughRequirements": { "con": 18 },
+          "statMultipliers": { "qi": 0.22, "innerPower": 0.16, "defense": 0.07 },
+          "specialEffects": ["冰系招式伤害+10%", "攻击时有15%概率附加1层「寒气」"]
+        },
+        {
+          "level": 4, "name": "炉火纯青", "cultivationRequired": 4000,
+          "breakthroughRequirements": { "con": 30 },
+          "statMultipliers": { "qi": 0.30, "innerPower": 0.22, "defense": 0.10 },
+          "specialEffects": ["冰系招式伤害+20%", "攻击时有15%概率附加1层「寒气」"]
+        },
+        {
+          "level": 5, "name": "出神入化", "cultivationRequired": 10000,
+          "breakthroughRequirements": { "con": 45, "item": "wannian_hanbing" },
+          "statMultipliers": { "qi": 0.38, "innerPower": 0.30, "defense": 0.14 },
+          "specialEffects": ["冰系招式伤害+20%", "攻击时有25%概率附加1层「寒气」", "免疫「冰冻」"]
+        },
+        {
+          "level": 6, "name": "返璞归真", "cultivationRequired": 25000,
+          "breakthroughRequirements": { "con": 60, "trial": "bingku_shilian" },
+          "statMultipliers": { "qi": 0.46, "innerPower": 0.38, "defense": 0.18 },
+          "specialEffects": ["冰系招式伤害+30%", "攻击时有25%概率附加1层「寒气」", "免疫「冰冻」", "受到攻击时，攻击者获得1层「寒气」"]
+        },
+        {
+          "level": 7, "name": "天人合一", "cultivationRequired": 50000,
+          "breakthroughRequirements": { "int": 70, "trial": "juedui_lingdu" },
+          "statMultipliers": { "qi": 0.55, "innerPower": 0.48, "defense": 0.22 },
+          "specialEffects": ["冰系招式伤害+40%", "攻击时有35%概率附加1层「寒气」", "免疫「冰冻」", "受到攻击时，攻击者获得1层「寒气」", "对「冰冻」状态的目标伤害翻倍"]
+        }
+      ]
+    },
+    {
+      "id": "hunyuan_gong",
+      "name": "混元功",
+      "description": "丐帮内功心法，中正平和，大巧不工。不偏不倚，包罗万象，是土属性内功的代表。",
+      "element": "earth",
+      "rarity": "rare",
+      "source": "sect:gaibang",
+      "realms": [
+        {
+          "level": 1, "name": "初窥门径", "cultivationRequired": 60,
+          "breakthroughRequirements": {},
+          "statMultipliers": { "hp": 0.08, "defense": 0.05, "innerDefense": 0.03 },
+          "specialEffects": []
+        },
+        {
+          "level": 2, "name": "略有小成", "cultivationRequired": 300,
+          "breakthroughRequirements": { "con": 8 },
+          "statMultipliers": { "hp": 0.15, "defense": 0.10, "innerDefense": 0.06 },
+          "specialEffects": ["受到暴击伤害-20%"]
+        },
+        {
+          "level": 3, "name": "登堂入室", "cultivationRequired": 1200,
+          "breakthroughRequirements": { "con": 15 },
+          "statMultipliers": { "hp": 0.22, "defense": 0.15, "innerDefense": 0.10 },
+          "specialEffects": ["受到暴击伤害-20%", "每回合恢复3%生命值"]
+        },
+        {
+          "level": 4, "name": "炉火纯青", "cultivationRequired": 3000,
+          "breakthroughRequirements": { "con": 25 },
+          "statMultipliers": { "hp": 0.30, "defense": 0.20, "innerDefense": 0.15 },
+          "specialEffects": ["受到暴击伤害-30%", "每回合恢复3%生命值"]
+        },
+        {
+          "level": 5, "name": "出神入化", "cultivationRequired": 8000,
+          "breakthroughRequirements": { "con": 40 },
+          "statMultipliers": { "hp": 0.38, "defense": 0.26, "innerDefense": 0.20 },
+          "specialEffects": ["受到暴击伤害-30%", "每回合恢复3%生命值", "防御时额外获得最大生命值10%的护盾"]
+        },
+        {
+          "level": 6, "name": "返璞归真", "cultivationRequired": 20000,
+          "breakthroughRequirements": { "con": 55, "trial": "yijia_dunwu" },
+          "statMultipliers": { "hp": 0.46, "defense": 0.32, "innerDefense": 0.25 },
+          "specialEffects": ["受到暴击伤害-40%", "每回合恢复5%生命值", "防御时额外获得最大生命值10%的护盾"]
+        },
+        {
+          "level": 7, "name": "天人合一", "cultivationRequired": 40000,
+          "breakthroughRequirements": { "con": 70 },
+          "statMultipliers": { "hp": 0.55, "defense": 0.40, "innerDefense": 0.30 },
+          "specialEffects": ["受到暴击伤害-50%", "每回合恢复5%生命值", "防御时额外获得最大生命值15%的护盾", "生命低于20%时，防御力翻倍"]
+        }
+      ]
+    }
+  ]
+}

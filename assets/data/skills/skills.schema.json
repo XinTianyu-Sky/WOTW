@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wotw.game/schemas/skills.schema.json",
+  "title": "WOTW Skills Data Schema",
+  "description": "武学数据模型 —— 外功、内功、轻功的统一数据定义",
+
+  "definitions": {
+    "elementType": {
+      "type": "string",
+      "enum": ["metal", "wood", "water", "fire", "earth", "none"],
+      "description": "五行属性：金/木/水/火/土/无"
+    },
+
+    "skillRarity": {
+      "type": "string",
+      "enum": ["common", "uncommon", "rare", "epic", "legendary", "mythic"],
+      "description": "武学稀有度"
+    },
+
+    "realmLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "内功境界 1-7 重"
+    },
+
+    "proficiencyLevel": {
+      "type": "string",
+      "enum": ["beginner", "skilled", "master", "grandmaster", "transcendent"],
+      "description": "招式熟练度：初学/熟练/精通/大师/化境"
+    },
+
+    "statusEffect": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "状态ID" },
+        "name": { "type": "string", "description": "状态名称" },
+        "type": {
+          "type": "string",
+          "enum": ["buff", "debuff", "control"],
+          "description": "增益/减益/控制"
+        },
+        "duration": { "type": "integer", "description": "持续回合数" },
+        "stackable": { "type": "boolean", "description": "是否可叠加" },
+        "maxStacks": { "type": "integer", "description": "最大叠加层数" },
+        "effects": {
+          "type": "object",
+          "description": "具体效果，key为属性名，value为加成值（百分比用小数）",
+          "additionalProperties": { "type": "number" }
+        }
+      },
+      "required": ["id", "name", "type", "duration"]
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "externalSkills": {
+      "type": "array",
+      "description": "外功（招式武学）",
+      "items": { "$ref": "#/definitions/externalSkill" }
+    },
+    "internalSkills": {
+      "type": "array",
+      "description": "内功（心法）",
+      "items": { "$ref": "#/definitions/internalSkill" }
+    },
+    "lightnessSkills": {
+      "type": "array",
+      "description": "轻功（身法）",
+      "items": { "$ref": "#/definitions/lightnessSkill" }
+    }
+  },
+
+  "externalSkill": {
+    "type": "object",
+    "required": ["id", "name", "source", "element", "rarity", "techniques"],
+    "properties": {
+      "id": { "type": "string", "description": "唯一标识符，如 taichi_quan" },
+      "name": { "type": "string", "description": "武学名称" },
+      "description": { "type": "string", "description": "武学描述" },
+      "source": {
+        "type": "string",
+        "description": "获取来源：sect:<门派ID> / quest:<任务ID> / encounter / boss:<BossID> / shop / custom"
+      },
+      "element": { "$ref": "#/definitions/elementType" },
+      "rarity": { "$ref": "#/definitions/skillRarity" },
+      "weaponType": {
+        "type": "string",
+        "enum": ["sword", "blade", "spear", "staff", "fist", "hidden_weapon", "zither", "fan", "any"],
+        "description": "适配武器类型"
+      },
+      "requiredAttributes": {
+        "type": "object",
+        "description": "学习要求的主属性最低值",
+        "properties": {
+          "str": { "type": "integer" },
+          "agi": { "type": "integer" },
+          "con": { "type": "integer" },
+          "int": { "type": "integer" },
+          "wil": { "type": "integer" },
+          "lck": { "type": "integer" }
+        }
+      },
+      "techniques": {
+        "type": "array",
+        "description": "招式列表",
+        "items": {
+          "type": "object",
+          "required": ["id", "name", "type", "qiCost", "cooldown"],
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "type": {
+              "type": "string",
+              "enum": ["basic", "martial", "movement", "ultimate", "counter"],
+              "description": "普攻/武技/身法技/奥义/反击技"
+            },
+            "qiCost": { "type": "integer", "description": "内力消耗" },
+            "cooldown": { "type": "integer", "description": "冷却回合数" },
+            "range": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "integer", "default": 1 },
+                "max": { "type": "integer" },
+                "areaType": {
+                  "type": "string",
+                  "enum": ["single", "line", "cone", "square", "cross", "global"],
+                  "description": "单体/直线/锥形/方形/十字/全场"
+                },
+                "areaSize": { "type": "integer", "description": "范围大小（格数）" }
+              }
+            },
+            "damageFormula": {
+              "type": "object",
+              "properties": {
+                "stat": { "type": "string", "enum": ["attack", "innerPower"], "description": "攻击力/内劲" },
+                "multiplier": { "type": "number", "description": "伤害倍率" }
+              }
+            },
+            "effects": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/statusEffect" }
+            },
+            "proficiencyBonus": {
+              "type": "object",
+              "description": "熟练度加成（按熟练度等级）",
+              "properties": {
+                "beginner": { "type": "object", "properties": { "qiCostMultiplier": { "type": "number" } } },
+                "skilled": { "type": "object" },
+                "master": { "type": "object", "properties": { "damageBonus": { "type": "number" }, "qiCostReduction": { "type": "number" } } },
+                "grandmaster": { "type": "object", "properties": { "damageBonus": { "type": "number" }, "cooldownReduction": { "type": "integer" } } },
+                "transcendent": { "type": "object", "properties": { "hiddenEffect": { "type": "string" } } }
+              }
+            },
+            "triggerCondition": {
+              "type": "object",
+              "description": "仅反击技需要，触发条件",
+              "properties": {
+                "type": { "type": "string", "enum": ["on_hit", "on_dodge", "on_kill", "on_low_health"] },
+                "threshold": { "type": "number" }
+              }
+            }
+          }
+        }
+      },
+      "comboChains": {
+        "type": "array",
+        "description": "连击链定义",
+        "items": {
+          "type": "object",
+          "properties": {
+            "sequence": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "招式ID序列"
+            },
+            "bonusEffect": { "$ref": "#/definitions/statusEffect" },
+            "description": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+
+  "internalSkill": {
+    "type": "object",
+    "required": ["id", "name", "element", "rarity", "realms"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "element": { "$ref": "#/definitions/elementType" },
+      "rarity": { "$ref": "#/definitions/skillRarity" },
+      "source": { "type": "string" },
+      "realms": {
+        "type": "array",
+        "description": "七重境界",
+        "minItems": 7,
+        "maxItems": 7,
+        "items": {
+          "type": "object",
+          "required": ["level", "name", "cultivationRequired"],
+          "properties": {
+            "level": { "$ref": "#/definitions/realmLevel" },
+            "name": { "type": "string" },
+            "cultivationRequired": { "type": "integer", "description": "所需修炼值" },
+            "breakthroughRequirements": {
+              "type": "object",
+              "properties": {
+                "con": { "type": "integer", "description": "根骨要求" },
+                "int": { "type": "integer", "description": "悟性要求" },
+                "item": { "type": "string", "description": "突破道具ID" },
+                "trial": { "type": "string", "description": "试炼ID" }
+              }
+            },
+            "statMultipliers": {
+              "type": "object",
+              "description": "属性倍率（如 0.2 = 20%加成）",
+              "properties": {
+                "hp": { "type": "number" },
+                "qi": { "type": "number" },
+                "attack": { "type": "number" },
+                "defense": { "type": "number" },
+                "innerPower": { "type": "number" },
+                "innerDefense": { "type": "number" },
+                "speed": { "type": "number" }
+              }
+            },
+            "specialEffects": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "特殊效果描述列表"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "lightnessSkill": {
+    "type": "object",
+    "required": ["id", "name", "rarity", "combatMovementBonus"],
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "rarity": { "$ref": "#/definitions/skillRarity" },
+      "source": { "type": "string" },
+      "combatMovementBonus": { "type": "integer", "description": "战斗移动格数加成" },
+      "explorationEffects": {
+        "type": "object",
+        "properties": {
+          "canCrossWater": { "type": "boolean" },
+          "canCrossCliffs": { "type": "boolean" },
+          "terrainBonuses": {
+            "type": "object",
+            "description": "特定地形加成",
+            "additionalProperties": { "type": "number" }
+          }
+        }
+      },
+      "combatEffects": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "战斗特殊效果"
+      },
+      "cost": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["qi", "hp", "none"] },
+          "amount": { "type": "number" }
+        }
+      }
+    }
+  }
+}
