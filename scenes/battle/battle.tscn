@@ -11,6 +11,26 @@ script = ExtResource("1_battle_ctrl")
 
 [node name="BattleUI" type="CanvasLayer" parent="."]
 
+[node name="Background" type="ColorRect" parent="BattleUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.02, 0.02, 1)
+mouse_filter = 2
+
+[node name="BattleBanner" type="Label" parent="BattleUI"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 100.0
+offset_right = 560.0
+offset_bottom = 160.0
+text = "战斗中..."
+horizontal_alignment = 1
+theme_overrides/font_sizes/font_size = 24
+
 [node name="SkillPanel" type="Panel" parent="BattleUI"]
 visible = false
 layout_mode = 0
@@ -29,7 +49,7 @@ offset_bottom = 170.0
 [node name="BattleLog" type="RichTextLabel" parent="BattleUI"]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 20.0
+offset_top = 200.0
 offset_right = 400.0
-offset_bottom = 200.0
+offset_bottom = 600.0
 scroll_following = true

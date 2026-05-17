@@ -33,9 +33,9 @@ func _process(delta: float) -> void:
 	_clamp_to_bounds()
 
 	# 缩放控制（PC端鼠标滚轮）
-	if Input.is_action_pressed("zoom_in") and InputMap.has_action("zoom_in"):
+	if InputMap.has_action("zoom_in") and Input.is_action_just_pressed("zoom_in"):
 		_apply_zoom(-zoom_speed)
-	if Input.is_action_pressed("zoom_out") and InputMap.has_action("zoom_out"):
+	if InputMap.has_action("zoom_out") and Input.is_action_just_pressed("zoom_out"):
 		_apply_zoom(zoom_speed)
 
 func set_target(new_target: Node2D) -> void:

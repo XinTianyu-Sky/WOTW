@@ -362,7 +362,7 @@ func _find_nearest_enemy(unit: BattleUnit) -> BattleUnit:
 	return nearest
 
 func _basic_attack(attacker: BattleUnit, defender: BattleUnit) -> void:
-	var basic_technique = {"damageFormula": {"stat": "attack", "multiplier": 1.0}}
+	var basic_technique = {"damageFormula": {"stat": "attack", "multiplier": 2.5}}
 	var damage = calculate_damage(attacker, defender, basic_technique)
 	if damage > 0:
 		defender.take_damage(damage)

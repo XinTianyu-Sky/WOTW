@@ -4,12 +4,12 @@ class_name EncounterManager
 extends Node
 
 const ENCOUNTER_RATES: Dictionary = {
-	0: 0.06,  # grass
-	1: 0.02,  # dirt
-	4: 0.10,  # tree
+	0: 0.03,  # grass
+	1: 0.01,  # dirt
+	4: 0.05,  # tree
 }
 const DEFAULT_ENCOUNTER_RATE: float = 0.0
-const MIN_STEPS_BETWEEN: int = 8
+const MIN_STEPS_BETWEEN: int = 20
 const STEP_PX: float = 16.0  # 半格瓦片 = 一次"步"
 
 var _player_ref: Node2D = null
