@@ -1,25 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://world_scene"]
+[gd_scene load_steps=9 format=3 uid="uid://world_scene"]
 
 [ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
 [ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
+[ext_resource type="Script" path="res://scripts/world/map_manager.gd" id="3_map"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player_placeholder.png" id="4_player_sprite"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/world/npc.tscn" id="6_npc"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="7_dialogue"]
+
+[sub_resource type="CircleShape2D" id="player_shape"]
+radius = 10.0
+
+[sub_resource type="CircleShape2D" id="interact_shape"]
+radius = 40.0
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_world_mgr")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("3_map")
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(400, 400)
+position = Vector2(208, 336)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("player_shape")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("4_player_sprite")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+
+[node name="InteractionArea" type="Area2D" parent="Player"]
+
+[node name="InteractionShape" type="CollisionShape2D" parent="Player/InteractionArea"]
+shape = SubResource("interact_shape")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_camera")
 enabled = true
 zoom = Vector2(1, 1)
 
+[node name="OldBeggar" parent="." instance=ExtResource("6_npc")]
+position = Vector2(400, 304)
+npc_name = "老乞丐"
+dialogue_id = "dlg_old_beggar_first"
+
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
+[node name="HUD" parent="HUDLayer" instance=ExtResource("5_hud")]
+
 [node name="DialogueLayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="DialogueUI" parent="DialogueLayer" instance=ExtResource("7_dialogue")]
 
 [node name="UILayer" type="CanvasLayer" parent="."]

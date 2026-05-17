@@ -26,12 +26,43 @@ var all_units: Array = []
 # ---- 战场 ----
 var grid: BattleGrid = null
 
+# ---- 战斗结束返回 ----
+var _return_scene: String = ""
+
 # ---- 引用 ----
 @onready var grid_node: Node2D = $BattleGrid
 @onready var ui_layer: CanvasLayer = $BattleUI
 
 func _ready() -> void:
 	grid = BattleGrid.new()
+	_auto_init_battle()
+	battle_finished.connect(_on_battle_finished)
+
+func _auto_init_battle() -> void:
+	var pending = GameManager.pending_battle
+	if pending.is_empty():
+		return
+
+	_return_scene = pending.get("return_scene", "res://scenes/world/world.tscn")
+
+	var player_team = [{
+		"id": "player",
+		"name": GameManager.player_data.get("name", "主角"),
+		"stats": GameManager.player_data.get("_stats_ref", PlayerStats.new()),
+		"skills": [],
+		"sprite": "",
+	}]
+	var enemy_team = pending.get("enemy_team", [])
+	var terrain = pending.get("terrain", {})
+
+	GameManager.pending_battle = {}
+	init_battle(player_team, enemy_team, terrain)
+	start_battle()
+
+func _on_battle_finished(result: Dictionary) -> void:
+	GameManager.pending_battle = {}
+	if not _return_scene.is_empty():
+		GameManager.change_scene(_return_scene)
 
 # ---- 战斗初始化 ----
 func init_battle(player_team: Array, enemy_team: Array, terrain_data: Dictionary = {}) -> void:
@@ -120,6 +151,11 @@ func _next_turn() -> void:
 	if not unit.is_player_side:
 		await get_tree().create_timer(0.5).timeout
 		_enemy_ai_act(unit)
+
+	# MVP：玩家自动攻击（后续接入 UI）
+	if unit.is_player_side:
+		await get_tree().create_timer(0.3).timeout
+		_player_auto_act(unit)
 
 func end_current_turn() -> void:
 	var unit = turn_order[current_turn_index]
@@ -293,6 +329,35 @@ func _enemy_ai_act(unit: BattleUnit) -> void:
 
 	await get_tree().create_timer(0.5).timeout
 	end_current_turn()
+
+func _player_auto_act(unit: BattleUnit) -> void:
+	if not unit.is_alive():
+		end_current_turn()
+		return
+
+	var target = _find_nearest_enemy(unit)
+	var available = unit.get_available_skills()
+
+	if available.size() > 0 and target:
+		var skill = available[0]
+		execute_technique(unit, skill["id"], [target])
+	else:
+		_basic_attack(unit, target)
+
+	await get_tree().create_timer(0.3).timeout
+	end_current_turn()
+
+func _find_nearest_enemy(unit: BattleUnit) -> BattleUnit:
+	var nearest: BattleUnit = null
+	var min_dist = 999
+	for e in enemy_units:
+		if not e.is_alive():
+			continue
+		var dist = unit.grid_position.distance_to(e.grid_position)
+		if dist < min_dist:
+			min_dist = dist
+			nearest = e
+	return nearest
 
 func _basic_attack(attacker: BattleUnit, defender: BattleUnit) -> void:
 	var basic_technique = {"damageFormula": {"stat": "attack", "multiplier": 1.0}}

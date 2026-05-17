@@ -27,6 +27,9 @@ var game_time: float = 0.0           # 游戏内总秒数
 var time_scale: float = 1.0          # 时间流速倍率
 const SECONDS_PER_GAME_HOUR: float = 60.0  # 现实60秒 = 游戏1小时
 
+# ---- 战斗临时数据 ----
+var pending_battle: Dictionary = {}
+
 # ---- 信号 ----
 signal phase_changed(old_phase: GamePhase, new_phase: GamePhase)
 signal scene_changed(scene_path: String)
@@ -49,6 +52,16 @@ func change_scene(scene_path: String) -> void:
 	current_scene = scene_path
 	get_tree().change_scene_to_file(scene_path)
 	scene_changed.emit(scene_path)
+
+# ---- 战斗触发 ----
+func start_battle(enemy_team: Array, terrain: Dictionary = {}) -> void:
+	pending_battle = {
+		"enemy_team": enemy_team,
+		"terrain": terrain,
+		"return_scene": current_scene,
+	}
+	set_phase(GamePhase.BATTLE)
+	change_scene("res://scenes/battle/battle.tscn")
 
 # ---- 游戏时间工具 ----
 func get_game_hour() -> int:

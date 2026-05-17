@@ -34,13 +34,72 @@ var region_weather_pool: Array = []
 # ---- 场景容器 ----
 var world_scene: Node2D = null
 
+# ---- 遇敌 ----
+var encounter_manager: EncounterManager = null
+
 func _ready() -> void:
 	EventBus.scene_entered.connect(_on_scene_entered)
+	_init_player()
+	_init_hud()
+	_setup_encounter()
+
+func _setup_encounter() -> void:
+	encounter_manager = EncounterManager.new()
+	add_child(encounter_manager)
+	var player = get_node_or_null("Player")
+	var tilemap = get_node_or_null("TileMapLayer")
+	if player and tilemap:
+		encounter_manager.setup(player, tilemap)
+
+func _init_player() -> void:
+	if GameManager.player_data.is_empty():
+		return
+	# 复用已有 PlayerStats 引用（战斗返回时保留 HP/QI 变化）
+	var existing = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	if existing:
+		return
+	var stats_data = GameManager.player_data.get("stats", {})
+	if stats_data.is_empty():
+		return
+	var stats = PlayerStats.new()
+	stats.from_dict(stats_data)
+	GameManager.player_data["_stats_ref"] = stats
+
+func _init_hud() -> void:
+	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	if not stats:
+		return
+	var hud = get_node_or_null("HUDLayer/HUD")
+	if hud and hud.has_method("set_player_stats"):
+		hud.set_player_stats(stats)
 
 func _process(delta: float) -> void:
 	weather_timer += delta
 	if weather_timer >= weather_duration:
 		_roll_new_weather()
+
+	# 遇敌检测
+	if encounter_manager and encounter_manager.check_encounter():
+		_trigger_encounter()
+
+func _trigger_encounter() -> void:
+	var enemy_team = encounter_manager.build_enemy_team()
+	var player_team = _build_player_team()
+	var terrain = {"weather": WEATHER_NAMES[current_weather]}
+	GameManager.start_battle(enemy_team, terrain)
+
+func _build_player_team() -> Array:
+	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	if not stats:
+		return []
+	var skill_id = GameManager.player_data.get("equipped_external", "")
+	return [{
+		"id": "player",
+		"name": GameManager.player_data.get("name", "主角"),
+		"stats": stats,
+		"skills": [skill_id] if not skill_id.is_empty() else [],
+		"sprite": "",
+	}]
 
 # ---- 场景切换 ----
 func _on_scene_entered(scene_id: String) -> void:
