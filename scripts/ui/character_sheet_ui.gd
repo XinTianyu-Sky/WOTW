@@ -32,6 +32,8 @@ func _on_menu_opened(menu_name: String) -> void:
     if menu_name == "character":
         show()
         _refresh()
+    else:
+        hide()
 
 func set_stats(stats: PlayerStats) -> void:
     player_stats = stats

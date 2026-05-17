@@ -6,19 +6,39 @@ extends CanvasLayer
 @onready var grid_container: GridContainer = $InventoryPanel/ScrollContainer/GridContainer
 @onready var item_detail: Control = $InventoryPanel/ItemDetail
 @onready var close_btn: Button = $InventoryPanel/CloseBtn
+@onready var equip_btn: Button = $InventoryPanel/ItemDetail/EquipBtn
 
 var inventory_items: Array = []
 var selected_item_id: String = ""
+var _current_item_data: Dictionary = {}
 
 func _ready() -> void:
     hide()
     close_btn.pressed.connect(hide)
+    equip_btn.pressed.connect(_on_equip_pressed)
     EventBus.menu_opened.connect(_on_menu_opened)
+
+func _on_equip_pressed() -> void:
+    var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
+    if not eq or _current_item_data.is_empty():
+        return
+    var slot_str = _current_item_data.get("slot", "")
+    var slot_enum = eq._slot_from_string(slot_str)
+    if slot_enum == -1:
+        return
+    var cur = eq.get_equipped(slot_enum)
+    if cur == _current_item_data["id"]:
+        eq.unequip(slot_enum)
+    else:
+        eq.equip(_current_item_data["id"])
+    item_detail.hide()
 
 func _on_menu_opened(menu_name: String) -> void:
     if menu_name == "inventory":
         show()
         _refresh_display()
+    else:
+        hide()
 
 func _refresh_display() -> void:
     for child in grid_container.get_children():
@@ -47,6 +67,7 @@ func _create_item_slot(item_data: Dictionary, count: int) -> Control:
     return btn
 
 func _show_item_detail(item_data: Dictionary) -> void:
+    _current_item_data = item_data
     item_detail.show()
     item_detail.get_node("ItemName").text = item_data.get("name", "")
     item_detail.get_node("ItemDescription").text = item_data.get("description", "")
@@ -57,28 +78,17 @@ func _show_item_detail(item_data: Dictionary) -> void:
     item_detail.get_node("ItemStats").text = stats_text
 
     # 装备/卸下按钮
-    var eq_btn = item_detail.get_node_or_null("EquipBtn")
-    if eq_btn:
+    if item_data.has("slot"):
         var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
-        if eq and item_data.has("slot"):
-            var slot_str = item_data.get("slot", "")
-            var slot_enum = eq._slot_from_string(slot_str)
-            var cur = eq.get_equipped(slot_enum) if slot_enum != -1 else ""
-            if cur == item_data["id"]:
-                eq_btn.text = "卸下"
-                eq_btn.pressed.connect(func():
-                    eq.unequip(slot_enum)
-                    item_detail.hide()
-                , CONNECT_ONE_SHOT)
+        if eq:
+            var slot_enum = eq._slot_from_string(item_data["slot"])
+            if eq.get_equipped(slot_enum) == item_data["id"]:
+                equip_btn.text = "卸下"
             else:
-                eq_btn.text = "装备"
-                eq_btn.pressed.connect(func():
-                    eq.equip(item_data["id"])
-                    item_detail.hide()
-                , CONNECT_ONE_SHOT)
-            eq_btn.show()
-        else:
-            eq_btn.hide()
+                equip_btn.text = "装备"
+            equip_btn.show()
+            return
+    equip_btn.hide()
 
 func _get_rarity_color(rarity: String) -> Color:
     match rarity:

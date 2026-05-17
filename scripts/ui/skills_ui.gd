@@ -28,6 +28,8 @@ func _on_menu_opened(menu_name: String) -> void:
     if menu_name == "skills":
         show()
         _refresh()
+    else:
+        hide()
 
 func _refresh() -> void:
     external_list.clear()

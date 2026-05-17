@@ -3,3 +3,5 @@ res://scripts/player/player.gd
 res://scripts/ui/character_sheet_ui.gd
 res://scripts/ui/inventory_ui.gd
 res://scripts/world/world_manager.gd
+res://scripts/ui/quest_ui.gd
+res://scripts/ui/skills_ui.gd
