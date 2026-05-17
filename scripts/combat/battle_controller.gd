@@ -65,8 +65,24 @@ func _auto_init_battle() -> void:
 
 func _on_battle_finished(result: Dictionary) -> void:
 	GameManager.pending_battle = {}
+	if result.get("result") == "victory":
+		_grant_battle_rewards()
+	elif result.get("result") == "defeat":
+		NotificationManager.notify("战斗失败，重新加载...", "error")
+		await get_tree().create_timer(1.0).timeout
+		SaveManager.load_game(0)
 	if not _return_scene.is_empty():
 		GameManager.change_scene(_return_scene)
+
+func _grant_battle_rewards() -> void:
+	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	if not stats:
+		return
+	var exp = 50 + randi() % 51
+	var leveled = stats.add_experience(exp)
+	NotificationManager.notify("获得 %d 经验" % exp, "success")
+	if leveled:
+		NotificationManager.notify("升级！达到 Lv.%d" % stats.level, "success")
 
 # ---- 战斗初始化 ----
 func init_battle(player_team: Array, enemy_team: Array, terrain_data: Dictionary = {}) -> void:
@@ -321,8 +337,24 @@ func _calculate_rating() -> String:
 
 func _end_battle(result: Dictionary) -> void:
 	state = BattleState.FINISHED
+	_show_battle_result(result)
+	await get_tree().create_timer(2.0).timeout
 	battle_finished.emit(result)
 	EventBus.battle_ended.emit(result)
+
+func _show_battle_result(result: Dictionary) -> void:
+	var ui = get_node_or_null("BattleUI")
+	if not ui:
+		return
+	var banner = ui.get_node_or_null("BattleBanner")
+	if banner:
+		if result.get("result") == "victory":
+			banner.text = "胜利！"
+			banner.modulate = Color.GOLD
+		else:
+			banner.text = "战败..."
+			banner.modulate = Color.RED
+		banner.show()
 
 # ---- 敌人 AI ----
 func _enemy_ai_act(unit: BattleUnit) -> void:

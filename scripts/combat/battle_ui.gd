@@ -16,9 +16,7 @@ extends CanvasLayer
 var _ctrl: BattleController = null
 
 func _ready() -> void:
-	    _ctrl = get_parent() as BattleController
-	if battle_node is BattleController:
-		_ctrl = battle_node as BattleController
+	_ctrl = get_parent() as BattleController
 	_clear_ui()
 
 func add_log(text: String) -> void:
