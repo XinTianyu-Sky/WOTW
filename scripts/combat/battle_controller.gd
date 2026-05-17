@@ -97,7 +97,9 @@ func _create_unit(data: Dictionary, is_player: bool) -> BattleUnit:
 	unit.display_name = data.get("name", "Unknown")
 	unit.is_player_side = is_player
 	unit.stats = data.get("stats", PlayerStats.new())
-	unit.skills = data.get("skills", [])
+	var skills: Array = data.get("skills", [])
+	if skills.size() > 0:
+		unit.external_skill_id = skills[0]
 	unit.sprite_path = data.get("sprite", "")
 	return unit
 

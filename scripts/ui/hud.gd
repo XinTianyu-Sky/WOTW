@@ -18,6 +18,7 @@ extends CanvasLayer
 @onready var joystick: TouchScreenButton = $Joystick
 
 # ---- 按钮 ----
+@onready var save_btn: Button = $TopPanel/SaveBtn
 @onready var menu_btn: Button = $TopPanel/MenuBtn
 @onready var inventory_btn: Button = $BottomBar/InventoryBtn
 @onready var character_btn: Button = $BottomBar/CharacterBtn
@@ -37,6 +38,7 @@ func _ready() -> void:
 	character_btn.pressed.connect(func(): EventBus.menu_opened.emit("character"))
 	skills_btn.pressed.connect(func(): EventBus.menu_opened.emit("skills"))
 	quest_btn.pressed.connect(func(): EventBus.menu_opened.emit("quest"))
+	save_btn.pressed.connect(func(): SaveManager.save_game(0))
 	map_btn.pressed.connect(func(): EventBus.menu_opened.emit("map"))
 
 	# 监听事件

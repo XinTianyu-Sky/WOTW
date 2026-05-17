@@ -42,6 +42,9 @@ func _ready() -> void:
 	_init_player()
 	_init_hud()
 	_setup_encounter()
+	GameManager.set_phase(GameManager.GamePhase.WORLD_EXPLORATION)
+	# 进入世界自动存档
+	SaveManager.auto_save()
 
 func _setup_encounter() -> void:
 	encounter_manager = EncounterManager.new()
@@ -78,11 +81,16 @@ func _process(delta: float) -> void:
 	if weather_timer >= weather_duration:
 		_roll_new_weather()
 
+	# F5 快速存档
+	if Input.is_action_just_pressed("quick_save"):
+		SaveManager.save_game(0)
+
 	# 遇敌检测
 	if encounter_manager and encounter_manager.check_encounter():
 		_trigger_encounter()
 
 func _trigger_encounter() -> void:
+	SaveManager.auto_save()
 	var enemy_team = encounter_manager.build_enemy_team()
 	var player_team = _build_player_team()
 	var terrain = {"weather": WEATHER_NAMES[current_weather]}

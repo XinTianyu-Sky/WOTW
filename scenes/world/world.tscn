@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://world_scene"]
+[gd_scene load_steps=10 format=3 uid="uid://world_scene"]
 
 [ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
 [ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://scenes/world/npc.tscn" id="6_npc"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="7_dialogue"]
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="8_player"]
 
 [sub_resource type="CircleShape2D" id="player_shape"]
 radius = 10.0
@@ -21,6 +22,7 @@ script = ExtResource("1_world_mgr")
 script = ExtResource("3_map")
 
 [node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("8_player")
 position = Vector2(208, 336)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]

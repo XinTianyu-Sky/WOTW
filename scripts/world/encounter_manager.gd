@@ -3,59 +3,53 @@
 class_name EncounterManager
 extends Node
 
-# 不同地形的遇敌概率（每步）
 const ENCOUNTER_RATES: Dictionary = {
 	0: 0.06,  # grass
 	1: 0.02,  # dirt
 	4: 0.10,  # tree
 }
 const DEFAULT_ENCOUNTER_RATE: float = 0.0
-
-# 最低步数间隔（防止连续遇敌）
 const MIN_STEPS_BETWEEN: int = 8
+const STEP_PX: float = 16.0  # 半格瓦片 = 一次"步"
 
 var _player_ref: Node2D = null
 var _tilemap: TileMapLayer = null
+var _last_player_pos: Vector2 = Vector2(-1, -1)
+var _accumulated_dist: float = 0.0
 var _step_count: int = 0
 var _steps_since_encounter: int = MIN_STEPS_BETWEEN
-var _last_player_pos: Vector2 = Vector2(-1, -1)
 
 func setup(player: Node2D, tilemap: TileMapLayer) -> void:
 	_player_ref = player
 	_tilemap = tilemap
 	_last_player_pos = player.global_position
+	_accumulated_dist = 0.0
 
 func check_encounter() -> bool:
 	if not _player_ref or not _tilemap:
 		return false
 
 	var pos = _player_ref.global_position
-	var dist = pos.distance_to(_last_player_pos)
+	_accumulated_dist += pos.distance_to(_last_player_pos)
 	_last_player_pos = pos
 
-	# 只有移动超过半个瓦片才计数
-	if dist < 16.0:
+	if _accumulated_dist < STEP_PX:
 		return false
 
+	# 一步触发
+	_accumulated_dist -= STEP_PX
 	_step_count += 1
 	_steps_since_encounter += 1
 
-	# 步数冷却中
 	if _steps_since_encounter < MIN_STEPS_BETWEEN:
 		return false
 
-	# 检查当前瓦片类型
 	var tile_pos = _tilemap.local_to_map(pos)
-	var tile_data = _tilemap.get_cell_tile_data(tile_pos)
-	if not tile_data:
-		return false
-
-	# 通过瓦片坐标反推瓦片类型
 	var source_id = _tilemap.get_cell_source_id(tile_pos)
-	var atlas_coords = _tilemap.get_cell_atlas_coords(tile_pos)
 	if source_id == -1:
 		return false
 
+	var atlas_coords = _tilemap.get_cell_atlas_coords(tile_pos)
 	var tile_idx = atlas_coords.x
 	var rate = ENCOUNTER_RATES.get(tile_idx, DEFAULT_ENCOUNTER_RATE)
 	if rate <= 0.0:
@@ -63,22 +57,22 @@ func check_encounter() -> bool:
 
 	if randf() < rate:
 		_steps_since_encounter = 0
+		_accumulated_dist = 0.0
 		return true
 
 	return false
 
 func build_enemy_team() -> Array:
-	# MVP 简单敌人：根据玩家等级生成
 	var player_lv = 1
 	var stats = GameManager.player_data.get("_stats_ref", null)
 	if stats:
 		player_lv = stats.level
 
-	var bandit_count = randi() % 2 + 1  # 1-2个敌人
+	var bandit_count = randi() % 2 + 1
 	var team = []
 
 	for i in range(bandit_count):
-		var lv = player_lv + randi() % 3 - 1  # ±1级
+		var lv = player_lv + randi() % 3 - 1
 		lv = max(1, lv)
 
 		var enemy_stats = PlayerStats.new()

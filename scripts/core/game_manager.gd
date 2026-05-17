@@ -92,15 +92,26 @@ func get_current_season() -> String:
 
 # ---- 存档数据构建 ----
 func build_save_data() -> Dictionary:
+	# 同步当前 PlayerStats 到序列化字典
+	_sync_stats_to_dict()
+	# 去掉不可序列化的引用
+	var save_player = player_data.duplicate(true)
+	save_player.erase("_stats_ref")
 	return {
 		"version": "0.1.0",
 		"game_time": game_time,
-		"player_data": player_data,
+		"player_data": save_player,
 		"party_data": party_data,
 		"world_state": world_state,
 		"current_scene": current_scene,
 		"timestamp": Time.get_unix_time_from_system()
 	}
+
+func _sync_stats_to_dict() -> void:
+	var stats = player_data.get("_stats_ref", null) as PlayerStats
+	if not stats:
+		return
+	player_data["stats"] = stats.to_dict()
 
 func load_save_data(data: Dictionary) -> void:
 	game_time = data.get("game_time", 0.0)

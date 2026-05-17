@@ -16,30 +16,27 @@ func _ready() -> void:
 	settings_btn.pressed.connect(_on_settings)
 	quit_btn.pressed.connect(_on_quit)
 
-	# 检查是否有存档
-	var save_exists = FileAccess.file_exists("user://save_data.json")
-	continue_btn.disabled = not save_exists
+	_refresh_continue_btn()
 
 	version_label.text = "v0.1.0"
 
+func _refresh_continue_btn() -> void:
+	var info = SaveManager.get_save_info(0)
+	if info["exists"]:
+		continue_btn.disabled = false
+		continue_btn.text = "再续前缘 (Lv.%d)" % info.get("level", 1)
+	else:
+		continue_btn.disabled = true
+		continue_btn.text = "再续前缘"
+
 func _on_new_game() -> void:
-	# 进入角色创建
 	GameManager.change_scene("res://scenes/ui/character_creation.tscn")
 
 func _on_continue() -> void:
-	var file = FileAccess.open("user://save_data.json", FileAccess.READ)
-	if file:
-		var json = JSON.parse_string(file.get_as_text())
-		file.close()
-		if json:
-			GameManager.load_save_data(json)
-			GameManager.change_scene(GameManager.current_scene)
-			return
-
-	NotificationManager.notify("存档加载失败", "error")
+	if SaveManager.load_game(0):
+		GameManager.change_scene(GameManager.current_scene)
 
 func _on_settings() -> void:
-	# TODO: 打开设置面板
 	pass
 
 func _on_quit() -> void:

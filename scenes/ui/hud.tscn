@@ -76,21 +76,29 @@ offset_top = 22.0
 offset_right = 374.0
 offset_bottom = 46.0
 
+[node name="SaveBtn" type="Button" parent="TopPanel"]
+layout_mode = 1
+offset_left = 470.0
+offset_top = 0.0
+offset_right = 530.0
+offset_bottom = 38.0
+text = "存档"
+
+[node name="MapBtn" type="Button" parent="TopPanel"]
+layout_mode = 1
+offset_left = 540.0
+offset_top = 0.0
+offset_right = 600.0
+offset_bottom = 38.0
+text = "地图"
+
 [node name="MenuBtn" type="Button" parent="TopPanel"]
 layout_mode = 1
-offset_left = 620.0
+offset_left = 610.0
 offset_top = 0.0
 offset_right = 700.0
 offset_bottom = 38.0
 text = "菜单"
-
-[node name="MapBtn" type="Button" parent="TopPanel"]
-layout_mode = 1
-offset_left = 550.0
-offset_top = 0.0
-offset_right = 610.0
-offset_bottom = 38.0
-text = "地图"
 
 [node name="BottomBar" type="Control" parent="."]
 layout_mode = 3
