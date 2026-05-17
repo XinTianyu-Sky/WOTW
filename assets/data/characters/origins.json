@@ -8,7 +8,7 @@
       "bonusAttributes": { "str": 5, "con": 3, "agi": 0, "int": 0, "wil": 0, "lck": 0 },
       "startingSkill": "basic_spear",
       "startingLocation": "luoyang_barracks",
-      "startingItems": ["iron_spear", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
       "specialEffect": "NPC军官初始好感+20"
     },
     {
@@ -19,7 +19,7 @@
       "bonusAttributes": { "str": 0, "con": 0, "agi": 0, "int": 5, "wil": 3, "lck": 0 },
       "startingSkill": "basic_fan",
       "startingLocation": "luoyang_academy",
-      "startingItems": ["paper_fan", "cloth_armor", "cloth_shoes", "huiqi_dan"],
+      "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "huiqi_dan"],
       "specialEffect": "读书识字速度+30%，武学秘籍领悟概率+10%"
     },
     {
@@ -30,7 +30,7 @@
       "bonusAttributes": { "str": 0, "con": 0, "agi": 5, "int": 0, "wil": 0, "lck": 3 },
       "startingSkill": "basic_palm",
       "startingLocation": "wuming_valley",
-      "startingItems": ["mysterious_jade", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "startingItems": ["cloth_armor", "cloth_shoes", "jinchuang_yao", "dahuan_dan"],
       "specialEffect": "随机获得一条与身世相关的NPC寻亲线索（指向隐藏剧情）"
     },
     {
@@ -41,7 +41,7 @@
       "bonusAttributes": { "str": 0, "con": 0, "agi": 0, "int": 0, "wil": 3, "lck": 5 },
       "startingSkill": "basic_hidden_weapon",
       "startingLocation": "quanzhou_port",
-      "startingItems": ["throwing_darts", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jinchuang_yao", "xiaohuan_dan"],
       "specialEffect": "初始资金×3（3000铜钱），所有商店交易折扣10%"
     },
     {
@@ -52,7 +52,7 @@
       "bonusAttributes": { "str": 0, "con": 5, "agi": 0, "int": 3, "wil": 0, "lck": 0 },
       "startingSkill": "basic_staff",
       "startingLocation": "nanjiang_village",
-      "startingItems": ["wooden_staff", "cloth_armor", "cloth_shoes", "zhixue_cao"],
+      "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jiedu_dan"],
       "specialEffect": "采药效率+30%，自动识别毒草（免疫采集中毒）"
     },
     {
@@ -63,7 +63,7 @@
       "bonusAttributes": { "str": 3, "con": 0, "agi": 5, "int": 0, "wil": 0, "lck": 0 },
       "startingSkill": "basic_fist",
       "startingLocation": "luoyang_street",
-      "startingItems": ["ragged_clothes", "cloth_shoes"],
+      "startingItems": ["cloth_shoes", "xiaohuan_dan"],
       "specialEffect": "丐帮入门免试，情报获取成功率+20%，乞讨可获得额外铜钱"
     }
   ]

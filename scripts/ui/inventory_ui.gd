@@ -60,7 +60,7 @@ func _show_item_detail(item_data: Dictionary) -> void:
     var eq_btn = item_detail.get_node_or_null("EquipBtn")
     if eq_btn:
         var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
-        if eq and item_data.get("type") == "equipment":
+        if eq and item_data.has("slot"):
             var slot_str = item_data.get("slot", "")
             var slot_enum = eq._slot_from_string(slot_str)
             var cur = eq.get_equipped(slot_enum) if slot_enum != -1 else ""

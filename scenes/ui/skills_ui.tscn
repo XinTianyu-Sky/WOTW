@@ -67,5 +67,4 @@ offset_top = 560.0
 offset_right = 580.0
 offset_bottom = 1050.0
 bbcode_enabled = true
-fit_content = true
-scroll_active = false
+scroll_active = true
