@@ -5,3 +5,5 @@ res://scripts/ui/inventory_ui.gd
 res://scripts/world/world_manager.gd
 res://scripts/ui/quest_ui.gd
 res://scripts/ui/skills_ui.gd
+res://scripts/player/equipment_manager.gd
+res://scripts/core/game_manager.gd

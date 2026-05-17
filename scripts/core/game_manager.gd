@@ -92,11 +92,11 @@ func get_current_season() -> String:
 
 # ---- 存档数据构建 ----
 func build_save_data() -> Dictionary:
-    # 同步当前 PlayerStats 到序列化字典
     _sync_stats_to_dict()
-    # 去掉不可序列化的引用
+    _sync_equipment_to_dict()
     var save_player = player_data.duplicate(true)
     save_player.erase("_stats_ref")
+    save_player.erase("_equipment")
     return {
         "version": "0.1.0",
         "game_time": game_time,
@@ -113,9 +113,25 @@ func _sync_stats_to_dict() -> void:
         return
     player_data["stats"] = stats.to_dict()
 
+func _sync_equipment_to_dict() -> void:
+    var eq = player_data.get("_equipment", null) as EquipmentManager
+    if not eq:
+        return
+    player_data["_equipment_data"] = eq.to_dict()
+
 func load_save_data(data: Dictionary) -> void:
     game_time = data.get("game_time", 0.0)
     player_data = data.get("player_data", {})
     party_data = data.get("party_data", [])
     world_state = data.get("world_state", {})
     current_scene = data.get("current_scene", "")
+    # 清理旧存档残留的非对象字段
+    player_data.erase("_stats_ref")
+    if not (player_data.get("_equipment") is EquipmentManager):
+        player_data.erase("_equipment")
+    # 重建 EquipmentManager
+    var eq_data = player_data.get("_equipment_data", {})
+    if not eq_data.is_empty():
+        var eq = EquipmentManager.new()
+        eq.from_dict(eq_data)
+        player_data["_equipment"] = eq

@@ -70,6 +70,15 @@ func _init_player() -> void:
 	GameManager.player_data["_stats_ref"] = stats
 
 func _init_equipment() -> void:
+	var existing = GameManager.player_data.get("_equipment", null) as EquipmentManager
+	if existing:
+		# 读档恢复的，只需重连信号
+		EventBus.equipment_changed.connect(func(_slot, _id):
+			var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+			if stats:
+				stats.update_equipment_bonuses(existing.get_total_bonuses())
+		)
+		return
 	var eq = EquipmentManager.new()
 	GameManager.player_data["_equipment"] = eq
 	EventBus.equipment_changed.connect(func(_slot, _id):

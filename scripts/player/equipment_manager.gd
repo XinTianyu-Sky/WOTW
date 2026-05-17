@@ -23,11 +23,11 @@ var _equipped: Dictionary = {}
 # ---- 装备操作 ----
 func equip(item_id: String) -> bool:
     var item_data = DataManager.get_item(item_id)
-    if item_data.is_empty() or item_data.get("type") != "equipment":
+    if item_data.is_empty() or not item_data.has("slot"):
         return false
 
     var slot_str = item_data.get("slot", "")
-    var slot = _slot_from_string(slot_str)
+    var slot = slot_from_string(slot_str)
     if slot == -1:
         return false
 
@@ -89,11 +89,11 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> void:
     _equipped.clear()
     for slot_name in data:
-        var slot = _slot_from_string(slot_name)
+        var slot = slot_from_string(slot_name)
         if slot != -1:
             _equipped[slot] = data[slot_name]
 
-func _slot_from_string(s: String) -> int:
+func slot_from_string(s: String) -> int:
     for slot in SLOT_NAMES:
         if SLOT_NAMES[slot] == s:
             return slot

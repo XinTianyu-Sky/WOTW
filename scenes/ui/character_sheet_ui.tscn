@@ -8,9 +8,9 @@ script = ExtResource("1")
 [node name="CharacterPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 60.0
-offset_top = 100.0
+offset_top = 80.0
 offset_right = 660.0
-offset_bottom = 1180.0
+offset_bottom = 1200.0
 
 [node name="TitleLabel" type="Label" parent="CharacterPanel"]
 layout_mode = 0
@@ -29,153 +29,107 @@ offset_right = 580.0
 offset_bottom = 40.0
 text = "X"
 
-[node name="TabContainer" type="TabContainer" parent="CharacterPanel"]
+[node name="LevelLabel" type="Label" parent="CharacterPanel"]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 50.0
-offset_right = 580.0
-offset_bottom = 1050.0
-
-[node name="Attributes" type="ScrollContainer" parent="CharacterPanel/TabContainer"]
-layout_mode = 2
-metadata/tab_title = "属性"
-
-[node name="LevelLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 10.0
 offset_right = 300.0
-offset_bottom = 35.0
+offset_bottom = 80.0
+theme_overrides/font_sizes/font_size = 16
 
-[node name="FreePoints" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
+[node name="FreePoints" type="Label" parent="CharacterPanel"]
 layout_mode = 0
 offset_left = 300.0
-offset_top = 10.0
-offset_right = 540.0
-offset_bottom = 35.0
+offset_top = 50.0
+offset_right = 560.0
+offset_bottom = 80.0
 horizontal_alignment = 2
-
-[node name="StrLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 50.0
-offset_right = 120.0
-offset_bottom = 75.0
-text = "膂力:"
 theme_overrides/font_sizes/font_size = 16
 
-[node name="StrValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
+[node name="AttrGrid" type="GridContainer" parent="CharacterPanel"]
 layout_mode = 0
-offset_left = 120.0
-offset_top = 50.0
-offset_right = 180.0
-offset_bottom = 75.0
+offset_left = 20.0
+offset_top = 90.0
+offset_right = 560.0
+offset_bottom = 350.0
+columns = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 8
+
+[node name="StrLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "膂力"
+theme_overrides/font_sizes/font_size = 15
+[node name="StrValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="AgiLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 85.0
-offset_right = 120.0
-offset_bottom = 110.0
-text = "身法:"
-theme_overrides/font_sizes/font_size = 16
-
-[node name="AgiValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 85.0
-offset_right = 180.0
-offset_bottom = 110.0
+[node name="AgiLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "身法"
+theme_overrides/font_sizes/font_size = 15
+[node name="AgiValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="ConLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 120.0
-offset_right = 120.0
-offset_bottom = 145.0
-text = "根骨:"
-theme_overrides/font_sizes/font_size = 16
-
-[node name="ConValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 120.0
-offset_right = 180.0
-offset_bottom = 145.0
+[node name="ConLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "根骨"
+theme_overrides/font_sizes/font_size = 15
+[node name="ConValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="IntLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 155.0
-offset_right = 120.0
-offset_bottom = 180.0
-text = "悟性:"
-theme_overrides/font_sizes/font_size = 16
-
-[node name="IntValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 155.0
-offset_right = 180.0
-offset_bottom = 180.0
+[node name="IntLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "悟性"
+theme_overrides/font_sizes/font_size = 15
+[node name="IntValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="WilLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 190.0
-offset_right = 120.0
-offset_bottom = 215.0
-text = "定力:"
-theme_overrides/font_sizes/font_size = 16
-
-[node name="WilValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 190.0
-offset_right = 180.0
-offset_bottom = 215.0
+[node name="WilLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "定力"
+theme_overrides/font_sizes/font_size = 15
+[node name="WilValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="LckLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 225.0
-offset_right = 120.0
-offset_bottom = 250.0
-text = "机缘:"
-theme_overrides/font_sizes/font_size = 16
-
-[node name="LckValue" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 225.0
-offset_right = 180.0
-offset_bottom = 250.0
+[node name="LckLabel" type="Label" parent="CharacterPanel/AttrGrid"]
+text = "机缘"
+theme_overrides/font_sizes/font_size = 15
+[node name="LckValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
-theme_overrides/font_sizes/font_size = 16
+theme_overrides/font_sizes/font_size = 15
 
-[node name="CombatStats" type="RichTextLabel" parent="CharacterPanel/TabContainer/Attributes"]
+[node name="CombatTitle" type="Label" parent="CharacterPanel"]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 280.0
-offset_right = 540.0
-offset_bottom = 550.0
+offset_top = 360.0
+offset_right = 200.0
+offset_bottom = 390.0
+text = "战斗属性"
+theme_overrides/font_sizes/font_size = 16
+
+[node name="CombatStats" type="RichTextLabel" parent="CharacterPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 400.0
+offset_right = 560.0
+offset_bottom = 680.0
 bbcode_enabled = true
 scroll_active = true
 
-[node name="EquipLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
+[node name="EquipTitle" type="Label" parent="CharacterPanel"]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 570.0
-offset_right = 540.0
-offset_bottom = 800.0
+offset_top = 700.0
+offset_right = 200.0
+offset_bottom = 730.0
+text = "装备"
+theme_overrides/font_sizes/font_size = 16
+
+[node name="EquipLabel" type="Label" parent="CharacterPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 740.0
+offset_right = 560.0
+offset_bottom = 1050.0
 autowrap_mode = 0
+theme_overrides/font_sizes/font_size = 14
