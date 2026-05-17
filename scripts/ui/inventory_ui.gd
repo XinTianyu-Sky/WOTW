@@ -56,6 +56,30 @@ func _show_item_detail(item_data: Dictionary) -> void:
         stats_text += "%s: +%d\n" % [stat, item_data["baseStats"][stat]]
     item_detail.get_node("ItemStats").text = stats_text
 
+    # 装备/卸下按钮
+    var eq_btn = item_detail.get_node_or_null("EquipBtn")
+    if eq_btn:
+        var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
+        if eq and item_data.get("type") == "equipment":
+            var slot_str = item_data.get("slot", "")
+            var slot_enum = eq._slot_from_string(slot_str)
+            var cur = eq.get_equipped(slot_enum) if slot_enum != -1 else ""
+            if cur == item_data["id"]:
+                eq_btn.text = "卸下"
+                eq_btn.pressed.connect(func():
+                    eq.unequip(slot_enum)
+                    item_detail.hide()
+                , CONNECT_ONE_SHOT)
+            else:
+                eq_btn.text = "装备"
+                eq_btn.pressed.connect(func():
+                    eq.equip(item_data["id"])
+                    item_detail.hide()
+                , CONNECT_ONE_SHOT)
+            eq_btn.show()
+        else:
+            eq_btn.hide()
+
 func _get_rarity_color(rarity: String) -> Color:
     match rarity:
         "common":    return Color.WHITE

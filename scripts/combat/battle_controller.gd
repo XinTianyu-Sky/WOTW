@@ -287,7 +287,7 @@ func execute_technique(attacker: BattleUnit, technique_id: String, targets: Arra
 
 		if not target.is_alive():
 			EventBus.unit_defeated.emit(target.unit_id)
-				_add_battle_log("%s 被击败！" % target.display_name)
+			_add_battle_log("%s 被击败！" % target.display_name)
 
 	EventBus.skill_used.emit(attacker.unit_id, technique_id, targets.map(func(u): return u.unit_id))
 	_refresh_battle_ui()

@@ -18,6 +18,7 @@ extends CanvasLayer
 
 # ---- 战斗属性 ----
 @onready var combat_stats: RichTextLabel = $CharacterPanel/TabContainer/Attributes/CombatStats
+@onready var equip_label: Label = $CharacterPanel/TabContainer/Attributes/EquipLabel
 
 var player_stats: PlayerStats = null
 
@@ -70,3 +71,21 @@ func _refresh() -> void:
         player_stats.hit_rate * 100, player_stats.dodge_rate * 100,
         player_stats.crit_rate * 100, player_stats.crit_damage * 100
     ]
+    # 装备显示
+    var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
+    if eq:
+        var slot_names = {
+            EquipmentManager.Slot.WEAPON: "武器",
+            EquipmentManager.Slot.OFFHAND: "副手",
+            EquipmentManager.Slot.HEAD: "头部",
+            EquipmentManager.Slot.BODY: "身体",
+            EquipmentManager.Slot.FEET: "脚步",
+            EquipmentManager.Slot.ACCESSORY1: "饰品1",
+            EquipmentManager.Slot.ACCESSORY2: "饰品2",
+        }
+        var text = ""
+        for slot in slot_names:
+            var item_data = eq.get_equipped_data(slot)
+            var name = item_data.get("name", "空") if not item_data.is_empty() else "空"
+            text += "%s: %s\n" % [slot_names[slot], name]
+        equip_label.text = text

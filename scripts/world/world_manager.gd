@@ -42,6 +42,7 @@ func _ready() -> void:
 	_init_player()
 	_init_hud()
 	_setup_encounter()
+	_init_equipment()
 	GameManager.set_phase(GameManager.GamePhase.WORLD_EXPLORATION)
 	# 进入世界自动存档
 	SaveManager.auto_save()
@@ -67,6 +68,15 @@ func _init_player() -> void:
 	var stats = PlayerStats.new()
 	stats.from_dict(stats_data)
 	GameManager.player_data["_stats_ref"] = stats
+
+func _init_equipment() -> void:
+	var eq = EquipmentManager.new()
+	GameManager.player_data["_equipment"] = eq
+	EventBus.equipment_changed.connect(func(_slot, _id):
+		var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+		if stats:
+			stats.update_equipment_bonuses(eq.get_total_bonuses())
+	)
 
 func _init_hud() -> void:
 	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats

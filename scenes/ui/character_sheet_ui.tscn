@@ -172,3 +172,10 @@ offset_bottom = 550.0
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
+
+[node name="EquipLabel" type="Label" parent="CharacterPanel/TabContainer/Attributes"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 570.0
+offset_right = 540.0
+offset_bottom = 800.0
