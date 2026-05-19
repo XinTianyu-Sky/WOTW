@@ -81,3 +81,12 @@ offset_top = 205.0
 offset_right = 120.0
 offset_bottom = 245.0
 text = "装备"
+
+[node name="UseBtn" type="Button" parent="InventoryPanel/ItemDetail"]
+visible = false
+layout_mode = 0
+offset_left = 140.0
+offset_top = 205.0
+offset_right = 260.0
+offset_bottom = 245.0
+text = "使用"

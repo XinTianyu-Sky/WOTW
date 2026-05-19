@@ -31,6 +31,7 @@ signal scene_entered(scene_id: String)
 signal scene_exited(scene_id: String)
 signal npc_interacted(npc_id: String)
 signal item_collected(item_id: String, amount: int)
+signal item_gathered(item_id: String)
 signal random_encounter_triggered(encounter_type: String)
 
 # ---- 任务事件 ----
@@ -38,7 +39,7 @@ signal quest_accepted(quest_id: String)
 signal quest_progressed(quest_id: String, objective_index: int)
 signal quest_completed(quest_id: String)
 signal quest_failed(quest_id: String)
-signal dialogue_triggered(dialogue_id: String)
+signal dialogue_triggered(dialogue_id, npc_id)
 signal choice_made(dialogue_id: String, choice_id: String)
 
 # ---- 经济事件 ----
@@ -50,4 +51,5 @@ signal item_crafted(item_id: String)
 # ---- UI 事件 ----
 signal menu_opened(menu_name: String)
 signal menu_closed(menu_name: String)
+signal open_shop(shop_id: String)
 signal notification_shown(message: String, level: String)

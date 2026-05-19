@@ -4,13 +4,21 @@ class_name EncounterManager
 extends Node
 
 const ENCOUNTER_RATES: Dictionary = {
-    0: 0.03,  # grass
-    1: 0.01,  # dirt
-    4: 0.05,  # tree
+    0: 0.03,  # GRASS_1
+    1: 0.03,  # GRASS_2
+    2: 0.02,  # GRASS_FLOWER
+    3: 0.01,  # DIRT
+    6: 0.05,  # TREE
 }
 const DEFAULT_ENCOUNTER_RATE: float = 0.0
 const MIN_STEPS_BETWEEN: int = 20
-const STEP_PX: float = 16.0  # 半格瓦片 = 一次"步"
+const STEP_PX: float = 16.0
+
+const ENEMY_TEMPLATES: Array[Dictionary] = [
+    { "name": "山贼喽啰", "skills": ["basic_stab"],   "str_b": 5, "agi_b": 3, "con_b": 4, "int_b": 2, "wil_b": 2, "lck_b": 1, "weight": 5 },
+    { "name": "野狼",     "skills": ["basic_strike"], "str_b": 5, "agi_b": 5, "con_b": 3, "int_b": 1, "wil_b": 2, "lck_b": 1, "weight": 3 },
+    { "name": "毒蛇",     "skills": ["basic_stab"],   "str_b": 2, "agi_b": 6, "con_b": 2, "int_b": 1, "wil_b": 1, "lck_b": 1, "weight": 2 },
+]
 
 var _player_ref: Node2D = null
 var _tilemap: TileMapLayer = null
@@ -36,7 +44,6 @@ func check_encounter() -> bool:
     if _accumulated_dist < STEP_PX:
         return false
 
-    # 一步触发
     _accumulated_dist -= STEP_PX
     _step_count += 1
     _steps_since_encounter += 1
@@ -68,20 +75,21 @@ func build_enemy_team() -> Array:
     if stats:
         player_lv = stats.level
 
-    var bandit_count = randi() % 2 + 1
+    var count = randi() % 2 + 1
     var team = []
 
-    for i in range(bandit_count):
+    for i in range(count):
+        var template = _pick_template()
         var lv = player_lv + randi() % 3 - 1
         lv = max(1, lv)
 
         var enemy_stats = PlayerStats.new()
-        enemy_stats.str = 4 + lv
-        enemy_stats.agi = 3 + lv
-        enemy_stats.con = 4 + lv
-        enemy_stats.int_ = 2 + lv
-        enemy_stats.wil = 2 + lv
-        enemy_stats.lck = 1 + lv
+        enemy_stats.str = template.str_b + lv
+        enemy_stats.agi = template.agi_b + lv
+        enemy_stats.con = template.con_b + lv
+        enemy_stats.int_ = template.int_b + lv
+        enemy_stats.wil = template.wil_b + lv
+        enemy_stats.lck = template.lck_b + lv
         enemy_stats.level = lv
         enemy_stats.experience = 0
         enemy_stats.free_points = 0
@@ -90,12 +98,24 @@ func build_enemy_team() -> Array:
         enemy_stats.current_qi = enemy_stats.max_qi
 
         var data = {
-            "id": "bandit_%d" % i,
-            "name": "山贼喽啰",
+            "id": "enemy_%d" % i,
+            "name": template.name,
             "stats": enemy_stats,
-            "skills": ["basic_stab"],
+            "skills": template.skills,
             "sprite": "",
         }
         team.append(data)
 
     return team
+
+func _pick_template() -> Dictionary:
+    var total = 0
+    for t in ENEMY_TEMPLATES:
+        total += t.weight
+    var roll = randi() % total
+    var cumulative = 0
+    for t in ENEMY_TEMPLATES:
+        cumulative += t.weight
+        if roll < cumulative:
+            return t
+    return ENEMY_TEMPLATES[0]

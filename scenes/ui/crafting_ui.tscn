@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://crafting_ui"]
+
+[ext_resource type="Script" path="res://scripts/ui/crafting_ui.gd" id="1"]
+
+[node name="CraftingUI" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="CraftingPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 100.0
+offset_right = 660.0
+offset_bottom = 1100.0
+
+[node name="TitleLabel" type="Label" parent="CraftingPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 200.0
+offset_bottom = 40.0
+text = "制 作"
+theme_overrides/font_sizes/font_size = 20
+
+[node name="CloseBtn" type="Button" parent="CraftingPanel"]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 10.0
+offset_right = 580.0
+offset_bottom = 40.0
+text = "X"
+
+[node name="RecipeList" type="ItemList" parent="CraftingPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 580.0
+offset_bottom = 400.0
+
+[node name="Detail" type="RichTextLabel" parent="CraftingPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 410.0
+offset_right = 580.0
+offset_bottom = 780.0
+bbcode_enabled = true
+scroll_active = true
+
+[node name="CraftBtn" type="Button" parent="CraftingPanel"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 800.0
+offset_right = 140.0
+offset_bottom = 840.0
+text = "制作"

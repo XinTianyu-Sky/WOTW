@@ -49,11 +49,16 @@ func _auto_init_battle() -> void:
 
 	_return_scene = pending.get("return_scene", "res://scenes/world/world.tscn")
 
+	var equipped_skill = GameManager.player_data.get("equipped_external", "")
+	var player_skills: Array = []
+	if not equipped_skill.is_empty():
+		player_skills.append(equipped_skill)
+
 	var player_team = [{
 		"id": "player",
 		"name": GameManager.player_data.get("name", "主角"),
 		"stats": GameManager.player_data.get("_stats_ref", PlayerStats.new()),
-		"skills": [],
+		"skills": player_skills,
 		"sprite": "",
 	}]
 	var enemy_team = pending.get("enemy_team", [])
@@ -337,6 +342,12 @@ func _calculate_rating() -> String:
 
 func _end_battle(result: Dictionary) -> void:
 	state = BattleState.FINISHED
+	# 收集被击败的敌人名称
+	var defeated_names: Array = []
+	for e in enemy_units:
+		if not e.is_alive():
+			defeated_names.append(e.display_name)
+	result["defeated_enemies"] = defeated_names
 	_show_battle_result(result)
 	await get_tree().create_timer(2.0).timeout
 	battle_finished.emit(result)
@@ -349,11 +360,11 @@ func _show_battle_result(result: Dictionary) -> void:
 	var banner = ui.get_node_or_null("BattleBanner")
 	if banner:
 		if result.get("result") == "victory":
-			banner.text = "胜利！"
-			banner.modulate = Color.GOLD
+			banner.text = "—— 胜 利 ——"
+			banner.add_theme_color_override("font_color", Color(1, 0.85, 0.2))
 		else:
-			banner.text = "战败..."
-			banner.modulate = Color.RED
+			banner.text = "—— 战 败 ——"
+			banner.add_theme_color_override("font_color", Color(0.85, 0.2, 0.15))
 		banner.show()
 
 # ---- 敌人 AI ----
@@ -418,6 +429,40 @@ func _execute_player_action() -> void:
 
 	await get_tree().create_timer(0.3).timeout
 	end_current_turn()
+
+func on_player_item_selected(item_id: String) -> void:
+	var unit = turn_order[current_turn_index]
+	var item_data = DataManager.get_item(item_id)
+	if item_data.is_empty():
+		end_current_turn()
+		return
+
+	var effects = item_data.get("effects", {})
+	var stats = unit.stats
+
+	if effects.has("healAmount"):
+		var healed = min(stats.current_hp + effects["healAmount"], stats.max_hp) - stats.current_hp
+		stats.current_hp = min(stats.current_hp + effects["healAmount"], stats.max_hp)
+		_add_battle_log("%s 使用 %s，恢复 %d 生命" % [unit.display_name, item_data.get("name", "???"), healed])
+	if effects.has("qiRestore"):
+		var restored = min(stats.current_qi + effects["qiRestore"], stats.max_qi) - stats.current_qi
+		stats.current_qi = min(stats.current_qi + effects["qiRestore"], stats.max_qi)
+		_add_battle_log("%s 使用 %s，恢复 %d 内力" % [unit.display_name, item_data.get("name", "???"), restored])
+	if effects.has("attackBuff"):
+		stats.attack += int(stats.attack * effects["attackBuff"])
+		_add_battle_log("%s 使用 %s，攻击力暂时提升" % [unit.display_name, item_data.get("name", "???")])
+
+	_remove_item_from_inventory(item_id)
+	_refresh_battle_ui()
+	await get_tree().create_timer(0.3).timeout
+	end_current_turn()
+
+func _remove_item_from_inventory(item_id: String) -> void:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	var idx = inv.find(item_id)
+	if idx != -1:
+		inv.remove_at(idx)
+		GameManager.player_data["inventory"] = inv
 
 func _find_nearest_enemy(unit: BattleUnit) -> BattleUnit:
 	var nearest: BattleUnit = null

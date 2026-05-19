@@ -174,6 +174,7 @@ func _on_confirm() -> void:
 		"equipped_internal": "",
 		"equipped_lightness": "",
 		"inventory": origin.get("startingItems", []),
+		"copper": origin.get("startingCopper", 500),
 	}
 
 	# 初始化世界状态

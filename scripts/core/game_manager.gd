@@ -29,6 +29,7 @@ const SECONDS_PER_GAME_HOUR: float = 60.0  # 现实60秒 = 游戏1小时
 
 # ---- 战斗临时数据 ----
 var pending_battle: Dictionary = {}
+var pending_return: Dictionary = {}   # 场景返回数据（从室内返回世界时使用）
 
 # ---- 信号 ----
 signal phase_changed(old_phase: GamePhase, new_phase: GamePhase)

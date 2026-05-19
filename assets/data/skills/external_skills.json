@@ -430,6 +430,150 @@
         }
       ],
       "comboChains": []
+    },
+    {
+      "id": "basic_spear",
+      "name": "枪术基础",
+      "description": "基础枪法，军中必习。",
+      "source": "common",
+      "element": "metal",
+      "rarity": "common",
+      "weaponType": "spear",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "spear_thrust",
+          "name": "直刺",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 2, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.0 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
+    },
+    {
+      "id": "basic_fan",
+      "name": "扇法基础",
+      "description": "以扇为兵，儒雅中暗藏杀机。",
+      "source": "common",
+      "element": "wood",
+      "rarity": "common",
+      "weaponType": "fan",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "fan_strike",
+          "name": "挥扇",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 0.9 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
+    },
+    {
+      "id": "basic_palm",
+      "name": "掌法基础",
+      "description": "基础掌法，以柔克刚。",
+      "source": "common",
+      "element": "earth",
+      "rarity": "common",
+      "weaponType": "fist",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "palm_strike",
+          "name": "推掌",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.0 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
+    },
+    {
+      "id": "basic_hidden_weapon",
+      "name": "暗器基础",
+      "description": "基础暗器手法，出其不意。",
+      "source": "common",
+      "element": "metal",
+      "rarity": "common",
+      "weaponType": "hidden_weapon",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "dart_throw",
+          "name": "飞镖",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 3, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 0.8 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
+    },
+    {
+      "id": "basic_staff",
+      "name": "棍法基础",
+      "description": "基础棍法，横扫千军。",
+      "source": "common",
+      "element": "wood",
+      "rarity": "common",
+      "weaponType": "staff",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "staff_sweep",
+          "name": "横扫",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "square", "areaSize": 3 },
+          "damageFormula": { "stat": "attack", "multiplier": 0.8 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
+    },
+    {
+      "id": "basic_fist",
+      "name": "拳法基础",
+      "description": "赤手空拳，江湖儿女最基本的功夫。",
+      "source": "common",
+      "element": "metal",
+      "rarity": "common",
+      "weaponType": "fist",
+      "requiredAttributes": {},
+      "techniques": [
+        {
+          "id": "fist_punch",
+          "name": "直拳",
+          "type": "basic",
+          "qiCost": 0,
+          "cooldown": 0,
+          "range": { "min": 1, "max": 1, "areaType": "single" },
+          "damageFormula": { "stat": "attack", "multiplier": 1.0 },
+          "effects": [],
+          "proficiencyBonus": {}
+        }
+      ],
+      "comboChains": []
     }
   ]
 }

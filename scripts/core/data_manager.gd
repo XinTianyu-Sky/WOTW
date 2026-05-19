@@ -152,3 +152,15 @@ func get_status_effect(id: String) -> Dictionary:
 		if effect["id"] == id:
 			return effect
 	return {}
+
+## 获取所有配方
+func get_recipes() -> Array:
+	var data = get_data("items")
+	return data.get("recipes", [])
+
+## 按 ID 获取配方
+func get_recipe(id: String) -> Dictionary:
+	for recipe in get_recipes():
+		if recipe["id"] == id:
+			return recipe
+	return {}

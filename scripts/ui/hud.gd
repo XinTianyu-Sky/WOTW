@@ -24,6 +24,7 @@ extends CanvasLayer
 @onready var character_btn: Button = $BottomBar/CharacterBtn
 @onready var skills_btn: Button = $BottomBar/SkillsBtn
 @onready var quest_btn: Button = $BottomBar/QuestBtn
+@onready var craft_btn: Button = $BottomBar/CraftBtn
 @onready var map_btn: Button = $TopPanel/MapBtn
 
 # ---- 通知 ----
@@ -38,8 +39,15 @@ func _ready() -> void:
 	character_btn.pressed.connect(func(): EventBus.menu_opened.emit("character"))
 	skills_btn.pressed.connect(func(): EventBus.menu_opened.emit("skills"))
 	quest_btn.pressed.connect(func(): EventBus.menu_opened.emit("quest"))
+	craft_btn.pressed.connect(func(): EventBus.menu_opened.emit("crafting"))
 	save_btn.pressed.connect(func(): SaveManager.save_game(0))
 	map_btn.pressed.connect(func(): EventBus.menu_opened.emit("map"))
+
+	# HUD 视觉样式
+	hp_bar.add_theme_color_override("fill_color", Color(0.82, 0.15, 0.1))
+	qi_bar.add_theme_color_override("fill_color", Color(0.15, 0.35, 0.78))
+	level_label.add_theme_color_override("font_color", Color(0.9, 0.85, 0.7, 1))
+	time_label.add_theme_color_override("font_color", Color(0.7, 0.65, 0.5, 1))
 
 	# 监听事件
 	EventBus.player_leveled_up.connect(_on_player_leveled)

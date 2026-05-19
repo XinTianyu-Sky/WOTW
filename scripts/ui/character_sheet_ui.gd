@@ -22,10 +22,14 @@ var player_stats: PlayerStats = null
 
 func _ready() -> void:
 	hide()
-	close_btn.pressed.connect(hide)
+	close_btn.pressed.connect(_close)
 	EventBus.menu_opened.connect(_on_menu_opened)
 	EventBus.attribute_changed.connect(func(_a, _v): _refresh())
 	EventBus.equipment_changed.connect(func(_s, _i): _refresh())
+
+func _close() -> void:
+	hide()
+	EventBus.menu_closed.emit("character")
 
 func _on_menu_opened(menu_name: String) -> void:
 	if menu_name == "character":

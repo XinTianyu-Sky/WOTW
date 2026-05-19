@@ -9,6 +9,7 @@
       "startingSkill": "basic_spear",
       "startingLocation": "luoyang_barracks",
       "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jinchuang_yao"],
+      "startingCopper": 800,
       "specialEffect": "NPC军官初始好感+20"
     },
     {
@@ -20,6 +21,7 @@
       "startingSkill": "basic_fan",
       "startingLocation": "luoyang_academy",
       "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "huiqi_dan"],
+      "startingCopper": 500,
       "specialEffect": "读书识字速度+30%，武学秘籍领悟概率+10%"
     },
     {
@@ -31,6 +33,7 @@
       "startingSkill": "basic_palm",
       "startingLocation": "wuming_valley",
       "startingItems": ["cloth_armor", "cloth_shoes", "jinchuang_yao", "dahuan_dan"],
+      "startingCopper": 300,
       "specialEffect": "随机获得一条与身世相关的NPC寻亲线索（指向隐藏剧情）"
     },
     {
@@ -42,6 +45,7 @@
       "startingSkill": "basic_hidden_weapon",
       "startingLocation": "quanzhou_port",
       "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jinchuang_yao", "xiaohuan_dan"],
+      "startingCopper": 3000,
       "specialEffect": "初始资金×3（3000铜钱），所有商店交易折扣10%"
     },
     {
@@ -53,6 +57,7 @@
       "startingSkill": "basic_staff",
       "startingLocation": "nanjiang_village",
       "startingItems": ["iron_sword", "cloth_armor", "cloth_shoes", "jiedu_dan"],
+      "startingCopper": 500,
       "specialEffect": "采药效率+30%，自动识别毒草（免疫采集中毒）"
     },
     {
@@ -64,6 +69,7 @@
       "startingSkill": "basic_fist",
       "startingLocation": "luoyang_street",
       "startingItems": ["cloth_shoes", "xiaohuan_dan"],
+      "startingCopper": 100,
       "specialEffect": "丐帮入门免试，情报获取成功率+20%，乞讨可获得额外铜钱"
     }
   ]

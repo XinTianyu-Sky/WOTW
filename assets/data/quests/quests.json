@@ -10,15 +10,34 @@
       "giverNpc": "system",
       "giverLocation": "luoyang_gate",
       "objectives": [
-        { "type": "explore", "description": "进入洛阳城", "targetId": "luoyang_center", "location": "luoyang" },
-        { "type": "talk", "description": "在龙门客栈找到掌柜打听消息", "targetId": "innkeeper_wang", "location": "longmen_inn" },
-        { "type": "talk", "description": "寻找城中的老乞丐", "targetId": "old_beggar", "location": "luoyang_street" }
+        {
+          "type": "explore",
+          "description": "进入洛阳城",
+          "targetId": "luoyang_center",
+          "location": "luoyang"
+        },
+        {
+          "type": "talk",
+          "description": "在龙门客栈找到掌柜打听消息",
+          "targetId": "innkeeper_wang",
+          "location": "longmen_inn"
+        },
+        {
+          "type": "talk",
+          "description": "寻找城中的老乞丐",
+          "targetId": "old_beggar",
+          "location": "luoyang_street"
+        }
       ],
       "rewards": {
         "experience": 100,
         "copper": 200,
-        "items": ["jinchuang_yao"],
-        "reputation": { "jianghu": 10 }
+        "items": [
+          "jinchuang_yao"
+        ],
+        "reputation": {
+          "jianghu": 10
+        }
       },
       "estimatedDuration": 15
     },
@@ -28,21 +47,51 @@
       "type": "main",
       "chapter": 1,
       "levelRequired": 2,
-      "prerequisites": { "quests": ["main_ch1_01"] },
+      "prerequisites": {
+        "quests": [
+          "main_ch1_01"
+        ]
+      },
       "description": "洛阳城外的山贼日益猖獗，洛阳捕头正在招募江湖侠士前往剿灭。这是你扬名立万的好机会。",
       "giverNpc": "captain_zhang",
       "giverLocation": "luoyang_yamen",
       "objectives": [
-        { "type": "talk", "description": "前往洛阳衙门与张捕头交谈", "targetId": "captain_zhang", "location": "luoyang_yamen" },
-        { "type": "explore", "description": "前往城外的山贼营地", "targetId": "bandit_camp", "location": "luoyang_outskirts" },
-        { "type": "kill", "description": "击败山贼头目", "targetId": "bandit_chief", "count": 1 },
-        { "type": "collect", "description": "收集被劫的官银", "targetId": "stolen_silver", "count": 3 }
+        {
+          "type": "talk",
+          "description": "前往洛阳衙门与张捕头交谈",
+          "targetId": "captain_zhang",
+          "location": "luoyang_yamen"
+        },
+        {
+          "type": "explore",
+          "description": "前往城外的山贼营地",
+          "targetId": "bandit_camp",
+          "location": "luoyang_outskirts"
+        },
+        {
+          "type": "kill",
+          "description": "击败山贼头目",
+          "targetId": "bandit_chief",
+          "count": 1
+        },
+        {
+          "type": "collect",
+          "description": "收集被劫的官银",
+          "targetId": "stolen_silver",
+          "count": 3
+        }
       ],
       "rewards": {
         "experience": 300,
         "copper": 500,
-        "items": ["iron_sword"],
-        "reputation": { "jianghu": 30, "zhongyuan": 20, "xiayi": 15 }
+        "items": [
+          "iron_sword"
+        ],
+        "reputation": {
+          "jianghu": 30,
+          "zhongyuan": 20,
+          "xiayi": 15
+        }
       },
       "estimatedDuration": 25
     },
@@ -52,35 +101,75 @@
       "type": "main",
       "chapter": 1,
       "levelRequired": 5,
-      "prerequisites": { "quests": ["main_ch1_02"] },
+      "prerequisites": {
+        "quests": [
+          "main_ch1_02"
+        ]
+      },
       "description": "从山贼手中救出的一名老者认出了你的玉佩，他说这玉佩与二十年前的一桩旧事有关，建议你去少林寺藏经阁查阅典籍。",
       "giverNpc": "old_man_rescued",
       "giverLocation": "luoyang_inn",
       "objectives": [
-        { "type": "talk", "description": "与获救的老者交谈", "targetId": "old_man_rescued", "location": "luoyang_inn" },
-        { "type": "explore", "description": "前往少林寺", "targetId": "shaolin_temple", "location": "songshan" },
-        { "type": "talk", "description": "请求藏经阁长老允许查阅典籍", "targetId": "librarian_monk", "location": "shaolin_library" }
+        {
+          "type": "talk",
+          "description": "与获救的老者交谈",
+          "targetId": "old_man_rescued",
+          "location": "luoyang_inn"
+        },
+        {
+          "type": "explore",
+          "description": "前往少林寺",
+          "targetId": "shaolin_temple",
+          "location": "songshan"
+        },
+        {
+          "type": "talk",
+          "description": "请求藏经阁长老允许查阅典籍",
+          "targetId": "librarian_monk",
+          "location": "shaolin_library"
+        }
       ],
       "choices": [
         {
           "nodeId": "choice_shaolin_entry",
           "description": "如何进入藏经阁？",
           "options": [
-            { "text": "以礼相求，说明来意（需侠义值≥50）", "consequences": { "affinity": { "librarian_monk": 10 } } },
-            { "text": "捐赠香火钱（消耗500铜钱）", "consequences": { "copper": -500 } },
-            { "text": "夜深人静时潜入（需身法≥15）", "consequences": { "reputation": { "xiayi": -10 }, "riskOfCaught": 0.3 } }
+            {
+              "text": "以礼相求，说明来意（需侠义值≥50）",
+              "consequences": {
+                "affinity": {
+                  "librarian_monk": 10
+                }
+              }
+            },
+            {
+              "text": "捐赠香火钱（消耗500铜钱）",
+              "consequences": {
+                "copper": -500
+              }
+            },
+            {
+              "text": "夜深人静时潜入（需身法≥15）",
+              "consequences": {
+                "reputation": {
+                  "xiayi": -10
+                },
+                "riskOfCaught": 0.3
+              }
+            }
           ]
         }
       ],
       "rewards": {
         "experience": 500,
         "silver": 1,
-        "reputation": { "jianghu": 50 }
+        "reputation": {
+          "jianghu": 50
+        }
       },
       "estimatedDuration": 30
     }
   ],
-
   "sideQuests": [
     {
       "id": "side_tang_01",
@@ -88,25 +177,88 @@
       "type": "side_character",
       "chapter": 2,
       "levelRequired": 10,
-      "prerequisites": { "reputation": { "shuzhong": 30 } },
+      "prerequisites": {
+        "reputation": {
+          "shuzhong": 30
+        }
+      },
       "description": "唐门大小姐唐若萱怀疑父亲之死另有隐情，她需要你的帮助来调查真相。",
       "giverNpc": "tang_ruoxuan",
       "giverLocation": "tangjiabao",
       "objectives": [
-        { "type": "talk", "description": "与唐若萱交谈了解情况", "targetId": "tang_ruoxuan", "location": "tangjiabao" },
-        { "type": "explore", "description": "前往唐门禁地调查", "targetId": "tangmen_forbidden_area", "location": "tangjiabao" },
-        { "type": "collect", "description": "收集三封密信", "targetId": "secret_letter", "count": 3 },
-        { "type": "kill", "description": "击败幕后黑手", "targetId": "traitor_elder", "count": 1 }
+        {
+          "type": "talk",
+          "description": "与唐若萱交谈了解情况",
+          "targetId": "tang_ruoxuan",
+          "location": "tangjiabao"
+        },
+        {
+          "type": "explore",
+          "description": "前往唐门禁地调查",
+          "targetId": "tangmen_forbidden_area",
+          "location": "tangjiabao"
+        },
+        {
+          "type": "collect",
+          "description": "收集三封密信",
+          "targetId": "secret_letter",
+          "count": 3
+        },
+        {
+          "type": "kill",
+          "description": "击败幕后黑手",
+          "targetId": "traitor_elder",
+          "count": 1
+        }
       ],
       "rewards": {
         "experience": 2000,
         "silver": 10,
-        "items": ["poison_resist_pendant"],
-        "reputation": { "shuzhong": 80, "xiayi": 40 },
-        "affinity": { "tang_ruoxuan": 50 },
+        "items": [
+          "poison_resist_pendant"
+        ],
+        "reputation": {
+          "shuzhong": 80,
+          "xiayi": 40
+        },
+        "affinity": {
+          "tang_ruoxuan": 50
+        },
         "unlockFeature": "companion_tang_ruoxuan"
       },
       "estimatedDuration": 45
+    },
+    {
+      "id": "side_guide_01",
+      "name": "武师试炼",
+      "type": "side_guide",
+      "chapter": 0,
+      "levelRequired": 1,
+      "description": "听从隐居武师的指点，打败一只野狼来证明你的实力。",
+      "giverNpc": "wushi",
+      "giverLocation": "newbie_village",
+      "objectives": [
+        {
+          "type": "kill",
+          "description": "打败一只野狼",
+          "targetId": "野狼",
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "description": "回去找武师复命",
+          "targetId": "wushi",
+          "location": "newbie_village"
+        }
+      ],
+      "rewards": {
+        "experience": 80,
+        "copper": 100,
+        "items": [
+          "book_tongbi"
+        ]
+      },
+      "estimatedDuration": 10
     },
     {
       "id": "side_shaolin_01",
@@ -114,25 +266,45 @@
       "type": "side_sect",
       "chapter": 1,
       "levelRequired": 8,
-      "prerequisites": { "quests": ["main_ch1_03"] },
+      "prerequisites": {
+        "quests": [
+          "main_ch1_03"
+        ]
+      },
       "description": "少林寺藏经阁一部珍贵的武学经书不翼而飞，方丈怀疑有内鬼。作为最近到访藏经阁的外人，你有义务协助调查。",
       "giverNpc": "librarian_monk",
       "giverLocation": "shaolin_library",
       "objectives": [
-        { "type": "talk", "description": "询问藏经阁内的僧人", "targetId": "shaolin_monks", "count": 3 },
-        { "type": "explore", "description": "追踪可疑人物到后山", "targetId": "shaolin_back_mountain", "location": "songshan" },
-        { "type": "choice", "description": "决定如何处置偷书贼" }
+        {
+          "type": "talk",
+          "description": "询问藏经阁内的僧人",
+          "targetId": "shaolin_monks",
+          "count": 3
+        },
+        {
+          "type": "explore",
+          "description": "追踪可疑人物到后山",
+          "targetId": "shaolin_back_mountain",
+          "location": "songshan"
+        },
+        {
+          "type": "choice",
+          "description": "决定如何处置偷书贼"
+        }
       ],
       "rewards": {
         "experience": 800,
         "silver": 2,
-        "reputation": { "xiayi": 20 },
-        "skills": ["shaolin_basic_fist"]
+        "reputation": {
+          "xiayi": 20
+        },
+        "skills": [
+          "shaolin_basic_fist"
+        ]
       },
       "estimatedDuration": 25
     }
   ],
-
   "dialogues": [
     {
       "id": "dlg_old_beggar_first",
@@ -146,9 +318,30 @@
           "expression": "squint",
           "text": "这位少侠，一看就是初来乍到吧？老叫花子在洛阳待了三十年，这城里的事，没有我不知道的。",
           "choices": [
-            { "id": "c1", "text": "（恭敬行礼）老前辈，晚辈初到洛阳，想打听一些消息。", "effects": { "affinityChange": 5 }, "nextNode": "node_02a" },
-            { "id": "c2", "text": "（扔下几枚铜钱）说吧，你知道些什么？", "effects": { "affinityChange": -3 }, "nextNode": "node_02b" },
-            { "id": "c3", "text": "一个乞丐能知道什么？别浪费我时间。", "effects": { "affinityChange": -20 }, "nextNode": "node_02c" }
+            {
+              "id": "c1",
+              "text": "（恭敬行礼）老前辈，晚辈初到洛阳，想打听一些消息。",
+              "effects": {
+                "affinityChange": 5
+              },
+              "nextNode": "node_02a"
+            },
+            {
+              "id": "c2",
+              "text": "（扔下几枚铜钱）说吧，你知道些什么？",
+              "effects": {
+                "affinityChange": -3
+              },
+              "nextNode": "node_02b"
+            },
+            {
+              "id": "c3",
+              "text": "一个乞丐能知道什么？别浪费我时间。",
+              "effects": {
+                "affinityChange": -20
+              },
+              "nextNode": "node_02c"
+            }
           ]
         },
         "node_02a": {
@@ -163,7 +356,9 @@
           "speaker": "old_beggar",
           "expression": "neutral",
           "text": "铜钱虽少，也是一番心意。老叫花子就告诉你吧——最近城外山贼闹得厉害，官府正在招募人手。",
-          "effects": { "startQuest": "main_ch1_02" },
+          "effects": {
+            "startQuest": "main_ch1_02"
+          },
           "nextNode": "node_end"
         },
         "node_02c": {
@@ -179,8 +374,19 @@
           "expression": "serious",
           "text": "说到大事……少侠，你腰间那块玉佩，可否让老叫花子看看？",
           "choices": [
-            { "id": "c4", "text": "（递过玉佩）前辈认得此物？", "nextNode": "node_04" },
-            { "id": "c5", "text": "（警惕地收回玉佩）这是我的私人物品。", "effects": { "affinityChange": -10 }, "nextNode": "node_end" }
+            {
+              "id": "c4",
+              "text": "（递过玉佩）前辈认得此物？",
+              "nextNode": "node_04"
+            },
+            {
+              "id": "c5",
+              "text": "（警惕地收回玉佩）这是我的私人物品。",
+              "effects": {
+                "affinityChange": -10
+              },
+              "nextNode": "node_end"
+            }
           ]
         },
         "node_04": {
@@ -188,8 +394,137 @@
           "speaker": "old_beggar",
           "expression": "shocked",
           "text": "这……这是「七星佩」！没想到老叫花子有生之年还能再见到它。少侠，你这玉佩从何而来？",
-          "effects": { "setFlag": "jade_identified" },
+          "effects": {
+            "setFlag": "jade_identified"
+          },
           "nextNode": "node_end"
+        },
+        "node_end": {
+          "id": "node_end",
+          "speaker": "system",
+          "text": "（对话结束）"
+        }
+      }
+    },
+    {
+      "id": "dlg_guard_intro",
+      "name": "守卫对话",
+      "relatedNpc": "village_guard",
+      "startNode": "node_01",
+      "nodes": {
+        "node_01": {
+          "id": "node_01",
+          "speaker": "village_guard",
+          "expression": "neutral",
+          "text": "这里是新手村，往东走就是洛阳城了。不过最近城外山贼闹得厉害，少侠若是要出村，最好准备充分一些。",
+          "choices": [
+            {
+              "id": "c1",
+              "text": "多谢提醒，我会小心的。",
+              "nextNode": "node_02"
+            },
+            {
+              "id": "c2",
+              "text": "山贼？他们有多少人？",
+              "nextNode": "node_03"
+            }
+          ]
+        },
+        "node_02": {
+          "id": "node_02",
+          "speaker": "village_guard",
+          "text": "嗯，看你也是个练家子。村里的杂货铺和药铺都有补给，不妨去逛逛。",
+          "nextNode": "node_end"
+        },
+        "node_03": {
+          "id": "node_03",
+          "speaker": "village_guard",
+          "text": "少说也有二三十人，盘踞在郊外的山寨里。听说张捕头正在招募人手剿匪，少侠有兴趣可以去衙门看看。",
+          "effects": {
+            "startQuest": "main_ch1_02"
+          },
+          "nextNode": "node_end"
+        },
+        "node_end": {
+          "id": "node_end",
+          "speaker": "system",
+          "text": "（对话结束）"
+        }
+      }
+    },
+    {
+      "id": "dlg_teahouse_gossip",
+      "name": "茶馆闲聊",
+      "relatedNpc": "teahouse_owner",
+      "startNode": "node_01",
+      "nodes": {
+        "node_01": {
+          "id": "node_01",
+          "speaker": "teahouse_owner",
+          "expression": "friendly",
+          "text": "客官来啦！喝茶还是听说书？咱们这儿有上好的龙井，还有新鲜出炉的江湖八卦。",
+          "choices": [
+            {
+              "id": "c1",
+              "text": "来壶龙井，顺便听听最近有什么新鲜事。",
+              "nextNode": "node_02a"
+            },
+            {
+              "id": "c2",
+              "text": "不用了，我随便看看。",
+              "nextNode": "node_end"
+            }
+          ]
+        },
+        "node_02a": {
+          "id": "node_02a",
+          "speaker": "teahouse_owner",
+          "text": "嘿，最近最大的新闻就是少林寺藏经阁丢了本经书。方丈气得不行，正四处找线索呢。还有就是，听说城外山贼绑架了个老道士，那老道嘴里一直念叨什么「七星佩」……",
+          "nextNode": "node_end"
+        },
+        "node_end": {
+          "id": "node_end",
+          "speaker": "system",
+          "text": "（对话结束）"
+        }
+      }
+    },
+    {
+      "id": "dlg_wushi",
+      "relatedNpc": "wushi",
+      "startNode": "node_01",
+      "nodes": {
+        "node_01": {
+          "id": "node_01",
+          "speaker": "wushi",
+          "expression": "stern",
+          "text": "年轻人，我看你骨骼清奇，是个练武的好苗子。老夫在此隐居多年，也算是缘分。这江湖险恶，你既要闯荡，须得先练好基本功。",
+          "nextNode": "node_02"
+        },
+        "node_02": {
+          "id": "node_02",
+          "speaker": "wushi",
+          "expression": "neutral",
+          "text": "山贼和野狼常在附近出没，正是你磨炼身手的好靶子。另外，这山里草药不少，采些回来或许能救你一命。若有余钱，去李货郎的杂货铺看看，买些丹药防身。",
+          "choices": [
+            {
+              "id": "c1",
+              "text": "晚辈明白，这就去练练手。",
+              "nextNode": "node_accept"
+            },
+            {
+              "id": "c2",
+              "text": "多谢前辈指点。",
+              "nextNode": "node_end"
+            }
+          ]
+        },
+        "node_accept": {
+          "id": "node_accept",
+          "speaker": "wushi",
+          "text": "去吧，打赢了就回来，老夫有东西给你。",
+          "nextNode": "node_end",
+          "acceptQuest": "side_guide_01"
         },
         "node_end": {
           "id": "node_end",

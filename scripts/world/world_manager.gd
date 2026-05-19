@@ -39,7 +39,9 @@ var encounter_manager: EncounterManager = null
 
 func _ready() -> void:
 	EventBus.scene_entered.connect(_on_scene_entered)
+	EventBus.battle_ended.connect(_on_battle_ended)
 	_init_player()
+	_restore_return_position()
 	_init_hud()
 	_setup_encounter()
 	_init_equipment()
@@ -87,6 +89,15 @@ func _init_equipment() -> void:
 			stats.update_equipment_bonuses(eq.get_total_bonuses())
 	)
 
+func _restore_return_position() -> void:
+	var ret = GameManager.pending_return
+	if ret.is_empty():
+		return
+	var player = get_node_or_null("Player")
+	if player:
+		player.global_position = ret.get("position", Vector2(208, 336))
+	GameManager.pending_return = {}
+
 func _init_hud() -> void:
 	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
 	if not stats:
@@ -100,14 +111,7 @@ func _init_hud() -> void:
 	if char_sheet and char_sheet.has_method("set_stats"):
 		char_sheet.set_stats(stats)
 
-	# 背包面板
-	var inv_ui = get_node_or_null("UILayer/InventoryUI")
-	if inv_ui:
-		var raw_inv = GameManager.player_data.get("inventory", [])
-		var items = []
-		for item_id in raw_inv:
-			items.append({"id": item_id, "count": 1})
-		inv_ui.inventory_items = items
+	# 背包面板 — 直接从 GameManager 读取，无需初始化
 
 	# 武学面板
 	var skills_ui = get_node_or_null("UILayer/SkillsUI")
@@ -119,7 +123,15 @@ func _init_hud() -> void:
 		skills_ui.equipped_internal = GameManager.player_data.get("equipped_internal", "")
 		skills_ui.equipped_lightness = GameManager.player_data.get("equipped_lightness", "")
 
+	# 商店
+	var shop_ui = get_node_or_null("UILayer/ShopUI")
+	if shop_ui:
+		EventBus.open_shop.connect(func(sid: String): shop_ui.open_shop(sid))
+
 func _process(delta: float) -> void:
+	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:
+		return
+
 	weather_timer += delta
 	if weather_timer >= weather_duration:
 		_roll_new_weather()
@@ -151,6 +163,40 @@ func _build_player_team() -> Array:
 		"skills": [skill_id] if not skill_id.is_empty() else [],
 		"sprite": "",
 	}]
+
+# ---- 战斗结果处理 ----
+func _on_battle_ended(result: Dictionary) -> void:
+	if result.get("result") != "victory":
+		return
+	var defeated = result.get("defeated_enemies", [])
+	if defeated.is_empty():
+		return
+	var active = GameManager.world_state.get("active_quests", [])
+	for qid in active:
+		var qdata = DataManager.get_quest(qid)
+		if qdata.is_empty():
+			continue
+		var objs = qdata.get("objectives", [])
+		for i in range(objs.size()):
+			var obj = objs[i]
+			if obj.get("type") != "kill":
+				continue
+			var progress = GameManager.world_state.get("quest_progress", {}).get(qid, [])
+			if progress.has(i):
+				continue
+			var target = obj.get("targetId", "")
+			for name in defeated:
+				if name == target or target.is_empty():
+					progress.append(i)
+					GameManager.world_state["quest_progress"] = GameManager.world_state.get("quest_progress", {})
+					GameManager.world_state["quest_progress"][qid] = progress
+					EventBus.quest_progressed.emit(qid, i)
+					_check_kill_quest_completion(qid, objs, progress)
+					return
+
+func _check_kill_quest_completion(qid: String, objectives: Array, completed_indices: Array) -> void:
+	if completed_indices.size() >= objectives.size():
+		EventBus.quest_completed.emit(qid)
 
 # ---- 场景切换 ----
 func _on_scene_entered(scene_id: String) -> void:

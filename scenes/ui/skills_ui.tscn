@@ -65,6 +65,15 @@ layout_mode = 0
 offset_left = 20.0
 offset_top = 560.0
 offset_right = 580.0
-offset_bottom = 1050.0
+offset_bottom = 980.0
 bbcode_enabled = true
 scroll_active = true
+
+[node name="EquipBtn" type="Button" parent="SkillsPanel"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 1000.0
+offset_right = 140.0
+offset_bottom = 1040.0
+text = "装备"

@@ -265,9 +265,80 @@
   ],
 
   "skillBooks": [
-    { "id": "book_taichi", "name": "太极拳谱", "skillId": "taichi_quan", "skillType": "external", "rarity": "legendary", "description": "武当派张三丰真人所著的太极拳谱，字字珠玑。", "isFragment": false, "price": 0 },
-    { "id": "book_xuanming", "name": "玄冥神掌秘籍", "skillId": "xuanming_zhang", "skillType": "external", "rarity": "epic", "description": "雪山派玄冥神掌的完整修炼法门。", "isFragment": false, "price": 0 },
-    { "id": "fragment_jiuyang_1", "name": "九阳神功残卷（上）", "skillId": "jiuyang_shengong", "skillType": "internal", "rarity": "legendary", "description": "九阳神功的上半部残卷。", "isFragment": true, "fragmentsRequired": 3, "price": 50000 },
-    { "id": "book_lingbo", "name": "凌波微步秘籍", "skillId": "lingbo_weibu", "skillType": "lightness", "rarity": "legendary", "description": "失传已久的绝世轻功秘籍，不知为何流落江湖。", "isFragment": false, "price": 0 }
+    { "id": "book_taichi", "name": "太极拳谱", "type": "skillBook", "skillId": "taichi_quan", "skillType": "external", "rarity": "legendary", "description": "武当派张三丰真人所著的太极拳谱，字字珠玑。", "isFragment": false, "price": 0 },
+    { "id": "book_xuanming", "name": "玄冥神掌秘籍", "skillId": "xuanming_zhang", "skillType": "external", "type": "skillBook", "rarity": "epic", "description": "雪山派玄冥神掌的完整修炼法门。", "isFragment": false, "price": 0 },
+    { "id": "fragment_jiuyang_1", "name": "九阳神功残卷（上）", "type": "skillBook", "skillId": "jiuyang_shengong", "skillType": "internal", "rarity": "legendary", "description": "九阳神功的上半部残卷。", "isFragment": true, "fragmentsRequired": 3, "price": 50000 },
+    { "id": "book_lingbo", "name": "凌波微步秘籍", "type": "skillBook", "skillId": "lingbo_weibu", "skillType": "lightness", "rarity": "legendary", "description": "失传已久的绝世轻功秘籍，不知为何流落江湖。", "isFragment": false, "price": 0 },
+    { "id": "book_tongbi", "name": "通臂拳谱", "type": "skillBook", "skillId": "basic_fist", "skillType": "external", "rarity": "common", "description": "江湖上广为流传的入门拳谱，记录了三招两式的基本拳法。", "isFragment": false, "price": 200 }
+  ],
+
+  "shops": [
+    {
+      "id": "village_shop",
+      "name": "杂货铺",
+      "items": ["iron_sword", "cloth_armor", "cloth_shoes", "jade_pendant", "jinchuang_yao", "xiaohuan_dan", "huiqi_dan", "iron_ore", "zhixue_cao", "juqi_cao", "book_tongbi"],
+      "discount": 0.0
+    },
+    {
+      "id": "blacksmith",
+      "name": "铁匠铺",
+      "items": ["iron_sword", "steel_sword", "iron_armor", "wind_boots", "iron_ore", "copper_ore"],
+      "discount": 0.0
+    },
+    {
+      "id": "herb_shop",
+      "name": "药铺",
+      "items": ["jinchuang_yao", "xiaohuan_dan", "dahuan_dan", "huiqi_dan", "juqi_dan", "zhenqi_dan", "zhixue_cao", "juqi_cao", "lingzhi", "renshen"],
+      "discount": 0.0
+    }
+  ],
+
+  "recipes": [
+    {
+      "id": "craft_jinchuang_yao",
+      "name": "制作金创药",
+      "resultItem": "jinchuang_yao",
+      "materials": [
+        { "itemId": "zhixue_cao", "count": 2 }
+      ],
+      "copperCost": 10
+    },
+    {
+      "id": "craft_huiqi_dan",
+      "name": "制作回气丹",
+      "resultItem": "huiqi_dan",
+      "materials": [
+        { "itemId": "juqi_cao", "count": 2 }
+      ],
+      "copperCost": 10
+    },
+    {
+      "id": "craft_iron_sword",
+      "name": "锻造铁剑",
+      "resultItem": "iron_sword",
+      "materials": [
+        { "itemId": "iron_ore", "count": 3 }
+      ],
+      "copperCost": 50
+    },
+    {
+      "id": "craft_iron_armor",
+      "name": "锻造铁甲",
+      "resultItem": "iron_armor",
+      "materials": [
+        { "itemId": "iron_ore", "count": 5 }
+      ],
+      "copperCost": 80
+    },
+    {
+      "id": "craft_xiaohuan_dan",
+      "name": "炼制小还丹",
+      "resultItem": "xiaohuan_dan",
+      "materials": [
+        { "itemId": "zhixue_cao", "count": 3 },
+        { "itemId": "juqi_cao", "count": 1 }
+      ],
+      "copperCost": 30
+    }
   ]
 }

@@ -24,6 +24,52 @@ var _use_click_move: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
+	_generate_player_sprite()
+	GameManager.phase_changed.connect(func(_old, new):
+		can_move = (new == GameManager.GamePhase.WORLD_EXPLORATION)
+		if not can_move:
+			velocity = Vector2.ZERO
+			_use_click_move = false
+	)
+	EventBus.menu_opened.connect(func(_name): set_can_move(false))
+	EventBus.menu_closed.connect(func(_name): set_can_move(true))
+
+func _generate_player_sprite() -> void:
+	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	var skin = Color(0.92, 0.8, 0.65)
+	var hair = Color(0.08, 0.06, 0.05)
+	var robe = Color(0.25, 0.35, 0.5)
+	var belt = Color(0.55, 0.4, 0.2)
+	# head
+	for y in range(4, 12):
+		for x in range(12, 20):
+			if sqrt((x - 16) * (x - 16) + (y - 8) * (y - 8)) < 3.8:
+				img.set_pixel(x, y, skin)
+	# hair (drawn after head, on top)
+	for y in range(3, 8):
+		for x in range(11, 21):
+			var dx = x - 16
+			var dy = y - 7
+			if dx * dx + dy * dy < 16:
+				img.set_pixel(x, y, hair)
+	# body (robe)
+	for y in range(12, 28):
+		for x in range(10, 22):
+			img.set_pixel(x, y, robe)
+	# belt
+	for y in range(18, 20):
+		for x in range(10, 22):
+			img.set_pixel(x, y, belt)
+	# legs
+	for y in range(28, 32):
+		for x in range(11, 15):
+			img.set_pixel(x, y, Color(0.2, 0.15, 0.1))
+		for x in range(17, 21):
+			img.set_pixel(x, y, Color(0.2, 0.15, 0.1))
+
+	var tex = ImageTexture.create_from_image(img)
+	sprite.texture = tex
 
 func _physics_process(_delta: float) -> void:
 	if not can_move:
@@ -103,7 +149,11 @@ func _try_interact() -> void:
 	var areas = interaction_area.get_overlapping_areas()
 	for area in areas:
 		if area.is_in_group("interactable"):
-			area.get_parent().interact()
+			# 先尝试 area 自身，再尝试其父节点
+			if area.has_method("interact"):
+				area.interact()
+			elif area.get_parent().has_method("interact"):
+				area.get_parent().interact()
 			return
 	var bodies = interaction_area.get_overlapping_bodies()
 	for body in bodies:

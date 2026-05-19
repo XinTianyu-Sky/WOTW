@@ -141,6 +141,14 @@ offset_right = 550.0
 offset_bottom = 50.0
 text = "任务"
 
+[node name="CraftBtn" type="Button" parent="BottomBar"]
+layout_mode = 1
+offset_left = 570.0
+offset_top = 0.0
+offset_right = 690.0
+offset_bottom = 50.0
+text = "制作"
+
 [node name="NotificationLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 160.0
