@@ -91,6 +91,9 @@ func get_current_season() -> String:
     if season_day < 90:   return "autumn"
     return "winter"
 
+func advance_game_time(hours: float) -> void:
+    game_time += hours * SECONDS_PER_GAME_HOUR
+
 # ---- 存档数据构建 ----
 func build_save_data() -> Dictionary:
     _sync_stats_to_dict()

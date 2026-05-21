@@ -50,6 +50,16 @@ text = "离开茶馆"
 theme_overrides/font_sizes/font_size = 18
 theme_overrides/colors/font_color = Color(0.8, 0.7, 0.4, 1)
 
+[node name="RestBtn" type="Button" parent="UILayer"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 810.0
+offset_right = 460.0
+offset_bottom = 850.0
+text = "小憩片刻"
+theme_overrides/font_sizes/font_size = 18
+theme_overrides/colors/font_color = Color(0.7, 0.8, 0.5, 1)
+
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(360, 600)
 

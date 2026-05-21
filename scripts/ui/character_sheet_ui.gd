@@ -15,6 +15,13 @@ extends CanvasLayer
 @onready var free_points_label: Label = $CharacterPanel/FreePoints
 @onready var level_label: Label = $CharacterPanel/LevelLabel
 
+@onready var str_btn: Button = $CharacterPanel/AttrGrid/StrBtn
+@onready var agi_btn: Button = $CharacterPanel/AttrGrid/AgiBtn
+@onready var con_btn: Button = $CharacterPanel/AttrGrid/ConBtn
+@onready var int_btn: Button = $CharacterPanel/AttrGrid/IntBtn
+@onready var wil_btn: Button = $CharacterPanel/AttrGrid/WilBtn
+@onready var lck_btn: Button = $CharacterPanel/AttrGrid/LckBtn
+
 @onready var combat_stats: RichTextLabel = $CharacterPanel/CombatStats
 @onready var equip_label: Label = $CharacterPanel/EquipLabel
 
@@ -26,6 +33,13 @@ func _ready() -> void:
 	EventBus.menu_opened.connect(_on_menu_opened)
 	EventBus.attribute_changed.connect(func(_a, _v): _refresh())
 	EventBus.equipment_changed.connect(func(_s, _i): _refresh())
+
+	str_btn.pressed.connect(func(): _allocate("str"))
+	agi_btn.pressed.connect(func(): _allocate("agi"))
+	con_btn.pressed.connect(func(): _allocate("con"))
+	int_btn.pressed.connect(func(): _allocate("int"))
+	wil_btn.pressed.connect(func(): _allocate("wil"))
+	lck_btn.pressed.connect(func(): _allocate("lck"))
 
 func _close() -> void:
 	hide()
@@ -46,7 +60,7 @@ func _refresh() -> void:
 	if player_stats == null:
 		return
 
-	level_label.text = "等级: %d" % player_stats.level
+	level_label.text = "等级: %d  (EXP %d / %d)" % [player_stats.level, player_stats.experience, player_stats.get_exp_for_next_level()]
 	str_label.text = str(player_stats.str)
 	agi_label.text = str(player_stats.agi)
 	con_label.text = str(player_stats.con)
@@ -54,6 +68,14 @@ func _refresh() -> void:
 	wil_label.text = str(player_stats.wil)
 	lck_label.text = str(player_stats.lck)
 	free_points_label.text = "剩余属性点: %d" % player_stats.free_points
+
+	var can_allocate = player_stats.free_points > 0
+	str_btn.disabled = not can_allocate
+	agi_btn.disabled = not can_allocate
+	con_btn.disabled = not can_allocate
+	int_btn.disabled = not can_allocate
+	wil_btn.disabled = not can_allocate
+	lck_btn.disabled = not can_allocate
 
 	combat_stats.text = "[table]
     生命值: %d / %d
@@ -94,3 +116,20 @@ func _refresh() -> void:
 			var name = item_data.get("name", "空") if not item_data.is_empty() else "空"
 			text += "%s: %s\n" % [slot_names[slot], name]
 		equip_label.text = text
+
+func _allocate(attr_name: String) -> void:
+	if player_stats == null:
+		return
+	if player_stats.allocate_point(attr_name):
+		_refresh()
+		NotificationManager.notify("%s +1" % _attr_display_name(attr_name))
+
+func _attr_display_name(attr: String) -> String:
+	match attr:
+		"str": return "膂力"
+		"agi": return "身法"
+		"con": return "根骨"
+		"int": return "悟性"
+		"wil": return "定力"
+		"lck": return "机缘"
+	return attr

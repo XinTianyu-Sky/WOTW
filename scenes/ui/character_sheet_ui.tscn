@@ -52,9 +52,9 @@ offset_left = 20.0
 offset_top = 90.0
 offset_right = 560.0
 offset_bottom = 350.0
-columns = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 8
+columns = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 4
 
 [node name="StrLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "膂力"
@@ -62,6 +62,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="StrValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="StrBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="AgiLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "身法"
@@ -69,6 +73,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="AgiValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="AgiBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="ConLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "根骨"
@@ -76,6 +84,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="ConValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="ConBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="IntLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "悟性"
@@ -83,6 +95,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="IntValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="IntBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="WilLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "定力"
@@ -90,6 +106,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="WilValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="WilBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="LckLabel" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "机缘"
@@ -97,6 +117,10 @@ theme_overrides/font_sizes/font_size = 15
 [node name="LckValue" type="Label" parent="CharacterPanel/AttrGrid"]
 text = "5"
 theme_overrides/font_sizes/font_size = 15
+[node name="LckBtn" type="Button" parent="CharacterPanel/AttrGrid"]
+text = "+"
+custom_minimum_size = Vector2(32, 28)
+theme_overrides/font_sizes/font_size = 14
 
 [node name="CombatTitle" type="Label" parent="CharacterPanel"]
 layout_mode = 0

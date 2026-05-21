@@ -1,13 +1,15 @@
 # HUD.gd
 # 游戏内HUD
-# 显示生命、内力、小地图入口、菜单按钮
+# 显示生命、内力、经验、小地图入口、菜单按钮
 extends CanvasLayer
 
 # ---- 状态栏 ----
 @onready var hp_bar: ProgressBar = $TopPanel/HPBar
 @onready var qi_bar: ProgressBar = $TopPanel/QiBar
+@onready var exp_bar: ProgressBar = $TopPanel/ExpBar
 @onready var hp_label: Label = $TopPanel/HPBar/Label
 @onready var qi_label: Label = $TopPanel/QiBar/Label
+@onready var exp_label: Label = $TopPanel/ExpBar/Label
 @onready var level_label: Label = $TopPanel/LevelLabel
 
 # ---- 时间和天气 ----
@@ -46,6 +48,7 @@ func _ready() -> void:
 	# HUD 视觉样式
 	hp_bar.add_theme_color_override("fill_color", Color(0.82, 0.15, 0.1))
 	qi_bar.add_theme_color_override("fill_color", Color(0.15, 0.35, 0.78))
+	exp_bar.add_theme_color_override("fill_color", Color(0.9, 0.8, 0.2))
 	level_label.add_theme_color_override("font_color", Color(0.9, 0.85, 0.7, 1))
 	time_label.add_theme_color_override("font_color", Color(0.7, 0.65, 0.5, 1))
 
@@ -76,6 +79,11 @@ func _update_display() -> void:
 	qi_bar.max_value = player_stats.max_qi
 	qi_bar.value = player_stats.current_qi
 	qi_label.text = "%d / %d" % [player_stats.current_qi, player_stats.max_qi]
+
+	var exp_next = player_stats.get_exp_for_next_level()
+	exp_bar.max_value = exp_next
+	exp_bar.value = player_stats.experience
+	exp_label.text = "EXP %d / %d" % [player_stats.experience, exp_next]
 
 	level_label.text = "Lv.%d" % player_stats.level
 

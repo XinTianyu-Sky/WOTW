@@ -95,10 +95,14 @@ func level_up() -> bool:
     experience -= _exp_for_level(level)
     recalculate()
     EventBus.player_leveled_up.emit(level)
+    NotificationManager.notify("升级！达到 Lv.%d，获得5点属性点" % level, "success")
     return true
 
 func _exp_for_level(lv: int) -> int:
     return int(100 * pow(lv, 1.5))
+
+func get_exp_for_next_level() -> int:
+    return _exp_for_level(level + 1)
 
 # ---- 属性点分配 ----
 func allocate_point(attr_name: String) -> bool:
