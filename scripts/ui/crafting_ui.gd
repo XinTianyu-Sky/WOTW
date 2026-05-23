@@ -48,14 +48,13 @@ func _on_recipe_selected(idx: int) -> void:
 	var text = "[b]%s[/b]\n\n" % _selected_recipe.get("name", "")
 	text += "[b]所需材料:[/b]\n"
 
-	var inv: Array = GameManager.player_data.get("inventory", [])
 	var copper = GameManager.player_data.get("copper", 0)
 	var can_craft = true
 
 	for mat in _selected_recipe.get("materials", []):
 		var item_id = mat["itemId"]
 		var required = mat["count"]
-		var owned = _count_in_inventory(inv, item_id)
+		var owned = GameManager.inv_get_count(item_id)
 		var color = "green" if owned >= required else "red"
 		text += "  %s x%d [color=%s](拥有:%d)[/color]\n" % [_get_item_name(item_id), required, color, owned]
 		if owned < required:
@@ -76,12 +75,11 @@ func _on_craft() -> void:
 	if _selected_recipe.is_empty():
 		return
 
-	var inv: Array = GameManager.player_data.get("inventory", [])
 	var copper = GameManager.player_data.get("copper", 0)
 
 	# 检查材料
 	for mat in _selected_recipe.get("materials", []):
-		if _count_in_inventory(inv, mat["itemId"]) < mat["count"]:
+		if GameManager.inv_get_count(mat["itemId"]) < mat["count"]:
 			return
 
 	# 检查铜钱
@@ -91,15 +89,14 @@ func _on_craft() -> void:
 
 	# 消耗材料
 	for mat in _selected_recipe.get("materials", []):
-		_remove_items(inv, mat["itemId"], mat["count"])
+		GameManager.inv_remove(mat["itemId"], mat["count"])
 
 	# 消耗铜钱
 	GameManager.player_data["copper"] = copper - cost
 
 	# 添加产物
 	var result_id = _selected_recipe.get("resultItem", "")
-	inv.append(result_id)
-	GameManager.player_data["inventory"] = inv
+	GameManager.inv_add(result_id)
 
 	var item_data = DataManager.get_item(result_id)
 	NotificationManager.notify("制作成功：%s" % item_data.get("name", result_id))
@@ -107,22 +104,6 @@ func _on_craft() -> void:
 	_refresh()
 	if _recipes.size() > 0:
 		_on_recipe_selected(recipe_list.get_selected_items()[0] if recipe_list.get_selected_items().size() > 0 else -1)
-
-func _count_in_inventory(inv: Array, item_id: String) -> int:
-	var count = 0
-	for id in inv:
-		if id == item_id:
-			count += 1
-	return count
-
-func _remove_items(inv: Array, item_id: String, count: int) -> void:
-	var removed = 0
-	var i = inv.size() - 1
-	while i >= 0 and removed < count:
-		if inv[i] == item_id:
-			inv.remove_at(i)
-			removed += 1
-		i -= 1
 
 func _get_item_name(item_id: String) -> String:
 	var data = DataManager.get_item(item_id)

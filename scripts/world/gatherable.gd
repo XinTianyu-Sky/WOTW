@@ -53,9 +53,7 @@ func interact() -> void:
 	if item_data.is_empty():
 		return
 
-	var inv: Array = GameManager.player_data.get("inventory", [])
-	inv.append(item_id)
-	GameManager.player_data["inventory"] = inv
+GameManager.inv_add(item_id)
 
 	NotificationManager.notify("获得 %s" % item_data.get("name", item_id))
 	EventBus.item_gathered.emit(item_id)

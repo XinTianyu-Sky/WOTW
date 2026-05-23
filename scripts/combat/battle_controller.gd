@@ -458,11 +458,7 @@ func on_player_item_selected(item_id: String) -> void:
 	end_current_turn()
 
 func _remove_item_from_inventory(item_id: String) -> void:
-	var inv: Array = GameManager.player_data.get("inventory", [])
-	var idx = inv.find(item_id)
-	if idx != -1:
-		inv.remove_at(idx)
-		GameManager.player_data["inventory"] = inv
+	GameManager.inv_remove(item_id)
 
 func _find_nearest_enemy(unit: BattleUnit) -> BattleUnit:
 	var nearest: BattleUnit = null

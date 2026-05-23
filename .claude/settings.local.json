@@ -5,7 +5,19 @@
       "Bash(node *)",
       "Bash(xxd \"D:/GitHub/XinTianyu-Sky/WOTW/assets/data/quests/quests.json\")",
       "Bash(sed -i '319s/abs\\(dx\\) >= 5 and abs\\(dy\\) >= 3/abs\\(dx\\) >= 7 and abs\\(dy\\) >= 5/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")",
-      "Bash(sed -i '324s/abs\\(dx\\) <= 12 and abs\\(dy\\) <= 10/abs\\(dx\\) <= 16 and abs\\(dy\\) <= 14/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")"
+      "Bash(sed -i '324s/abs\\(dx\\) <= 12 and abs\\(dy\\) <= 10/abs\\(dx\\) <= 16 and abs\\(dy\\) <= 14/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")",
+      "Bash(sed -i '56,58c\\\\\\\\tGameManager.inv_add\\(item_id\\)' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/gatherable.gd\")",
+      "Bash(sed -i 's/for item_id in inv:/for entry in GameManager.inv_get_items\\(\\):/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/shop_ui.gd\")",
+      "Bash(sed -i '70s/var data = DataManager.get_item\\(item_id\\)/var data = DataManager.get_item\\(entry[\"id\"]\\)/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/shop_ui.gd\")",
+      "Bash(sed -i '71s/if data.is_empty\\(\\):/if data.is_empty\\(\\): continue/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/shop_ui.gd\")",
+      "Bash(sed -i '72s/.*/continue/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/shop_ui.gd\")",
+      "Bash(sed -i '79,82c\\\\\\\\t\\\\tfor item_id in rewards[\"items\"]:\\\\n\\\\t\\\\t\\\\tGameManager.inv_add\\(item_id\\)' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")",
+      "Bash(sed -i '460,465c\\\\func _remove_item_from_inventory\\(item_id: String\\) -> void:\\\\n\\\\tGameManager.inv_remove\\(item_id\\)' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/combat/battle_controller.gd\")",
+      "Bash(sed -i '181,183c\\\\\\\\t\\\\t\\\\tGameManager.inv_add\\(\"iron_sword\"\\)' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/world_manager.gd\")",
+      "Bash(python3 *)",
+      "Bash(perl *)",
+      "Bash(xxd \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")",
+      "Bash(awk 'NR==79' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")"
     ]
   }
 }

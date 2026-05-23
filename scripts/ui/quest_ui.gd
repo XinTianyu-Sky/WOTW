@@ -76,10 +76,8 @@ func _on_quest_completed(quest_id: String) -> void:
         var cur = GameManager.player_data.get("copper", 0)
         GameManager.player_data["copper"] = cur + rewards["copper"]
     if rewards.has("items"):
-        var inv: Array = GameManager.player_data.get("inventory", [])
-        for item_id in rewards["items"]:
-            inv.append(item_id)
-        GameManager.player_data["inventory"] = inv
+	for item_id in rewards["items"]:
+			GameManager.inv_add(item_id)
     NotificationManager.notify("任务完成：%s" % data.get("name", quest_id), "success")
 
 func _show_detail(quest_id: String) -> void:

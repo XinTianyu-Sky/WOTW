@@ -66,14 +66,14 @@ func _refresh_list() -> void:
 			item_list.add_item("%s  —  %d 文" % [data.get("name", "???"), price])
 			item_list.set_item_metadata(item_list.item_count - 1, item_id)
 	else:
-		var inv = GameManager.player_data.get("inventory", [])
-		for item_id in inv:
-			var data = DataManager.get_item(item_id)
+		var items = GameManager.inv_get_items()
+		for entry in items:
+			var data = DataManager.get_item(entry["id"])
 			if data.is_empty():
 				continue
-			var price = _get_sell_price(item_id)
-			item_list.add_item("%s  —  %d 文" % [data.get("name", "???"), price])
-			item_list.set_item_metadata(item_list.item_count - 1, item_id)
+			var price = _get_sell_price(entry["id"])
+			item_list.add_item("%s x%d  —  %d 文" % [data.get("name", "???"), entry.get("count", 1), price])
+			item_list.set_item_metadata(item_list.item_count - 1, entry["id"])
 
 func _on_item_selected(idx: int) -> void:
 	_selected_item_id = item_list.get_item_metadata(idx)
@@ -127,24 +127,13 @@ func _buy_item(item_id: String, qty: int) -> void:
 	if copper < price:
 		return
 	_set_player_copper(copper - price)
-	var inv: Array = GameManager.player_data.get("inventory", [])
-	for _i in range(qty):
-		inv.append(item_id)
-	GameManager.player_data["inventory"] = inv
+	GameManager.inv_add(item_id, qty)
 	NotificationManager.notify("购买了 %s x%d" % [DataManager.get_item(item_id).get("name", ""), qty])
 
 func _sell_item(item_id: String, qty: int) -> void:
-	var inv: Array = GameManager.player_data.get("inventory", [])
-	var sold = 0
-	for _i in range(qty):
-		var idx = inv.find(item_id)
-		if idx == -1:
-			break
-		inv.remove_at(idx)
-		sold += 1
+	var sold = GameManager.inv_remove(item_id, qty)
 	if sold == 0:
 		return
-	GameManager.player_data["inventory"] = inv
 	var price = _get_sell_price(item_id) * sold
 	_set_player_copper(_get_player_copper() + price)
 	NotificationManager.notify("出售了 %s x%d" % [DataManager.get_item(item_id).get("name", ""), sold])

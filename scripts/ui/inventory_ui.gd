@@ -29,11 +29,7 @@ func _on_menu_opened(menu_name: String) -> void:
 		hide()
 
 func _get_inventory() -> Array:
-	var raw = GameManager.player_data.get("inventory", [])
-	var items: Array = []
-	for item_id in raw:
-		items.append({"id": item_id, "count": 1})
-	return items
+	return GameManager.inv_get_items()
 
 func _refresh_display() -> void:
 	for child in grid_container.get_children():
@@ -198,11 +194,7 @@ func _learn_skill(item_data: Dictionary, item_id: String) -> void:
 	_refresh_display()
 
 func _remove_item(item_id: String) -> void:
-	var inv: Array = GameManager.player_data.get("inventory", [])
-	var idx = inv.find(item_id)
-	if idx != -1:
-		inv.remove_at(idx)
-		GameManager.player_data["inventory"] = inv
+	GameManager.inv_remove(item_id)
 
 func _do_equip(item_id: String, slot_enum: int, eq: EquipmentManager) -> void:
 	if eq.get_equipped(slot_enum) == item_id:

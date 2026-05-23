@@ -178,9 +178,7 @@ func _boss_reward(boss_name: String) -> void:
 				stats.add_experience(150)
 			var copper = GameManager.player_data.get("copper", 0)
 			GameManager.player_data["copper"] = copper + 300
-			var inv: Array = GameManager.player_data.get("inventory", [])
-			inv.append("iron_sword")
-			GameManager.player_data["inventory"] = inv
+			GameManager.inv_add("iron_sword")
 			NotificationManager.notify("击败山贼头目！获得 铁剑 + 300铜钱", "success")
 
 func _check_kill_quest_completion(qid: String, objectives: Array, completed_indices: Array) -> void:

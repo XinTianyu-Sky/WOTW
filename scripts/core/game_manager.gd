@@ -139,3 +139,162 @@ func load_save_data(data: Dictionary) -> void:
 		var eq = EquipmentManager.new()
 		eq.from_dict(eq_data)
 		player_data["_equipment"] = eq
+
+# ---- 背包操作（支持堆叠） ----
+
+static func _is_stackable(item_id: String) -> bool:
+	var data = DataManager.get_item(item_id)
+	return not data.has("slot")
+
+static func inv_consolidate(inv: Array) -> Array:
+	var stacked: Dictionary = {}
+	var result: Array = []
+	for entry in inv:
+		var id: String
+		var cnt: int
+		if entry is String:
+			id = entry
+			cnt = 1
+		else:
+			id = entry.get("id", "")
+			cnt = entry.get("count", 1)
+		if id.is_empty():
+			continue
+		if _is_stackable(id):
+			stacked[id] = stacked.get(id, 0) + cnt
+		else:
+			for _i in range(cnt):
+				result.append({"id": id, "count": 1})
+	for id in stacked:
+		result.append({"id": id, "count": stacked[id]})
+	return result
+
+static func inv_add(item_id: String, count: int = 1) -> void:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	if _is_stackable(item_id):
+		for entry in inv:
+			if entry.get("id") == item_id:
+				entry["count"] += count
+				GameManager.player_data["inventory"] = inv
+				return
+		inv.append({"id": item_id, "count": count})
+	else:
+		for _i in range(count):
+			inv.append({"id": item_id, "count": 1})
+	GameManager.player_data["inventory"] = inv
+
+static func inv_remove(item_id: String, count: int = 1) -> int:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	var removed = 0
+	var i = inv.size() - 1
+	while i >= 0 and removed < count:
+		var entry = inv[i]
+		if entry.get("id") == item_id:
+			var available = entry.get("count", 1)
+			var take = mini(count - removed, available)
+			entry["count"] -= take
+			removed += take
+			if entry["count"] <= 0:
+				inv.remove_at(i)
+			if removed >= count:
+				break
+		i -= 1
+	GameManager.player_data["inventory"] = inv
+	return removed
+
+static func inv_get_count(item_id: String) -> int:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	var total = 0
+	for entry in inv:
+		var id = entry if entry is String else entry.get("id", "")
+		if id == item_id:
+			total += 1 if entry is String else entry.get("count", 1)
+	return total
+
+static func inv_get_items() -> Array:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	GameManager.player_data["inventory"] = inv
+	return inv.duplicate(true)
+GDSCRIPT
+
+# ---- 背包操作（支持堆叠） ----
+
+static func _is_stackable(item_id: String) -> bool:
+	var data = DataManager.get_item(item_id)
+	return not data.has("slot")
+
+static func inv_consolidate(inv: Array) -> Array:
+	var stacked: Dictionary = {}
+	var result: Array = []
+	for entry in inv:
+		var id: String
+		var cnt: int
+		if entry is String:
+			id = entry
+			cnt = 1
+		else:
+			id = entry.get("id", "")
+			cnt = entry.get("count", 1)
+		if id.is_empty():
+			continue
+		if _is_stackable(id):
+			stacked[id] = stacked.get(id, 0) + cnt
+		else:
+			for _i in range(cnt):
+				result.append({"id": id, "count": 1})
+	for id in stacked:
+		result.append({"id": id, "count": stacked[id]})
+	return result
+
+static func inv_add(item_id: String, count: int = 1) -> void:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	if _is_stackable(item_id):
+		for entry in inv:
+			if entry.get("id") == item_id:
+				entry["count"] += count
+				GameManager.player_data["inventory"] = inv
+				return
+		inv.append({"id": item_id, "count": count})
+	else:
+		for _i in range(count):
+			inv.append({"id": item_id, "count": 1})
+	GameManager.player_data["inventory"] = inv
+
+static func inv_remove(item_id: String, count: int = 1) -> int:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	var removed = 0
+	var i = inv.size() - 1
+	while i >= 0 and removed < count:
+		var entry = inv[i]
+		if entry.get("id") == item_id:
+			var available = entry.get("count", 1)
+			var take = mini(count - removed, available)
+			entry["count"] -= take
+			removed += take
+			if entry["count"] <= 0:
+				inv.remove_at(i)
+			if removed >= count:
+				break
+		i -= 1
+	GameManager.player_data["inventory"] = inv
+	return removed
+
+static func inv_get_count(item_id: String) -> int:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	var total = 0
+	for entry in inv:
+		var id = entry if entry is String else entry.get("id", "")
+		if id == item_id:
+			total += 1 if entry is String else entry.get("count", 1)
+	return total
+
+static func inv_get_items() -> Array:
+	var inv: Array = GameManager.player_data.get("inventory", [])
+	inv = inv_consolidate(inv)
+	GameManager.player_data["inventory"] = inv
+	return inv.duplicate(true)
