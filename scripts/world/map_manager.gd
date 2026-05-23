@@ -1,37 +1,85 @@
 # MapManager.gd
-# 地图渲染管理器：噪声高度场驱动地形，程序化 TileSet
+# 使用 Puny World 像素风瓦片集的地图渲染
 class_name MapManager
 extends TileMapLayer
 
-enum TileType {
-	GRASS_1, GRASS_2, GRASS_FLOWER, DIRT,
-	WATER, MOUNTAIN, TREE, BUILDING
-}
+# Puny World tiles are 16x16, map is 80×60 = 1280×960
+const TILE_SZ: int = 16
+const MAP_W: int = 80
+const MAP_H: int = 60
 
-const TILE_SIZE: int = 32
-const BLOCKED_TILES: Array = [TileType.WATER, TileType.MOUNTAIN, TileType.TREE, TileType.BUILDING]
-const MAP_W: int = 40
-const MAP_H: int = 30
+# ---- 瓦片图集坐标（Puny World Overworld） ----
+# 草地块（左上角 0-2 列）
+const T_GRASS = [
+	Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0),
+	Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1),
+	Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2),
+]
+# 带装饰的草地
+const T_GRASS_DECOR = [
+	Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4),
+	Vector2i(3, 4), Vector2i(4, 4), Vector2i(0, 5),
+	Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5),
+]
+# 水域帧（行 10-21 包含多帧动画）
+const T_WATER_A = [Vector2i(10, 10), Vector2i(11, 10), Vector2i(17, 10)]
+const T_WATER_B = [Vector2i(10, 11), Vector2i(11, 11), Vector2i(17, 11)]
+# 山崖
+const T_CLIFF_SOLID = Vector2i(8, 1)
+const T_CLIFF_EDGE = [Vector2i(5, 0), Vector2i(6, 0), Vector2i(4, 1), Vector2i(5, 1)]
+# 土路
+const T_DIRT = [
+	Vector2i(6, 27), Vector2i(7, 27), Vector2i(5, 28),
+	Vector2i(6, 28), Vector2i(7, 28),
+]
+# 树木
+const T_TREE = [
+	Vector2i(6, 4), Vector2i(10, 4), Vector2i(12, 4),
+	Vector2i(6, 5), Vector2i(10, 5), Vector2i(12, 5),
+	Vector2i(15, 5), Vector2i(16, 5), Vector2i(18, 5),
+]
+# 建筑（墙 + 屋顶）
+const T_BLDG_WALL = [Vector2i(10, 28), Vector2i(11, 28), Vector2i(14, 28), Vector2i(15, 28)]
+const T_BLDG_ROOF = [Vector2i(5, 28), Vector2i(6, 28), Vector2i(7, 28), Vector2i(8, 28)]
 
-var _tile_set: TileSet = null
+var _blocked_set: Dictionary = {}
 var _rng = RandomNumberGenerator.new()
 
 @export var map_seed: int = 42
 @export var has_village: bool = false
-@export var village_center: Vector2i = Vector2i(20, 20)
+@export var village_center: Vector2i = Vector2i(40, 30)
+@export var water_level: float = -0.28
+@export var mountain_level: float = 0.52
 
 func _ready() -> void:
 	_rng.seed = map_seed
-	_tile_set = _create_tileset()
-	tile_set = _tile_set
+	_build_blocked_set()
+	var ts = _create_tileset()
+	tile_set = ts
 	_draw_map()
 	_setup_camera_bounds()
+
+func _build_blocked_set() -> void:
+	var blocked_coords = [
+		T_CLIFF_SOLID,
+		T_WATER_A[0], T_WATER_A[1], T_WATER_A[2],
+		T_WATER_B[0], T_WATER_B[1], T_WATER_B[2],
+	]
+	blocked_coords.append_array(T_CLIFF_EDGE)
+	blocked_coords.append_array(T_BLDG_WALL)
+	blocked_coords.append_array(T_BLDG_ROOF)
+	blocked_coords.append_array(T_TREE)
+	for c in blocked_coords:
+		_blocked_set[c] = true
 
 # ---- TileSet 构建 ----
 func _create_tileset() -> TileSet:
 	var ts = TileSet.new()
-	var tex = _generate_tileset_texture()
+	ts.tile_size = Vector2i(TILE_SZ, TILE_SZ)
+
+	var tex = load("res://assets/tilesets/punyworld_overworld.png") as Texture2D
 	if not tex:
+		push_error("MapManager: 无法加载 Puny World 瓦片集")
 		return ts
 
 	ts.add_physics_layer(0)
@@ -39,177 +87,34 @@ func _create_tileset() -> TileSet:
 
 	var source = TileSetAtlasSource.new()
 	source.texture = tex
-	source.texture_region_size = Vector2i(TILE_SIZE, TILE_SIZE)
-	ts.add_source(source, 0)
+	source.texture_region_size = Vector2i(TILE_SZ, TILE_SZ)
+	var source_id = ts.add_source(source)
 
-	for i in range(8):
-		var coords = Vector2i(i, 0)
-		source.create_tile(coords, Vector2i(1, 1))
-		var td = source.get_tile_data(coords, 0)
-		if not td:
-			continue
-		if i in BLOCKED_TILES:
-			td.add_collision_polygon(0)
-			td.set_collision_polygon_points(0, 0, PackedVector2Array([
-				Vector2(0, 0), Vector2(TILE_SIZE, 0),
-				Vector2(TILE_SIZE, TILE_SIZE), Vector2(0, TILE_SIZE)
-			]))
+	# 为每个用到的瓦片创建 tile，碰撞瓦片加碰撞
+	var all_coords: Array[Vector2i] = []
+	all_coords.append_array(T_GRASS)
+	all_coords.append_array(T_GRASS_DECOR)
+	all_coords.append_array(T_WATER_A)
+	all_coords.append_array(T_WATER_B)
+	all_coords.append(T_CLIFF_SOLID)
+	all_coords.append_array(T_CLIFF_EDGE)
+	all_coords.append_array(T_DIRT)
+	all_coords.append_array(T_TREE)
+	all_coords.append_array(T_BLDG_WALL)
+	all_coords.append_array(T_BLDG_ROOF)
+
+	for coord in all_coords:
+		source.create_tile(coord, Vector2i(1, 1))
+		if _blocked_set.has(coord):
+			var td = source.get_tile_data(coord, 0)
+			if td:
+				td.add_collision_polygon(0)
+				td.set_collision_polygon_points(0, 0, PackedVector2Array([
+					Vector2(0, 0), Vector2(TILE_SZ, 0),
+					Vector2(TILE_SZ, TILE_SZ), Vector2(0, TILE_SZ),
+				]))
 
 	return ts
-
-# ---- 程序化纹理 ----
-func _generate_tileset_texture() -> ImageTexture:
-	var img = Image.create(8 * TILE_SIZE, TILE_SIZE, false, Image.FORMAT_RGBA8)
-	_fill_grass(img, TileType.GRASS_1, Color(0.28, 0.42, 0.18))
-	_fill_grass(img, TileType.GRASS_2, Color(0.34, 0.50, 0.24))
-	_fill_grass_flower(img, TileType.GRASS_FLOWER)
-	_fill_dirt(img, TileType.DIRT)
-	_fill_water(img, TileType.WATER)
-	_fill_mountain(img, TileType.MOUNTAIN)
-	_fill_tree(img, TileType.TREE)
-	_fill_building(img, TileType.BUILDING)
-	return ImageTexture.create_from_image(img)
-
-func _fill_grass(img: Image, idx: int, base: Color) -> void:
-	var ox = idx * TILE_SIZE
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var n = _hash_noise(ox + x, y) * 0.07
-			# 草叶纹理：细竖线微调
-			var blade = 0.0
-			if x % 5 < 2:
-				blade = 0.03
-			var c = base
-			c.r = clamp(c.r + n + blade * 0.3, 0, 1)
-			c.g = clamp(c.g + n + blade, 0, 1)
-			c.b = clamp(c.b + n * 0.5, 0, 1)
-			img.set_pixel(ox + x, y, c)
-
-func _fill_grass_flower(img: Image, idx: int) -> void:
-	var base = Color(0.30, 0.46, 0.20)
-	_fill_grass(img, idx, base)
-	var ox = idx * TILE_SIZE
-	# 散布小花
-	var flower_colors = [Color(1, 0.85, 0.2), Color(0.95, 0.45, 0.65), Color(1, 1, 0.7), Color(0.65, 0.55, 1)]
-	for _i in range(10):
-		var fx = _rng.randi_range(4, 27)
-		var fy = _rng.randi_range(4, 27)
-		var fc = flower_colors[_rng.randi() % flower_colors.size()]
-		for dy in range(-1, 2):
-			for dx in range(-1, 2):
-				if abs(dx) + abs(dy) <= 1:
-					var px = ox + fx + dx
-					var py = fy + dy
-					if px >= ox and px < ox + TILE_SIZE and py >= 0 and py < TILE_SIZE:
-						img.set_pixel(px, py, fc)
-
-func _fill_dirt(img: Image, idx: int) -> void:
-	var ox = idx * TILE_SIZE
-	var base = Color(0.48, 0.35, 0.22)
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var n = _hash_noise(ox + x + 50, y + 50) * 0.09
-			# 碎石颗粒
-			var grain = _hash_noise(ox + x * 3, y * 3 + 20) * 0.04
-			var c = base
-			c.r = clamp(c.r + n + grain, 0, 1)
-			c.g = clamp(c.g + n * 0.8 + grain, 0, 1)
-			c.b = clamp(c.b + n * 0.4, 0, 1)
-			img.set_pixel(ox + x, y, c)
-
-func _fill_water(img: Image, idx: int) -> void:
-	var ox = idx * TILE_SIZE
-	var deep = Color(0.08, 0.18, 0.36)
-	var shallow = Color(0.18, 0.35, 0.55)
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var t = (sin(x * 0.5 + y * 0.35) + 1) * 0.5
-			var n = _hash_noise(ox + x + 70, y + 70) * 0.06
-			var c = deep.lerp(shallow, t)
-			c.r = clamp(c.r + n, 0, 1)
-			c.g = clamp(c.g + n * 0.8, 0, 1)
-			c.b = clamp(c.b + n * 0.6, 0, 1)
-			# 波光
-			if (x + y * 3 + int(sin(x * 0.8 + y * 0.7) * 3)) % 13 == 0:
-				c = c.lightened(0.12)
-			img.set_pixel(ox + x, y, c)
-
-func _fill_mountain(img: Image, idx: int) -> void:
-	var ox = idx * TILE_SIZE
-	var rock = Color(0.35, 0.30, 0.28)
-	var highlight = Color(0.50, 0.45, 0.40)
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var n = _hash_noise(ox + x + 90, y + 90) * 0.12
-			# 棱角感：菱形高光
-			var ridge = 1.0 - abs(float(x - 16) + float(y - 16)) / 32.0
-			ridge = clamp(ridge, 0.0, 1.0)
-			var c = rock.lerp(highlight, ridge * 0.5)
-			c.r = clamp(c.r + n, 0, 1)
-			c.g = clamp(c.g + n * 0.7, 0, 1)
-			c.b = clamp(c.b + n * 0.4, 0, 1)
-			# 顶部积雪
-			if y < 6 and ridge > 0.4:
-				c = c.lerp(Color(0.85, 0.85, 0.9), (6 - y) / 6.0 * ridge)
-			img.set_pixel(ox + x, y, c)
-
-func _fill_tree(img: Image, idx: int) -> void:
-	var ox = idx * TILE_SIZE
-	var canopy = Color(0.12, 0.25, 0.08)
-	var highlight_c = Color(0.22, 0.38, 0.14)
-	var trunk = Color(0.35, 0.2, 0.1)
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var cx, cy: float
-			if y < 8:
-				cx = 15.5; cy = 16.0
-			else:
-				cx = 15.5; cy = 14.0
-			var dist = sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy))
-			var c: Color
-			if y >= 22 and x >= 13 and x <= 18:
-				c = trunk
-			elif dist < 13:
-				var n = _hash_noise(ox + x + 110, y + 110) * 0.08
-				c = canopy.lerp(highlight_c, 1.0 - dist / 14.0)
-				c.g = clamp(c.g + n, 0, 1)
-			else:
-				c = Color(0, 0, 0, 0)
-			img.set_pixel(ox + x, y, c)
-
-func _fill_building(img: Image, idx: int) -> void:
-	var ox = idx * TILE_SIZE
-	var roof_c = Color(0.4, 0.15, 0.08)
-	var wall_c = Color(0.6, 0.45, 0.3)
-	var window_c = Color(0.1, 0.08, 0.04)
-	var door_c = Color(0.25, 0.15, 0.08)
-	for y in range(TILE_SIZE):
-		for x in range(TILE_SIZE):
-			var c: Color
-			var n = _hash_noise(ox + x + 130, y + 130) * 0.04
-			if y < 9:
-				c = roof_c
-				# 瓦片纹路
-				if y % 4 < 2 and x % 6 < 3:
-					c = c.darkened(0.08)
-			else:
-				c = wall_c
-				# 砖缝
-				if y % 6 == 0 or x % 8 == 0:
-					c = c.darkened(0.06)
-			c.r = clamp(c.r + n, 0, 1)
-			c.g = clamp(c.g + n, 0, 1)
-			img.set_pixel(ox + x, y, c)
-	# 窗户
-	for wy in [13, 19]:
-		for wx in [5, 21]:
-			for dy in range(4):
-				for dx in range(4):
-					img.set_pixel(ox + wx + dx, wy + dy, window_c)
-	# 门
-	for dy in range(6):
-		for dx in range(4):
-			img.set_pixel(ox + 14 + dx, 20 + dy, door_c)
 
 # ---- 噪声 ----
 func _hash_noise(x: int, y: int) -> float:
@@ -219,9 +124,7 @@ func _hash_noise(x: int, y: int) -> float:
 	return (float(v % 1000) / 500.0) - 1.0
 
 func _fbm(x: int, y: int, octaves: int = 3) -> float:
-	var v = 0.0
-	var amp = 0.6
-	var total = 0.0
+	var v = 0.0; var amp = 0.6; var total = 0.0
 	var sx = x; var sy = y
 	for _i in range(octaves):
 		v += _hash_noise(sx, sy) * amp
@@ -235,11 +138,14 @@ func _fbm(x: int, y: int, octaves: int = 3) -> float:
 func _draw_map() -> void:
 	clear()
 	var height_map = _build_height_map()
+	var tree_map = _build_tree_map()
 	var path_set = _build_path_set()
+
 	for y in range(MAP_H):
 		for x in range(MAP_W):
-			var tile = _classify_tile(x, y, height_map[y][x], path_set)
-			set_cell(Vector2i(x, y), 0, Vector2i(tile, 0))
+			var h = height_map[y][x]
+			var tile = _pick_tile(x, y, h, tree_map[y][x], path_set)
+			set_cell(Vector2i(x, y), 0, tile)
 
 func _build_height_map() -> Array:
 	var map = []
@@ -250,80 +156,88 @@ func _build_height_map() -> Array:
 		map.append(row)
 	return map
 
+func _build_tree_map() -> Array:
+	var map = []
+	for y in range(MAP_H):
+		var row = []
+		for x in range(MAP_W):
+			row.append(_hash_noise(x * 3 + 300, y * 3 + 300))
+		map.append(row)
+	return map
+
 func _build_path_set() -> Dictionary:
 	var paths = {}
 	if not has_village:
 		return paths
 	var vc = village_center
-	# 从村庄向四方的土路
 	for dir in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
 		var cur = vc
-		for _step in range(35):
+		for _step in range(60):
 			cur += dir
-			if cur.x < 2 or cur.x >= MAP_W - 2 or cur.y < 2 or cur.y >= MAP_H - 2:
+			if cur.x < 3 or cur.x >= MAP_W - 3 or cur.y < 3 or cur.y >= MAP_H - 3:
 				break
-			# 略微随机摆动
 			var wobble = Vector2i(0, 0)
 			if dir.x == 0:
-				wobble.x = int(_hash_noise(cur.x, cur.y + map_seed) * 2.5)
+				wobble.x = int(_hash_noise(cur.x, cur.y + map_seed) * 3.5)
 			else:
-				wobble.y = int(_hash_noise(cur.x + map_seed, cur.y) * 2.5)
+				wobble.y = int(_hash_noise(cur.x + map_seed, cur.y) * 3.5)
 			var p = cur + wobble
 			if p.x >= 0 and p.x < MAP_W and p.y >= 0 and p.y < MAP_H:
 				paths[Vector2i(p.x, p.y)] = true
 	return paths
 
-func _classify_tile(x: int, y: int, height: float, paths: Dictionary) -> int:
+func _pick_tile(x: int, y: int, height: float, tree_noise: float, paths: Dictionary) -> Vector2i:
 	var pos = Vector2i(x, y)
 
-	# 边界强制山脉
+	# 边界强制山崖
 	if x <= 1 or x >= MAP_W - 2 or y <= 1 or y >= MAP_H - 2:
-		return TileType.MOUNTAIN
+		return _rand_pick(T_CLIFF_EDGE if _rng.randf() < 0.7 else [T_CLIFF_SOLID])
 
-	# 村庄区域
+	# 村庄
 	if has_village:
 		var vc = village_center
-		# 村庄建筑
-		if abs(x - vc.x) <= 4 and abs(y - vc.y) <= 3:
+		var dx = x - vc.x; var dy = y - vc.y
+		if abs(dx) <= 8 and abs(dy) <= 6:
 			# 建筑群
-			if (x - vc.x + 10) % 5 >= 2 and (y - vc.y + 10) % 4 >= 1:
-				return TileType.BUILDING
-			return TileType.DIRT
-		# 村庄周边清理区
-		if abs(x - vc.x) <= 6 and abs(y - vc.y) <= 5:
+			if abs(dx) >= 5 and abs(dy) >= 3 and (dx + 30) % 7 >= 3:
+				if (x + y) % 3 == 0:
+					return _rand_pick(T_BLDG_ROOF)
+				return _rand_pick(T_BLDG_WALL)
+			return _rand_pick(T_DIRT if paths.has(pos) or _rng.randf() < 0.6 else T_GRASS)
+		if abs(dx) <= 12 and abs(dy) <= 10:
 			if paths.has(pos):
-				return TileType.DIRT
-			return _pick_grass()
+				return _rand_pick(T_DIRT)
 
 	# 道路
 	if paths.has(pos):
-		return TileType.DIRT
+		return _rand_pick(T_DIRT)
 
 	# 高度 → 地形
-	if height < -0.32:
-		return TileType.WATER
-	elif height < -0.08:
-		return TileType.DIRT
-	elif height < 0.15:
-		return TileType.GRASS_2
-	elif height < 0.42:
-		return TileType.GRASS_1
-	elif height < 0.58:
-		# 高地散树
-		var tree_noise = _hash_noise(x * 3 + 300, y * 3 + 300)
-		if tree_noise > 0.55:
-			return TileType.TREE
-		return TileType.GRASS_FLOWER
+	if height < water_level:
+		if _rng.randf() < 0.5:
+			return _rand_pick(T_WATER_A)
+		return _rand_pick(T_WATER_B)
+	elif height < water_level + 0.1:
+		return _rand_pick(T_DIRT)
+	elif height < mountain_level:
+		if tree_noise > 0.62 and height < mountain_level - 0.1:
+			return _rand_pick(T_TREE)
+		if height > mountain_level - 0.08:
+			if _rng.randf() < 0.4:
+				return _rand_pick(T_CLIFF_EDGE)
+			return _rand_pick(T_GRASS_DECOR)
+		if _rng.randf() < 0.7:
+			return _rand_pick(T_GRASS)
+		return _rand_pick(T_GRASS_DECOR)
 	else:
-		return TileType.MOUNTAIN
+		if _rng.randf() < 0.6:
+			return T_CLIFF_SOLID
+		return _rand_pick(T_CLIFF_EDGE)
 
-func _pick_grass() -> int:
-	var r = _rng.randf()
-	if r < 0.70: return TileType.GRASS_1
-	if r < 0.90: return TileType.GRASS_2
-	return TileType.GRASS_FLOWER
+func _rand_pick(arr: Array) -> Variant:
+	return arr[_rng.randi() % arr.size()]
 
 func _setup_camera_bounds() -> void:
 	var cam = get_viewport().get_camera_2d()
 	if cam and cam.has_method("set_map_bounds"):
-		cam.set_map_bounds(Rect2(0, 0, MAP_W * TILE_SIZE, MAP_H * TILE_SIZE))
+		cam.set_map_bounds(Rect2(0, 0, MAP_W * TILE_SZ, MAP_H * TILE_SZ))
