@@ -30,6 +30,8 @@ script = ExtResource("1_world_mgr")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 script = ExtResource("3_map")
+has_village = true
+village_center = Vector2i(13, 11)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("8_player")

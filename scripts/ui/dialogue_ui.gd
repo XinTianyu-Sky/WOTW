@@ -230,7 +230,15 @@ func _get_speaker_display_name(speaker_id: String) -> String:
 	match speaker_id:
 		"player": return "主角"
 		"system": return ""
-		_: return speaker_id  # TODO: 从NPC数据中查找显示名
+		"old_beggar": return "老乞丐"
+		"village_guard": return "村庄守卫"
+		"teahouse_owner": return "茶馆老板"
+		"merchant_li": return "李货郎"
+		"wushi": return "武师"
+		"hermit": return "采药老人"
+		"bandit_scout": return "山贼探子"
+		"bandit_boss": return "山贼头目"
+		_: return speaker_id
 
 func end_dialogue() -> void:
 	_track_quest_progress()
