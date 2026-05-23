@@ -34,28 +34,16 @@ var region_weather_pool: Array = []
 # ---- 场景容器 ----
 var world_scene: Node2D = null
 
-# ---- 遇敌 ----
-var encounter_manager: EncounterManager = null
-
 func _ready() -> void:
 	EventBus.scene_entered.connect(_on_scene_entered)
 	EventBus.battle_ended.connect(_on_battle_ended)
 	_init_player()
 	_restore_return_position()
 	_init_hud()
-	_setup_encounter()
 	_init_equipment()
 	GameManager.set_phase(GameManager.GamePhase.WORLD_EXPLORATION)
 	# 进入世界自动存档
 	SaveManager.auto_save()
-
-func _setup_encounter() -> void:
-	encounter_manager = EncounterManager.new()
-	add_child(encounter_manager)
-	var player = get_node_or_null("Player")
-	var tilemap = get_node_or_null("TileMapLayer")
-	if player and tilemap:
-		encounter_manager.setup(player, tilemap)
 
 func _init_player() -> void:
 	if GameManager.player_data.is_empty():
@@ -139,30 +127,6 @@ func _process(delta: float) -> void:
 	# F5 快速存档
 	if Input.is_action_just_pressed("quick_save"):
 		SaveManager.save_game(0)
-
-	# 遇敌检测
-	if encounter_manager and encounter_manager.check_encounter():
-		_trigger_encounter()
-
-func _trigger_encounter() -> void:
-	SaveManager.auto_save()
-	var enemy_team = encounter_manager.build_enemy_team()
-	var player_team = _build_player_team()
-	var terrain = {"weather": WEATHER_NAMES[current_weather]}
-	GameManager.start_battle(enemy_team, terrain)
-
-func _build_player_team() -> Array:
-	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
-	if not stats:
-		return []
-	var skill_id = GameManager.player_data.get("equipped_external", "")
-	return [{
-		"id": "player",
-		"name": GameManager.player_data.get("name", "主角"),
-		"stats": stats,
-		"skills": [skill_id] if not skill_id.is_empty() else [],
-		"sprite": "",
-	}]
 
 # ---- 战斗结果处理 ----
 func _on_battle_ended(result: Dictionary) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://world_scene"]
+[gd_scene load_steps=21 format=3 uid="uid://world_scene"]
 
 [ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
 [ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/building_entrance.tscn" id="15_entrance"]
 [ext_resource type="PackedScene" path="res://scenes/ui/crafting_ui.tscn" id="16_crafting"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="17_pause"]
+[ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="18_spawner"]
 
 [sub_resource type="CircleShape2D" id="player_shape"]
 radius = 10.0
@@ -112,6 +113,30 @@ Sprite2D/modulate = Color(0.3, 0.6, 0.7, 1)
 position = Vector2(176, 640)
 item_id = "zhixue_cao"
 Sprite2D/modulate = Color(0.2, 0.75, 0.3, 1)
+
+[node name="SpawnerN" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(320, 128)
+spawner_id = "village_n"
+min_level = 1
+max_level = 2
+
+[node name="SpawnerE" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(720, 400)
+spawner_id = "village_e"
+min_level = 1
+max_level = 2
+
+[node name="SpawnerS" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(480, 720)
+spawner_id = "village_s"
+min_level = 2
+max_level = 3
+
+[node name="SpawnerW" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(80, 480)
+spawner_id = "village_w"
+min_level = 1
+max_level = 2
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://outskirts_scene"]
+[gd_scene load_steps=21 format=3 uid="uid://outskirts_scene"]
 
 [ext_resource type="Script" path="res://scripts/world/world_manager.gd" id="1_world_mgr"]
 [ext_resource type="Script" path="res://scripts/world/camera_controller.gd" id="2_camera"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/building_entrance.tscn" id="15_entrance"]
 [ext_resource type="PackedScene" path="res://scenes/ui/crafting_ui.tscn" id="16_crafting"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="17_pause"]
+[ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="18_spawner"]
 
 [sub_resource type="CircleShape2D" id="player_shape"]
 radius = 10.0
@@ -98,6 +99,30 @@ Sprite2D/modulate = Color(0.85, 0.45, 0.25, 1)
 position = Vector2(240, 560)
 item_id = "zhixue_cao"
 Sprite2D/modulate = Color(0.2, 0.75, 0.3, 1)
+
+[node name="SpawnerNW" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(320, 128)
+spawner_id = "outskirts_nw"
+min_level = 2
+max_level = 4
+
+[node name="SpawnerNE" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(720, 160)
+spawner_id = "outskirts_ne"
+min_level = 2
+max_level = 4
+
+[node name="SpawnerSW" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(240, 640)
+spawner_id = "outskirts_sw"
+min_level = 3
+max_level = 5
+
+[node name="SpawnerSE" parent="." instance=ExtResource("18_spawner")]
+position = Vector2(640, 640)
+spawner_id = "outskirts_se"
+min_level = 3
+max_level = 5
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
