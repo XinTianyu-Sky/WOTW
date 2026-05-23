@@ -171,6 +171,15 @@ func _on_battle_ended(result: Dictionary) -> void:
 	var defeated = result.get("defeated_enemies", [])
 	if defeated.is_empty():
 		return
+
+	# Boss击杀奖励
+	for name in defeated:
+		if name == "山贼头目":
+			_boss_reward(name)
+		elif name == "山贼":
+			pass
+
+	# 任务击杀目标追踪
 	var active = GameManager.world_state.get("active_quests", [])
 	for qid in active:
 		var qdata = DataManager.get_quest(qid)
@@ -192,7 +201,23 @@ func _on_battle_ended(result: Dictionary) -> void:
 					GameManager.world_state["quest_progress"][qid] = progress
 					EventBus.quest_progressed.emit(qid, i)
 					_check_kill_quest_completion(qid, objs, progress)
-					return
+					break
+
+func _boss_reward(boss_name: String) -> void:
+	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	match boss_name:
+		"山贼头目":
+			if GameManager.world_state.get("boss_bandit_defeated", false):
+				return
+			GameManager.world_state["boss_bandit_defeated"] = true
+			if stats:
+				stats.add_experience(150)
+			var copper = GameManager.player_data.get("copper", 0)
+			GameManager.player_data["copper"] = copper + 300
+			var inv: Array = GameManager.player_data.get("inventory", [])
+			inv.append("iron_sword")
+			GameManager.player_data["inventory"] = inv
+			NotificationManager.notify("击败山贼头目！获得 铁剑 + 300铜钱", "success")
 
 func _check_kill_quest_completion(qid: String, objectives: Array, completed_indices: Array) -> void:
 	if completed_indices.size() >= objectives.size():

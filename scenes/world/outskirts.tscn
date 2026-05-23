@@ -63,6 +63,11 @@ position = Vector2(320, 520)
 npc_name = "山贼探子"
 dialogue_id = "dlg_bandit_scout"
 
+[node name="BanditBoss" parent="." instance=ExtResource("6_npc")]
+position = Vector2(560, 560)
+npc_name = "山贼头目"
+dialogue_id = "dlg_bandit_boss"
+
 [node name="VillagePath" parent="." instance=ExtResource("15_entrance")]
 position = Vector2(160, 304)
 interior_scene = "res://scenes/world/world.tscn"
