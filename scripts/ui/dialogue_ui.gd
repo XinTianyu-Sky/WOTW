@@ -184,6 +184,38 @@ func _apply_effects(effects: Dictionary) -> void:
 		EventBus.quest_completed.emit(effects["completeQuest"])
 	if effects.has("setFlag"):
 		GameManager.world_state[effects["setFlag"]] = true
+	if effects.has("triggerBattle"):
+		var battle_data = effects["triggerBattle"]
+		_trigger_battle(battle_data)
+
+func _trigger_battle(battle_data: Dictionary) -> void:
+	var enemy_team: Array = []
+	var templates = battle_data.get("enemies", [])
+	for tmpl in templates:
+		var count = tmpl.get("count", 1)
+		var stats = PlayerStats.new()
+		var lv = tmpl.get("level", 1)
+		stats.str = tmpl.get("str", 5) + lv
+		stats.agi = tmpl.get("agi", 5) + lv
+		stats.con = tmpl.get("con", 5) + lv
+		stats.int_ = tmpl.get("int", 2) + lv
+		stats.wil = tmpl.get("wil", 2) + lv
+		stats.lck = tmpl.get("lck", 1) + lv
+		stats.level = lv
+		stats.recalculate()
+		stats.current_hp = stats.max_hp
+		stats.current_qi = stats.max_qi
+		for i in range(count):
+			enemy_team.append({
+				"id": "%s_%d" % [tmpl.get("name", "enemy"), i],
+				"name": tmpl.get("name", "敌人"),
+				"stats": stats,
+				"skills": tmpl.get("skills", ["basic_strike"]),
+				"sprite": "",
+			})
+	hide()
+	dialogue_data.clear()
+	GameManager.start_battle(enemy_team)
 
 func _check_conditions(conditions: Dictionary) -> bool:
 	if conditions.is_empty():

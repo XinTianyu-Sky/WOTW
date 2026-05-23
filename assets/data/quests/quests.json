@@ -640,6 +640,13 @@
             {
               "id": "c1",
               "text": "（拔剑）我是来收拾你们的！",
+              "effects": {
+                "triggerBattle": {
+                  "enemies": [
+                    {"name": "山贼", "level": 2, "str": 6, "agi": 4, "con": 5, "int": 2, "wil": 2, "lck": 1, "skills": ["basic_stab"], "count": 2}
+                  ]
+                }
+              },
               "nextNode": "node_fight"
             },
             {
