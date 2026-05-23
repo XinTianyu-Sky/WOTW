@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(xxd \"D:/GitHub/XinTianyu-Sky/WOTW/assets/data/quests/quests.json\")",
+      "Bash(sed -i '319s/abs\\(dx\\) >= 5 and abs\\(dy\\) >= 3/abs\\(dx\\) >= 7 and abs\\(dy\\) >= 5/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")",
+      "Bash(sed -i '324s/abs\\(dx\\) <= 12 and abs\\(dy\\) <= 10/abs\\(dx\\) <= 16 and abs\\(dy\\) <= 14/' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")"
     ]
   }
 }

@@ -4,8 +4,8 @@ class_name MapManager
 extends TileMapLayer
 
 const TILE_SZ: int = 32
-const MAP_W: int = 40
-const MAP_H: int = 30
+const MAP_W: int = 80
+const MAP_H: int = 80
 const FONT_SIZE: int = 24
 
 # 瓦片定义：[名称, 汉字, 前景色, 背景色, 是否阻挡]
@@ -39,7 +39,7 @@ var _atlas_img: Image = null
 
 @export var map_seed: int = 42
 @export var has_village: bool = false
-@export var village_center: Vector2i = Vector2i(13, 11)
+@export var village_center: Vector2i = Vector2i(25, 25)
 @export var water_level: float = -0.35
 @export var mountain_level: float = 0.52
 
@@ -277,20 +277,33 @@ func _build_paths() -> Dictionary:
 	if not has_village:
 		return p
 	var vc = village_center
-	for dir in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
+
+	# 四条主路 + 环形路
+	for d in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
 		var cur = vc
-		for _step in range(30):
-			cur += dir
-			if cur.x < 2 or cur.x >= MAP_W - 2 or cur.y < 2 or cur.y >= MAP_H - 2:
+		for _step in range(80):
+			cur += d
+			var cv = cur.y if d.x == 0 else cur.x
+			if cv <= 2 or cv >= (MAP_H - 2 if d.x == 0 else MAP_W - 2):
 				break
-			var w = Vector2i(0, 0)
-			if dir.x == 0:
-				w.x = int(_hash(cur.x, cur.y + map_seed) * 2.5)
-			else:
-				w.y = int(_hash(cur.x + map_seed, cur.y) * 2.5)
-			var pt = cur + w
+			for w in range(-1, 2):
+				var pt = cur
+				if d.x == 0:
+					pt.x += w
+				else:
+					pt.y += w
+				if pt.x >= 0 and pt.x < MAP_W and pt.y >= 0 and pt.y < MAP_H:
+					p[Vector2i(pt.x, pt.y)] = true
+
+	# 村庄周围环形路
+	var ring_r = 6
+	for a in range(0, 360, 15):
+		var rx = int(cos(deg_to_rad(a)) * ring_r)
+		var ry = int(sin(deg_to_rad(a)) * ring_r)
+		for w in range(-1, 2):
+			var pt = Vector2i(vc.x + rx + w, vc.y + ry)
 			if pt.x >= 0 and pt.x < MAP_W and pt.y >= 0 and pt.y < MAP_H:
-				p[Vector2i(pt.x, pt.y)] = true
+				p[pt] = true
 	return p
 
 func _pick(x: int, y: int, h: float, tn: float, paths: Dictionary) -> int:
@@ -302,13 +315,13 @@ func _pick(x: int, y: int, h: float, tn: float, paths: Dictionary) -> int:
 	if has_village:
 		var vc = village_center
 		var dx = x - vc.x; var dy = y - vc.y
-		if abs(dx) <= 8 and abs(dy) <= 6:
-			if abs(dx) >= 5 and abs(dy) >= 3 and (dx + 30) % 7 >= 3:
+		if abs(dx) <= 12 and abs(dy) <= 10:
+			if abs(dx) >= 7 and abs(dy) >= 5 and (dx + 30) % 7 >= 3:
 				return _rand(I_BLDG)
 			if paths.has(pos) or _rng.randf() < 0.6:
 				return _rand(I_DIRT)
 			return _rand(I_GRASS)
-		if abs(dx) <= 12 and abs(dy) <= 10:
+		if abs(dx) <= 16 and abs(dy) <= 14:
 			if paths.has(pos):
 				return _rand(I_DIRT)
 

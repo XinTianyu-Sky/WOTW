@@ -31,11 +31,11 @@ script = ExtResource("1_world_mgr")
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 script = ExtResource("3_map")
 has_village = true
-village_center = Vector2i(13, 11)
+village_center = Vector2i(25, 25)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("8_player")
-position = Vector2(208, 336)
+position = Vector2(800, 800)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("player_shape")
@@ -53,89 +53,89 @@ shape = SubResource("interact_shape")
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_camera")
 enabled = true
-zoom = Vector2(1, 1)
+zoom = Vector2(0.65, 0.65)
 
 [node name="OldBeggar" parent="." instance=ExtResource("6_npc")]
-position = Vector2(400, 304)
+position = Vector2(880, 752)
 npc_name = "老乞丐"
 dialogue_id = "dlg_old_beggar_first"
 
 [node name="MerchantLi" parent="." instance=ExtResource("6_npc")]
-position = Vector2(480, 208)
+position = Vector2(960, 720)
 npc_name = "李货郎"
 shop_id = "village_shop"
 
 [node name="VillageGuard" parent="." instance=ExtResource("6_npc")]
-position = Vector2(160, 400)
+position = Vector2(720, 880)
 npc_name = "村庄守卫"
 dialogue_id = "dlg_guard_intro"
 
 [node name="TeahouseOwner" parent="." instance=ExtResource("6_npc")]
-position = Vector2(320, 480)
+position = Vector2(784, 960)
 npc_name = "茶馆老板"
 dialogue_id = "dlg_teahouse_gossip"
 
 [node name="Wushi" parent="." instance=ExtResource("6_npc")]
-position = Vector2(560, 400)
+position = Vector2(1040, 848)
 npc_name = "武师"
 dialogue_id = "dlg_wushi"
 
 [node name="TeahouseEntrance" parent="." instance=ExtResource("15_entrance")]
-position = Vector2(320, 416)
+position = Vector2(784, 912)
 interior_scene = "res://scenes/world/interior_teahouse.tscn"
-exit_position = Vector2(320, 448)
+exit_position = Vector2(784, 960)
 
 [node name="OutskirtsPath" parent="." instance=ExtResource("15_entrance")]
-position = Vector2(640, 304)
+position = Vector2(1120, 768)
 interior_scene = "res://scenes/world/outskirts.tscn"
-exit_position = Vector2(160, 336)
+exit_position = Vector2(160, 800)
 entrance_label = "前往郊外"
 
 [node name="IronOre1" parent="." instance=ExtResource("14_gatherable")]
-position = Vector2(560, 192)
+position = Vector2(1088, 624)
 item_id = "iron_ore"
 Sprite2D/modulate = Color(0.7, 0.65, 0.55, 1)
 
 [node name="CopperOre1" parent="." instance=ExtResource("14_gatherable")]
-position = Vector2(640, 240)
+position = Vector2(1184, 720)
 item_id = "copper_ore"
 Sprite2D/modulate = Color(0.85, 0.45, 0.25, 1)
 
 [node name="ZhixueHerb1" parent="." instance=ExtResource("14_gatherable")]
-position = Vector2(320, 560)
+position = Vector2(784, 1040)
 item_id = "zhixue_cao"
 Sprite2D/modulate = Color(0.2, 0.75, 0.3, 1)
 
 [node name="JuqiHerb1" parent="." instance=ExtResource("14_gatherable")]
-position = Vector2(480, 600)
+position = Vector2(960, 1088)
 item_id = "juqi_cao"
 Sprite2D/modulate = Color(0.3, 0.6, 0.7, 1)
 
 [node name="ZhixueHerb2" parent="." instance=ExtResource("14_gatherable")]
-position = Vector2(176, 640)
+position = Vector2(640, 1088)
 item_id = "zhixue_cao"
 Sprite2D/modulate = Color(0.2, 0.75, 0.3, 1)
 
 [node name="SpawnerN" parent="." instance=ExtResource("18_spawner")]
-position = Vector2(320, 128)
+position = Vector2(800, 480)
 spawner_id = "village_n"
 min_level = 1
 max_level = 2
 
 [node name="SpawnerE" parent="." instance=ExtResource("18_spawner")]
-position = Vector2(720, 400)
+position = Vector2(1200, 800)
 spawner_id = "village_e"
 min_level = 1
 max_level = 2
 
 [node name="SpawnerS" parent="." instance=ExtResource("18_spawner")]
-position = Vector2(480, 720)
+position = Vector2(800, 1360)
 spawner_id = "village_s"
 min_level = 2
 max_level = 3
 
 [node name="SpawnerW" parent="." instance=ExtResource("18_spawner")]
-position = Vector2(80, 480)
+position = Vector2(480, 800)
 spawner_id = "village_w"
 min_level = 1
 max_level = 2

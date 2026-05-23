@@ -108,7 +108,7 @@ func _try_auto_interact(node: Node) -> void:
 		return
 	_last_interactable = target
 	if target.has_method("interact"):
-		target.interact()
+		target.call_deferred("interact")
 
 func _update_animation(input_dir: Vector2) -> void:
 	if input_dir.length() > 0.1:

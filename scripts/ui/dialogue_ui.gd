@@ -29,9 +29,8 @@ func _ready() -> void:
 	_connect_signals()
 
 func _connect_signals() -> void:
-	for conn in EventBus.dialogue_triggered.get_connections():
-		EventBus.dialogue_triggered.disconnect(conn.callable)
-	EventBus.dialogue_triggered.connect(_on_dialogue_triggered)
+	if not EventBus.dialogue_triggered.is_connected(_on_dialogue_triggered):
+		EventBus.dialogue_triggered.connect(_on_dialogue_triggered)
 
 func _on_dialogue_triggered(dialogue_id, npc_id) -> void:
 	start_dialogue(dialogue_id, npc_id)
@@ -73,7 +72,7 @@ func start_dialogue(dialogue_id: String, npc_id: String = "") -> void:
 			break
 
 	if dialogue_data.is_empty():
-		push_error("DialogueUI: 对话数据不存在 '%s'（共加载%d条对话）" % [dialogue_id, dialogues.size()])
+		push_error("DialogueUI: 对话数据不存在 (debug) '%s'（共加载%d条对话）" % [dialogue_id, dialogues.size()])
 		end_dialogue()
 		return
 
