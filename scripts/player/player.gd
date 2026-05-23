@@ -16,10 +16,15 @@ extends CharacterBody2D
 var is_sprinting: bool = false
 var is_interacting: bool = false
 var can_move: bool = true
+var _last_interactable: Object = null
 
 func _ready() -> void:
 	add_to_group("player")
 	_generate_player_sprite()
+	interaction_area.area_entered.connect(_on_interact_area_entered)
+	interaction_area.body_entered.connect(_on_interact_body_entered)
+	interaction_area.area_exited.connect(_on_interact_area_exited)
+	interaction_area.body_exited.connect(_on_interact_body_exited)
 	GameManager.phase_changed.connect(func(_old, new):
 		can_move = (new == GameManager.GamePhase.WORLD_EXPLORATION)
 		if not can_move:
@@ -74,9 +79,36 @@ func _move_by_input() -> void:
 	move_and_slide()
 	_update_animation(input_dir)
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") and can_move:
-		_try_interact()
+func _on_interact_area_entered(area: Area2D) -> void:
+	_try_auto_interact(area)
+
+func _on_interact_body_entered(body: Node2D) -> void:
+	_try_auto_interact(body)
+
+func _on_interact_area_exited(area: Area2D) -> void:
+	if area == _last_interactable or area.get_parent() == _last_interactable:
+		_last_interactable = null
+
+func _on_interact_body_exited(body: Node2D) -> void:
+	if body == _last_interactable:
+		_last_interactable = null
+
+func _try_auto_interact(node: Node) -> void:
+	if not can_move:
+		return
+	if node == _last_interactable:
+		return
+	var target: Node = node
+	if not target.is_in_group("interactable"):
+		if target is Area2D and target.get_parent().is_in_group("interactable"):
+			target = target.get_parent()
+		else:
+			return
+	if target == _last_interactable:
+		return
+	_last_interactable = target
+	if target.has_method("interact"):
+		target.interact()
 
 func _update_animation(input_dir: Vector2) -> void:
 	if input_dir.length() > 0.1:
@@ -91,21 +123,6 @@ func _update_animation(input_dir: Vector2) -> void:
 	else:
 		if animation_player.has_animation("idle"):
 			animation_player.play("idle")
-
-func _try_interact() -> void:
-	var areas = interaction_area.get_overlapping_areas()
-	for area in areas:
-		if area.is_in_group("interactable"):
-			if area.has_method("interact"):
-				area.interact()
-			elif area.get_parent().has_method("interact"):
-				area.get_parent().interact()
-			return
-	var bodies = interaction_area.get_overlapping_bodies()
-	for body in bodies:
-		if body.is_in_group("interactable"):
-			body.interact()
-			return
 
 func set_can_move(value: bool) -> void:
 	can_move = value
