@@ -99,7 +99,7 @@ func _draw_char(ox: int, ch: String, fg: Color) -> void:
 			var pts = [[7,0],[7,15],[7,5],[2,12],[7,5],[12,12],
 				[7,8],[3,15],[7,8],[11,15]]
 			for j in range(0, pts.size(), 2):
-				_line(ox + cx, cy, pts[j], pts[j+1], fg)
+				_line(ox + cx, cy, pts[j][0], pts[j][1], pts[j+1][0], pts[j+1][1], fg)
 		"江":
 			for y in range(0, 14):
 				for dx in range(-2, 3):
