@@ -261,6 +261,39 @@
       "estimatedDuration": 10
     },
     {
+      "id": "side_hermit_01",
+      "name": "药田之仇",
+      "type": "side_character",
+      "chapter": 0,
+      "levelRequired": 1,
+      "description": "采药老人的药田被山贼踩坏了。去教训几个山贼喽啰，替他出口气。",
+      "giverNpc": "hermit",
+      "giverLocation": "outskirts",
+      "objectives": [
+        {
+          "type": "kill",
+          "description": "打败山贼喽啰",
+          "targetId": "山贼喽啰",
+          "count": 1
+        },
+        {
+          "type": "talk",
+          "description": "回去找采药老人复命",
+          "targetId": "hermit",
+          "location": "outskirts"
+        }
+      ],
+      "rewards": {
+        "experience": 60,
+        "copper": 150,
+        "items": [
+          "zhixue_cao",
+          "juqi_cao"
+        ]
+      },
+      "estimatedDuration": 8
+    },
+    {
       "id": "side_shaolin_01",
       "name": "失窃的经书",
       "type": "side_sect",
@@ -525,6 +558,110 @@
           "text": "去吧，打赢了就回来，老夫有东西给你。",
           "nextNode": "node_end",
           "acceptQuest": "side_guide_01"
+        },
+        "node_end": {
+          "id": "node_end",
+          "speaker": "system",
+          "text": "（对话结束）"
+        }
+      }
+    },
+    {
+      "id": "dlg_hermit",
+      "name": "采药老人",
+      "relatedNpc": "hermit",
+      "startNode": "node_01",
+      "nodes": {
+        "node_01": {
+          "id": "node_01",
+          "speaker": "hermit",
+          "expression": "friendly",
+          "text": "哦，一个生面孔。老夫在这片山林采了三十年药，还是头一回见到你这样骨骼清奇的年轻人。",
+          "choices": [
+            {
+              "id": "c1",
+              "text": "老前辈，这附近有什么要注意的吗？",
+              "nextNode": "node_02"
+            },
+            {
+              "id": "c2",
+              "text": "我只是路过，不打扰了。",
+              "nextNode": "node_end"
+            }
+          ]
+        },
+        "node_02": {
+          "id": "node_02",
+          "speaker": "hermit",
+          "expression": "serious",
+          "text": "往深处走有山贼出没，不过林子里止血草和聚气草不少，采些回去有大用。你若见到山贼探子，替我教训教训他们——这些家伙踩坏了我不少药田！",
+          "choices": [
+            {
+              "id": "c3",
+              "text": "好，我若遇到山贼定不轻饶。",
+              "effects": {
+                "startQuest": "side_hermit_01"
+              },
+              "nextNode": "node_03"
+            },
+            {
+              "id": "c4",
+              "text": "这可不关我的事。",
+              "nextNode": "node_end"
+            }
+          ]
+        },
+        "node_03": {
+          "id": "node_03",
+          "speaker": "hermit",
+          "expression": "pleased",
+          "text": "好小子，有侠义心肠！老夫也不会亏待你。",
+          "nextNode": "node_end"
+        },
+        "node_end": {
+          "id": "node_end",
+          "speaker": "system",
+          "text": "（对话结束）"
+        }
+      }
+    },
+    {
+      "id": "dlg_bandit_scout",
+      "name": "山贼探子",
+      "relatedNpc": "bandit_scout",
+      "startNode": "node_01",
+      "nodes": {
+        "node_01": {
+          "id": "node_01",
+          "speaker": "bandit_scout",
+          "expression": "angry",
+          "text": "站住！你是官府派来的人？还是哪个不长眼的想来送死？",
+          "choices": [
+            {
+              "id": "c1",
+              "text": "（拔剑）我是来收拾你们的！",
+              "nextNode": "node_fight"
+            },
+            {
+              "id": "c2",
+              "text": "我只是路过采药的。",
+              "nextNode": "node_02"
+            }
+          ]
+        },
+        "node_02": {
+          "id": "node_02",
+          "speaker": "bandit_scout",
+          "expression": "neutral",
+          "text": "采药？哼，这山头的药都是我们寨主的。识相的快滚，不然别怪我不客气！",
+          "nextNode": "node_end"
+        },
+        "node_fight": {
+          "id": "node_fight",
+          "speaker": "bandit_scout",
+          "expression": "angry",
+          "text": "狂妄！兄弟们，给我上！",
+          "nextNode": "node_end"
         },
         "node_end": {
           "id": "node_end",

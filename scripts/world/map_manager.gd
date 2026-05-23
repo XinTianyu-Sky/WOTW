@@ -15,8 +15,10 @@ const BLOCKED_TILES: Array = [TileType.WATER, TileType.MOUNTAIN, TileType.TREE, 
 var _tile_set: TileSet = null
 var _rng = RandomNumberGenerator.new()
 
+@export var map_seed: int = 42
+
 func _ready() -> void:
-	_rng.seed = 42
+	_rng.seed = map_seed
 	_tile_set = _create_tileset()
 	tile_set = _tile_set
 	_draw_map()
