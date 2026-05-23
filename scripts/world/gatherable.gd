@@ -53,7 +53,7 @@ func interact() -> void:
 	if item_data.is_empty():
 		return
 
-GameManager.inv_add(item_id)
+	GameManager.inv_add(item_id)
 
 	NotificationManager.notify("获得 %s" % item_data.get("name", item_id))
 	EventBus.item_gathered.emit(item_id)

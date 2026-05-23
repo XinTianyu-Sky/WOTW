@@ -78,17 +78,17 @@ func _refresh() -> void:
 	lck_btn.disabled = not can_allocate
 
 	combat_stats.text = "[table]
-    生命值: %d / %d
-    内力值: %d / %d
-    攻击力: %d
-    防御力: %d
-    内劲: %d
-    内防: %d
-    速度: %d
-    命中率: %.1f%%
-    闪避率: %.1f%%
-    暴击率: %.1f%%
-    暴击伤害: %.0f%%
+	生命值: %d / %d
+	内力值: %d / %d
+	攻击力: %d
+	防御力: %d
+	内劲: %d
+	内防: %d
+	速度: %d
+	命中率: %.1f%%
+	闪避率: %.1f%%
+	暴击率: %.1f%%
+	暴击伤害: %.0f%%
 	[/table]" % [
 		player_stats.current_hp, player_stats.max_hp,
 		player_stats.current_qi, player_stats.max_qi,

@@ -26,9 +26,6 @@ var _npc_triggered: String = ""
 
 func _ready() -> void:
 	hide()
-	_connect_signals()
-
-func _connect_signals() -> void:
 	if not EventBus.dialogue_triggered.is_connected(_on_dialogue_triggered):
 		EventBus.dialogue_triggered.connect(_on_dialogue_triggered)
 
@@ -56,7 +53,6 @@ func start_dialogue(dialogue_id: String, npc_id: String = "") -> void:
 	current_dialogue_id = dialogue_id
 	_npc_triggered = npc_id
 
-	# 加载对话数据
 	var quest_data = DataManager.get_data("quests")
 	var dialogues: Array = quest_data.get("dialogues", [])
 	if typeof(dialogues) != TYPE_ARRAY:
@@ -72,7 +68,11 @@ func start_dialogue(dialogue_id: String, npc_id: String = "") -> void:
 			break
 
 	if dialogue_data.is_empty():
-		push_error("DialogueUI: 对话数据不存在 (debug) '%s'（共加载%d条对话）" % [dialogue_id, dialogues.size()])
+		var ids: Array = []
+		for d in dialogues:
+			if d is Dictionary:
+				ids.append(d.get("id", "?MISSING"))
+		push_error("DialogueUI: 对话 '%s' 不存在，已加载: [%s]" % [dialogue_id, ", ".join(ids)])
 		end_dialogue()
 		return
 
@@ -91,14 +91,11 @@ func _show_node(node_id: String) -> void:
 
 	current_node_id = node_id
 
-	# 播放者名称
 	speaker_name.text = _get_speaker_display_name(node.get("speaker", ""))
 
-	# 打字机效果显示文本
 	full_text = node.get("text", "")
 	_start_typing()
 
-	# 选项
 	var choices = node.get("choices", [])
 	if choices.size() > 0:
 		_populate_choices(choices)
@@ -132,7 +129,6 @@ func _populate_choices(choices: Array) -> void:
 
 	for i in range(choices.size()):
 		var choice = choices[i]
-		# 检查显示条件
 		if not _check_conditions(choice.get("conditions", {})):
 			continue
 
@@ -142,7 +138,6 @@ func _populate_choices(choices: Array) -> void:
 		choices_container.add_child(btn)
 
 func _on_choice_selected(choice: Dictionary) -> void:
-	# 应用选择效果
 	var effects = choice.get("effects", {})
 	_apply_effects(effects)
 
@@ -158,7 +153,6 @@ func _advance_dialogue() -> void:
 	var node = dialogue_data.get("nodes", {}).get(current_node_id, {})
 	var next_node = node.get("nextNode", "")
 
-	# 应用节点效果
 	_apply_effects(node.get("effects", {}))
 	if node.has("acceptQuest"):
 		EventBus.quest_accepted.emit(node["acceptQuest"])
@@ -175,7 +169,6 @@ func _clear_choices() -> void:
 # ---- 效果应用 ----
 func _apply_effects(effects: Dictionary) -> void:
 	if effects.has("affinityChange"):
-		# TODO: 更新NPC好感度
 		pass
 	if effects.has("startQuest"):
 		EventBus.quest_accepted.emit(effects["startQuest"])
@@ -219,9 +212,7 @@ func _trigger_battle(battle_data: Dictionary) -> void:
 func _check_conditions(conditions: Dictionary) -> bool:
 	if conditions.is_empty():
 		return true
-	# TODO: 检查好感度、任务状态、物品持有等条件
 	if conditions.has("minAffinity"):
-		# 未实现
 		return true
 	return true
 

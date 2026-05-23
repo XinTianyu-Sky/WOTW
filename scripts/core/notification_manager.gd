@@ -4,7 +4,7 @@
 extends Node
 
 func _ready() -> void:
-    process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func notify(message: String, level: String = "info") -> void:
-    EventBus.notification_shown.emit(message, level)
+	EventBus.notification_shown.emit(message, level)

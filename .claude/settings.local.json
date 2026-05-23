@@ -17,7 +17,23 @@
       "Bash(python3 *)",
       "Bash(perl *)",
       "Bash(xxd \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")",
-      "Bash(awk 'NR==79' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")"
+      "Bash(awk 'NR==79' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/ui/quest_ui.gd\")",
+      "Bash(awk 'NR==145,NR==155' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(sed -n '143,220p' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(sed -i 's/\\\\t/    /g' /tmp/inv_funcs_tabs.gd)",
+      "Bash(head -n 142 \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(cat /tmp/inv_funcs_tabs.gd)",
+      "Bash(mv /tmp/gm_clean.gd \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(awk 'NR==143,NR==155' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(awk 'NR==152,NR==168' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/core/game_manager.gd\")",
+      "Bash(awk 'NR==5,NR==10' \"D:/GitHub/XinTianyu-Sky/WOTW/scripts/world/map_manager.gd\")",
+      "Bash(grep -lP \"^\\\\t\" scripts/core/game_manager.gd scripts/ui/dialogue_ui.gd scripts/ui/shop_ui.gd scripts/ui/crafting_ui.gd scripts/ui/inventory_ui.gd scripts/player/player.gd)",
+      "Bash(grep -cP \"^\\\\t\" scripts/core/game_manager.gd scripts/ui/dialogue_ui.gd scripts/ui/shop_ui.gd scripts/ui/crafting_ui.gd scripts/ui/inventory_ui.gd)",
+      "Bash(python -c ' *)",
+      "Bash(where python *)",
+      "Bash(where python3 *)",
+      "Bash(where py *)",
+      "Read(//c/Program Files/**)"
     ]
   }
 }
