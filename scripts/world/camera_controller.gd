@@ -16,21 +16,19 @@ var target: Node2D = null
 
 func _ready() -> void:
 	enabled = true
-	# 尝试自动查找玩家
+	position_smoothing_enabled = true
+	position_smoothing_speed = 400.0
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target = players[0]
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if target == null:
 		return
 
-	# 平滑跟随
 	var target_pos = target.global_position
-	global_position = global_position.lerp(target_pos, follow_speed * delta)
-
-	# 地图边界限制
-	_clamp_to_bounds()
+	var clamped = _clamp_position(target_pos)
+	global_position = clamped
 
 	# 缩放控制（PC端鼠标滚轮）
 	if InputMap.has_action("zoom_in") and Input.is_action_just_pressed("zoom_in"):
@@ -44,13 +42,13 @@ func set_target(new_target: Node2D) -> void:
 func set_map_bounds(bounds: Rect2) -> void:
 	map_bounds = bounds
 
-func _clamp_to_bounds() -> void:
+func _clamp_position(pos: Vector2) -> Vector2:
 	var viewport = get_viewport_rect()
 	var half_w = viewport.size.x / (2 * zoom.x)
 	var half_h = viewport.size.y / (2 * zoom.y)
-
-	global_position.x = clamp(global_position.x, map_bounds.position.x + half_w, map_bounds.end.x - half_w)
-	global_position.y = clamp(global_position.y, map_bounds.position.y + half_h, map_bounds.end.y - half_h)
+	pos.x = clamp(pos.x, map_bounds.position.x + half_w, map_bounds.end.x - half_w)
+	pos.y = clamp(pos.y, map_bounds.position.y + half_h, map_bounds.end.y - half_h)
+	return pos
 
 func _apply_zoom(delta: float) -> void:
 	var new_zoom = zoom.x + delta

@@ -57,6 +57,8 @@ func _generate_npc_sprite() -> void:
 	sprite.texture = tex
 
 func interact() -> void:
+	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:
+		return
 	if not shop_id.is_empty():
 		EventBus.open_shop.emit(shop_id)
 	elif not dialogue_id.is_empty():

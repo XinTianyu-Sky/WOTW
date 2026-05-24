@@ -56,6 +56,8 @@ func _check_cooldown() -> void:
 		_set_active(true)
 
 func interact() -> void:
+	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:
+		return
 	if not visible:
 		return
 	# 构建随机敌人队伍

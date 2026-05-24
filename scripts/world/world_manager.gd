@@ -62,20 +62,19 @@ func _init_player() -> void:
 func _init_equipment() -> void:
 	var existing = GameManager.player_data.get("_equipment", null) as EquipmentManager
 	if existing:
-		# 读档恢复的，只需重连信号
-		EventBus.equipment_changed.connect(func(_slot, _id):
-			var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
-			if stats:
-				stats.update_equipment_bonuses(existing.get_total_bonuses())
-		)
+		EventBus.equipment_changed.connect(_on_equipment_changed)
 		return
 	var eq = EquipmentManager.new()
 	GameManager.player_data["_equipment"] = eq
-	EventBus.equipment_changed.connect(func(_slot, _id):
-		var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
-		if stats:
-			stats.update_equipment_bonuses(eq.get_total_bonuses())
-	)
+	EventBus.equipment_changed.connect(_on_equipment_changed)
+
+func _on_equipment_changed(_slot: String, _id: String) -> void:
+	var eq = GameManager.player_data.get("_equipment", null) as EquipmentManager
+	if not eq:
+		return
+	var stats = GameManager.player_data.get("_stats_ref", null) as PlayerStats
+	if stats:
+		stats.update_equipment_bonuses(eq.get_total_bonuses())
 
 func _restore_return_position() -> void:
 	var ret = GameManager.pending_return
@@ -114,7 +113,7 @@ func _init_hud() -> void:
 	# 商店
 	var shop_ui = get_node_or_null("UILayer/ShopUI")
 	if shop_ui:
-		EventBus.open_shop.connect(func(sid: String): shop_ui.open_shop(sid))
+		EventBus.open_shop.connect(shop_ui.open_shop)
 
 func _process(delta: float) -> void:
 	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:

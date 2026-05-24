@@ -32,6 +32,8 @@ func _generate_sprite() -> void:
 	$Sprite2D.scale = Vector2(1.2, 1.2)
 
 func interact() -> void:
+	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:
+		return
 	if interior_scene.is_empty():
 		return
 

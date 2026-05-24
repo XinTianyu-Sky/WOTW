@@ -46,6 +46,8 @@ func _generate_sprite() -> void:
 	sprite.scale = Vector2(0.8, 0.8)
 
 func interact() -> void:
+	if GameManager.current_phase != GameManager.GamePhase.WORLD_EXPLORATION:
+		return
 	if _gathered:
 		return
 
