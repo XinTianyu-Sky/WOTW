@@ -1,0 +1,157 @@
+[gd_scene load_steps=13 format=3 uid="uid://world_grid"]
+
+[ext_resource type="Script" path="res://scripts/world/grid_map_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" path="res://scripts/world/grid_map_ui.gd" id="2_grid_ui"]
+[ext_resource type="Script" path="res://scripts/world/location_panel.gd" id="3_loc_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="5_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="6_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/character_sheet_ui.tscn" id="7_character"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skills_ui.tscn" id="8_skills"]
+[ext_resource type="PackedScene" path="res://scenes/ui/quest_ui.tscn" id="9_quest"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_ui.tscn" id="10_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crafting_ui.tscn" id="11_crafting"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="12_pause"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_ctrl")
+
+[node name="GridLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="GridUI" type="Control" parent="GridLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_grid_ui")
+unique_name_in_owner = true
+
+[node name="LocationPanel" type="Panel" parent="GridLayer/GridUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 440.0
+script = ExtResource("3_loc_panel")
+unique_name_in_owner = true
+
+[node name="TitleLabel" type="Label" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 230.0
+offset_bottom = 34.0
+text = ""
+unique_name_in_owner = true
+
+[node name="DescLabel" type="Label" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 38.0
+offset_right = 230.0
+offset_bottom = 60.0
+text = ""
+unique_name_in_owner = true
+
+[node name="NpcTitle" type="Label" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 70.0
+offset_right = 230.0
+offset_bottom = 90.0
+text = "— NPC —"
+
+[node name="NpcContainer" type="VBoxContainer" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 94.0
+offset_right = 230.0
+offset_bottom = 190.0
+unique_name_in_owner = true
+
+[node name="ResourceTitle" type="Label" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 195.0
+offset_right = 230.0
+offset_bottom = 215.0
+text = "— 资源 —"
+
+[node name="ResourceContainer" type="VBoxContainer" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 219.0
+offset_right = 230.0
+offset_bottom = 300.0
+unique_name_in_owner = true
+
+[node name="ExploreBtn" type="Button" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 310.0
+offset_right = 230.0
+offset_bottom = 340.0
+text = "探索"
+unique_name_in_owner = true
+
+[node name="InnBtn" type="Button" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 350.0
+offset_right = 230.0
+offset_bottom = 378.0
+text = "客栈 — 休息回复"
+unique_name_in_owner = true
+
+[node name="ShopBtn" type="Button" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 385.0
+offset_right = 230.0
+offset_bottom = 413.0
+text = "商店"
+unique_name_in_owner = true
+
+[node name="CraftBtn" type="Button" parent="GridLayer/GridUI/LocationPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 420.0
+offset_right = 230.0
+offset_bottom = 448.0
+text = "制作"
+unique_name_in_owner = true
+
+[node name="BorderDialog" type="ConfirmationDialog" parent="."]
+title = "穿越边界"
+unique_name_in_owner = true
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="HUD" parent="HUDLayer" instance=ExtResource("4_hud")]
+
+[node name="DialogueLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="DialogueUI" parent="DialogueLayer" instance=ExtResource("5_dialogue")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="InventoryUI" parent="UILayer" instance=ExtResource("6_inventory")]
+[node name="CharacterSheetUI" parent="UILayer" instance=ExtResource("7_character")]
+[node name="SkillsUI" parent="UILayer" instance=ExtResource("8_skills")]
+[node name="QuestUI" parent="UILayer" instance=ExtResource("9_quest")]
+[node name="ShopUI" parent="UILayer" instance=ExtResource("10_shop")]
+[node name="CraftingUI" parent="UILayer" instance=ExtResource("11_crafting")]
+[node name="PauseMenu" parent="UILayer" instance=ExtResource("12_pause")]
+
+[connection signal="confirmed" from="BorderDialog" to="." method="_on_border_confirmed"]

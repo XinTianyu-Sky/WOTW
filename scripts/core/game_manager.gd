@@ -22,6 +22,11 @@ var party_data: Array = []           # 出战同伴数据
 var world_state: Dictionary = {}     # 世界状态（任务进度、旗帜等）
 var settings: Dictionary = {}
 
+# ---- 网格地图状态 ----
+var player_grid_region: String = "zhongyuan"
+var player_grid_pos: Vector2i = Vector2i(5, 5)
+var visited_cells: Array = []  # Array[String] "x,y" 格式
+
 # ---- 时间系统 ----
 var game_time: float = 0.0           # 游戏内总秒数
 var time_scale: float = 1.0          # 时间流速倍率
@@ -102,12 +107,15 @@ func build_save_data() -> Dictionary:
 	save_player.erase("_stats_ref")
 	save_player.erase("_equipment")
 	return {
-		"version": "0.1.0",
+		"version": "0.2.0",
 		"game_time": game_time,
 		"player_data": save_player,
 		"party_data": party_data,
 		"world_state": world_state,
 		"current_scene": current_scene,
+		"player_grid_region": player_grid_region,
+		"player_grid_pos": {"x": player_grid_pos.x, "y": player_grid_pos.y},
+		"visited_cells": visited_cells,
 		"timestamp": Time.get_unix_time_from_system()
 	}
 
@@ -139,6 +147,12 @@ func load_save_data(data: Dictionary) -> void:
 		var eq = EquipmentManager.new()
 		eq.from_dict(eq_data)
 		player_data["_equipment"] = eq
+
+	# 读取网格地图状态（兼容旧存档）
+	var gp = data.get("player_grid_pos", {})
+	player_grid_region = data.get("player_grid_region", "zhongyuan")
+	player_grid_pos = Vector2i(gp.get("x", 5), gp.get("y", 5))
+	visited_cells = data.get("visited_cells", [])
 
 # ---- 背包操作（支持堆叠） ----
 

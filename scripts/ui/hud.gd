@@ -32,6 +32,9 @@ extends CanvasLayer
 # ---- 通知 ----
 @onready var notification_label: Label = $NotificationLabel
 
+# ---- 位置显示 ----
+var location_label: Label = null
+
 var player_stats: PlayerStats = null
 
 func _ready() -> void:
@@ -56,9 +59,21 @@ func _ready() -> void:
 	EventBus.player_leveled_up.connect(_on_player_leveled)
 	EventBus.attribute_changed.connect(func(_a, _v): _update_display())
 	EventBus.notification_shown.connect(_show_notification)
+	EventBus.grid_cell_entered.connect(_on_grid_cell_entered)
+	EventBus.region_changed.connect(_on_region_changed)
+
+	# 动态创建位置标签
+	var top = $TopPanel
+	location_label = Label.new()
+	location_label.name = "LocationLabel"
+	location_label.add_theme_color_override("font_color", Color(0.85, 0.8, 0.6, 1))
+	location_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(location_label)
+	top.move_child(location_label, top.get_child_count())
 
 	# 初始化显示
 	_update_time_display()
+	_update_location_display()
 
 func _process(_delta: float) -> void:
 	_update_time_display()
@@ -102,6 +117,20 @@ func _update_time_display() -> void:
 		"night":   tod_text = "深夜"
 
 	time_label.text = "%s %02d:%02d" % [tod_text, hour, minute]
+
+func _on_grid_cell_entered(_cell: Vector2i, cell_data: Dictionary) -> void:
+	var region = DataManager.get_region(GameManager.player_grid_region)
+	var region_name = region.get("name", GameManager.player_grid_region)
+	var cell_name = cell_data.get("name", "荒野")
+	location_label.text = "%s · %s" % [region_name, cell_name]
+
+func _on_region_changed(_old: String, _new: String) -> void:
+	_update_location_display()
+
+func _update_location_display() -> void:
+	var region = DataManager.get_region(GameManager.player_grid_region)
+	var region_name = region.get("name", GameManager.player_grid_region)
+	location_label.text = region_name
 
 func _on_player_leveled(new_level: int) -> void:
 	_show_notification("升级！达到 Lv.%d" % new_level, "success")

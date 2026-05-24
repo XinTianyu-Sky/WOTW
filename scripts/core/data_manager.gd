@@ -164,3 +164,68 @@ func get_recipe(id: String) -> Dictionary:
 		if recipe["id"] == id:
 			return recipe
 	return {}
+
+# ---- 网格地图查询 ----
+
+## 获取区域的网格地图数据
+func get_region_grid(region_id: String) -> Dictionary:
+	var data = get_data("world")
+	for region in data.get("regions", []):
+		if region["id"] == region_id:
+			return region.get("gridMap", {})
+	return {}
+
+## 根据网格坐标查找场景
+func get_scene_by_grid_position(region_id: String, pos: Vector2i) -> Dictionary:
+	var data = get_data("world")
+	for region in data.get("regions", []):
+		if region["id"] != region_id:
+			continue
+		for scene in region.get("scenes", []):
+			var gp = scene.get("gridPosition", {})
+			if gp.get("x", -1) == pos.x and gp.get("y", -1) == pos.y:
+				return scene
+		for wc in region.get("wildernessCells", []):
+			if wc.get("x", -1) == pos.x and wc.get("y", -1) == pos.y:
+				return {"id": "wilderness_%d_%d" % [pos.x, pos.y], "name": wc.get("name", "荒野"), "type": "wilderness", "terrain": wc.get("terrain", "plains"), "isSafeZone": false}
+		break
+	return {}
+
+## 获取相邻可达格子列表
+func get_adjacent_locations(region_id: String, pos: Vector2i) -> Array[Vector2i]:
+	var grid = get_region_grid(region_id)
+	if grid.is_empty():
+		return []
+	var w: int = grid.get("width", 12)
+	var h: int = grid.get("height", 10)
+	var adj: Array[Vector2i] = []
+	for d in [[0, -1], [1, 0], [0, 1], [-1, 0]]:
+		var nx = pos.x + d[0]
+		var ny = pos.y + d[1]
+		if nx >= 0 and nx < w and ny >= 0 and ny < h:
+			adj.append(Vector2i(nx, ny))
+	return adj
+
+## 获取区域数据
+func get_region(region_id: String) -> Dictionary:
+	var data = get_data("world")
+	for region in data.get("regions", []):
+		if region["id"] == region_id:
+			return region
+	return {}
+
+## 获取区域所有 location（scene + wildernessCells 合并坐标索引）
+func get_region_locations_index(region_id: String) -> Dictionary:
+	var region = get_region(region_id)
+	if region.is_empty():
+		return {}
+	var index: Dictionary = {}
+	for scene in region.get("scenes", []):
+		var gp = scene.get("gridPosition", {})
+		var key = "%d,%d" % [gp.get("x", 0), gp.get("y", 0)]
+		index[key] = scene
+	for wc in region.get("wildernessCells", []):
+		var key = "%d,%d" % [wc.get("x", 0), wc.get("y", 0)]
+		if not index.has(key):
+			index[key] = {"id": "wilderness_%s" % key.replace(",", "_"), "name": wc.get("name", "荒野"), "type": "wilderness", "terrain": wc.get("terrain", "plains"), "isSafeZone": false, "monsters": wc.get("monsters", []), "resources": wc.get("resources", [])}
+	return index

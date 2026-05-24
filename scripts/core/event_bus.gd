@@ -48,6 +48,11 @@ signal item_bought(item_id: String, price: int)
 signal item_sold(item_id: String, price: int)
 signal item_crafted(item_id: String)
 
+# ---- 网格地图事件 ----
+signal grid_cell_entered(cell: Vector2i, cell_data: Dictionary)
+signal grid_cell_clicked(cell: Vector2i)
+signal region_changed(old_region: String, new_region: String)
+
 # ---- UI 事件 ----
 signal menu_opened(menu_name: String)
 signal menu_closed(menu_name: String)

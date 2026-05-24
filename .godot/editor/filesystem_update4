@@ -20,3 +20,4 @@ res://scripts/ui/hud.gd
 res://scripts/ui/main_menu.gd
 res://scripts/world/camera_controller.gd
 res://scripts/world/gatherable.gd
+res://scripts/world/npc.gd

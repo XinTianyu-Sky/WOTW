@@ -47,7 +47,7 @@ func _auto_init_battle() -> void:
 	if pending.is_empty():
 		return
 
-	_return_scene = pending.get("return_scene", "res://scenes/world/world.tscn")
+	_return_scene = pending.get("return_scene", "res://scenes/world/world_grid.tscn")
 
 	var equipped_skill = GameManager.player_data.get("equipped_external", "")
 	var player_skills: Array = []

@@ -187,7 +187,7 @@ func _on_confirm() -> void:
 	}
 	GameManager.game_time = 28800.0  # 游戏时间从辰时(8:00)开始
 
-	GameManager.change_scene("res://scenes/world/world.tscn")
+	GameManager.change_scene("res://scenes/world/world_grid.tscn")
 
 func _show_error(msg: String) -> void:
 	var error_label = Label.new()
